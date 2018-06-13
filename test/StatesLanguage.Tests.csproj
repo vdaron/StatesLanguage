@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\StateMachines\ChoiceStateWithAllPrimitiveCondition.json" />
+    <None Remove="Resources\StateMachines\ChoiceStateWithAndCondition.json" />
+    <None Remove="Resources\StateMachines\ChoiceStateWithComplexCondition.json" />
+    <None Remove="Resources\StateMachines\ChoiceStateWithMissingCondition.json" />
+    <None Remove="Resources\StateMachines\ChoiceStateWithMultipleChoices.json" />
+    <None Remove="Resources\StateMachines\ChoiceStateWithNotCondition.json" />
+    <None Remove="Resources\StateMachines\ChoiceStateWithOrCondition.json" />
+    <None Remove="Resources\StateMachines\ParallelStateWithCatchers.json" />
+    <None Remove="Resources\StateMachines\ParallelStateWithRetriers.json" />
+    <None Remove="Resources\StateMachines\SimpleChoiceState.json" />
+    <None Remove="Resources\StateMachines\SimpleParallelState.json" />
+    <None Remove="Resources\StateMachines\SimpleTaskState.json" />
+    <None Remove="Resources\StateMachines\SimpleTaskStateWithCatchers.json" />
+    <None Remove="Resources\StateMachines\SimpleTaskStateWithRetries.json" />
+    <None Remove="Resources\StateMachines\SingleFailState.json" />
+    <None Remove="Resources\StateMachines\SinglePassStateWithJsonResult.json" />
+    <None Remove="Resources\StateMachines\SinglePassStateWithObjectResult.json" />
+    <None Remove="Resources\StateMachines\SingleSucceedState.json" />
+    <None Remove="Resources\StateMachines\SingleWaitStateWithSeconds.json" />
+    <None Remove="Resources\StateMachines\SingleWaitStateWithSecondsPath.json" />
+    <None Remove="Resources\StateMachines\SingleWaitStateWithTimestamp.json" />
+    <None Remove="Resources\StateMachines\SingleWaitStateWithTimestampWithMilliseconds.json" />
+    <None Remove="Resources\StateMachines\SingleWaitStateWithTimestampWithPath.json" />
+    <None Remove="Resources\StateMachines\SingleWaitStateWithTimestampWithTimezone.json" />
+    <None Remove="Resources\StateMachines\TaskStateWithEnd.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithAllPrimitiveCondition.json" />
+    <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithAndCondition.json" />
+    <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithComplexCondition.json" />
+    <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithMissingCondition.json" />
+    <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithMultipleChoices.json" />
+    <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithNotCondition.json" />
+    <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithOrCondition.json" />
+    <EmbeddedResource Include="Resources\StateMachines\ParallelStateWithCatchers.json" />
+    <EmbeddedResource Include="Resources\StateMachines\ParallelStateWithRetriers.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SimpleChoiceState.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SimpleParallelState.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SimpleTaskState.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SimpleTaskStateWithCatchers.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SimpleTaskStateWithRetries.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SingleFailState.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SinglePassStateWithJsonResult.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SinglePassStateWithObjectResult.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SingleSucceedState.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SingleWaitStateWithSeconds.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SingleWaitStateWithSecondsPath.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SingleWaitStateWithTimestamp.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SingleWaitStateWithTimestampWithMilliseconds.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SingleWaitStateWithTimestampWithPath.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SingleWaitStateWithTimestampWithTimezone.json" />
+    <EmbeddedResource Include="Resources\StateMachines\TaskStateWithEnd.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\StatesLanguage.csproj" />
+  </ItemGroup>
+
+</Project>
