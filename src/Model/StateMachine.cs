@@ -15,11 +15,14 @@
  */
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using StatesLanguage.Model.Internal;
 using StatesLanguage.Model.Internal.Validation;
 using StatesLanguage.Model.Serialisation;
 using StatesLanguage.Model.States;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model
 {
@@ -31,6 +34,7 @@ namespace StatesLanguage.Model
     {
         private StateMachine()
         {
+
         }
 
         [JsonProperty(PropertyNames.COMMENT)]
@@ -55,15 +59,11 @@ namespace StatesLanguage.Model
         {
             try
             {
-                return JsonConvert.DeserializeObject<Builder>(json, new JsonSerializerSettings
-                                                                    {
-                                                                        NullValueHandling = NullValueHandling.Ignore,
-                                                                        Converters = new List<JsonConverter>(new JsonConverter[]
-                                                                                                             {
-                                                                                                                 new StateConverter(),
-                                                                                                                 new ChoiceDeserializer()
-                                                                                                             })
-                                                                    });
+                using (var stringReader = new StringReader(json))
+                using (var jsonTextReader = new JsonTextReader(stringReader))
+                {
+                    return GetJsonSerializer().Deserialize<Builder>(jsonTextReader);
+                }
             }
             catch (Exception e)
             {
@@ -71,24 +71,45 @@ namespace StatesLanguage.Model
             }
         }
 
+        public static Builder FromJObject(JObject json)
+        {
+            try
+            {
+                return json.ToObject<Builder>(GetJsonSerializer());
+            }
+            catch (Exception e)
+            {
+                throw new StatesLanguageException($"Could not deserialize state machine.\n{json}", e);
+            }
+        }
+        
         /**
- * @return Compact JSON representation of this StateMachine.
- */
+         * @return Compact JSON representation of this StateMachine.
+         */
         public string ToJson()
         {
             try
             {
-                return JsonConvert.SerializeObject(this, new JsonSerializerSettings
-                                                         {
-                                                             NullValueHandling = NullValueHandling.Ignore,
-                                                             ContractResolver = EmptyCollectionContractResolver.Instance,
-                                                             Converters = new List<JsonConverter>(new JsonConverter[]
-                                                                                                  {
-                                                                                                      new WaitStateDeserializer(),
-                                                                                                      new ChoiceDeserializer(),
-                                                                                                      new TransitionStateDeserializer()
-                                                                                                  })
-                                                         });
+                var result = new StringBuilder();
+                using (var stringWriter = new StringWriter(result))
+                using (var jsonWriter = new JsonTextWriter(stringWriter))
+                {
+                    GetJsonSerializer().Serialize(jsonWriter, this);
+                }
+
+                return result.ToString();
+            }
+            catch (Exception e)
+            {
+                throw new StatesLanguageException("Could not serialize state machine.", e);
+            }
+        }
+
+        public JObject ToJObject()
+        {
+            try
+            {
+                return JObject.FromObject(this, GetJsonSerializer());
             }
             catch (Exception e)
             {
@@ -102,6 +123,20 @@ namespace StatesLanguage.Model
         public static Builder GetBuilder()
         {
             return new Builder();
+        }
+
+        private static JsonSerializer GetJsonSerializer()
+        {
+            JsonSerializer jsonSerializer = new JsonSerializer();
+
+            jsonSerializer.Converters.Add(new StateConverter());
+            jsonSerializer.Converters.Add(new ChoiceDeserializer());
+            jsonSerializer.Converters.Add(new WaitStateDeserializer());
+            jsonSerializer.Converters.Add(new TransitionStateDeserializer());
+
+            jsonSerializer.NullValueHandling = NullValueHandling.Ignore;
+            jsonSerializer.ContractResolver = EmptyCollectionContractResolver.Instance;
+            return jsonSerializer;
         }
 
         [JsonObject(MemberSerialization.Fields)]
@@ -179,6 +214,8 @@ namespace StatesLanguage.Model
                                                      States = BuildableUtils.Build(_states)
                                                  }).Validate();
             }
+
+
         }
     }
 }
