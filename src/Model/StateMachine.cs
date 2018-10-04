@@ -82,8 +82,7 @@ namespace StatesLanguage.Model
                 throw new StatesLanguageException($"Could not deserialize state machine.\n{json}", e);
             }
         }
-
-
+        
         /**
          * @return Compact JSON representation of this StateMachine.
          */
@@ -125,7 +124,6 @@ namespace StatesLanguage.Model
         {
             return new Builder();
         }
-
 
         private static JsonSerializer GetJsonSerializer()
         {

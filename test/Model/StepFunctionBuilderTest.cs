@@ -36,8 +36,8 @@ namespace StatesLanguage.Tests.Model
 
             Console.WriteLine(stateMachine.ToJson());
 
-            Equal(expected, Serialize(stateMachine));
-            Equal(expected, Serialize(roundTripStateMachine(stateMachine)));
+            Equal(expected,stateMachine.ToJObject());
+            Equal(expected, roundTripStateMachine(stateMachine).ToJObject());
         }
 
         private StateMachine roundTripStateMachine(StateMachine stateMachine)
@@ -45,21 +45,6 @@ namespace StatesLanguage.Tests.Model
             return StateMachine.FromJson(stateMachine.ToJson()).Build();
         }
 
-        private JObject Serialize(StateMachine stateMachine)
-        {
-            try
-            {
-                using (var reader = new StringReader(stateMachine.ToJson()))
-                using (var jsonReader = new JsonTextReader(reader))
-                {
-                    return JObject.Load(jsonReader);
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
 
         private JObject LoadExpected(string resourcePath)
         {
