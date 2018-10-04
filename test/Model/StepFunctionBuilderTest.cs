@@ -42,7 +42,7 @@ namespace StatesLanguage.Tests.Model
 
         private StateMachine roundTripStateMachine(StateMachine stateMachine)
         {
-            return StateMachine.FromJson(stateMachine.ToJson()).Build();
+            return StateMachine.FromJObject(StateMachine.FromJson(stateMachine.ToJson()).Build().ToJObject()).Build();
         }
 
 
