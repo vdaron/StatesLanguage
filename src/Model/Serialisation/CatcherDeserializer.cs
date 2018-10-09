@@ -20,7 +20,7 @@ using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.Serialisation
 {
-    public class CatcherDeserializer : JsonConverter
+    internal class CatcherDeserializer : JsonConverter
     {
         public override bool CanRead => false;
 

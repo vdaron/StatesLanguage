@@ -26,7 +26,7 @@ namespace StatesLanguage.Model.Serialisation
     /// <summary>
     ///     Custom deserializer for a <see cref="ICondition" />
     /// </summary>
-    public class ConditionDeserializer
+    internal class ConditionDeserializer
     {
         public IConditionBuilder<ICondition> DeserializeCondition(JObject node)
         {

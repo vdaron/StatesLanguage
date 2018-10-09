@@ -125,7 +125,7 @@ namespace StatesLanguage.Model
             return new Builder();
         }
 
-        private static JsonSerializer GetJsonSerializer()
+        internal static JsonSerializer GetJsonSerializer()
         {
             JsonSerializer jsonSerializer = new JsonSerializer();
 

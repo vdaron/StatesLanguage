@@ -23,7 +23,7 @@ namespace StatesLanguage.Model
     /// <summary>
     /// Do not serilize empty collections
     /// </summary>
-    public class EmptyCollectionContractResolver : DefaultContractResolver
+    internal class EmptyCollectionContractResolver : DefaultContractResolver
     {
         public static readonly EmptyCollectionContractResolver Instance = new EmptyCollectionContractResolver();
 

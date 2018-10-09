@@ -21,7 +21,7 @@ using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.Serialisation
 {
-    public class ChoiceDeserializer : JsonConverter
+    internal class ChoiceDeserializer : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
