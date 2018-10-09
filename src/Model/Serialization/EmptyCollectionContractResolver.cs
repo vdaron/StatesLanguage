@@ -13,12 +13,13 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System.Collections;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace StatesLanguage.Model
+namespace StatesLanguage.Model.Serialization
 {
     /// <summary>
     /// Do not serilize empty collections

@@ -19,10 +19,10 @@ using System.IO;
 using System.Text;
 using StatesLanguage.Model.Internal;
 using StatesLanguage.Model.Internal.Validation;
-using StatesLanguage.Model.Serialisation;
 using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Serialization;
 
 namespace StatesLanguage.Model
 {

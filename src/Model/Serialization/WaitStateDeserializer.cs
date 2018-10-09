@@ -13,12 +13,13 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.States;
 
-namespace StatesLanguage.Model.Serialisation
+namespace StatesLanguage.Model.Serialization
 {
     internal class WaitStateDeserializer : JsonConverter
     {

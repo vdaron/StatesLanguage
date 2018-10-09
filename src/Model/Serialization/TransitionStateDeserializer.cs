@@ -13,37 +13,31 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
-using StatesLanguage.Model.Internal;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.States;
 
-namespace StatesLanguage.Model.Serialisation
+namespace StatesLanguage.Model.Serialization
 {
-    internal class ChoiceDeserializer : JsonConverter
+    internal class TransitionStateDeserializer : JsonConverter
     {
+        public override bool CanRead => false;
+
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var state = JObject.FromObject(value, new JsonSerializer
                                                   {
                                                       NullValueHandling = NullValueHandling.Ignore,
                                                       DefaultValueHandling = DefaultValueHandling.Ignore,
-                                                      ContractResolver = EmptyCollectionContractResolver.Instance
+                                                      ContractResolver = EmptyCollectionContractResolver.Instance,
+                                                      Converters = {new CatcherDeserializer()}
                                                   });
 
-            var transition = ((Choice) value).Transition;
+            var transition = ((TransitionState) value).Transition;
 
             var json = JObject.FromObject(transition);
-
-            foreach (var prop in json.Properties())
-            {
-                state.Add(prop);
-            }
-
-            var condition = ((Choice) value).Condition;
-
-            json = JObject.FromObject(condition);
 
             foreach (var prop in json.Properties())
             {
@@ -53,19 +47,15 @@ namespace StatesLanguage.Model.Serialisation
             state.WriteTo(writer);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+                                        JsonSerializer serializer)
         {
-            var ee = new ConditionDeserializer();
-            var obj = JObject.Load(reader);
-            return Choice.GetBuilder().Transition(NextStateTransition.GetBuilder()
-                                                                     .NextStateName(obj[PropertyNames.NEXT]
-                                                                                        .Value<string>()))
-                         .Condition(ee.DeserializeCondition(obj));
+            throw new NotImplementedException();
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(Choice) == objectType || typeof(Choice.Builder) == objectType;
+            return typeof(TransitionState).IsAssignableFrom(objectType) && objectType != typeof(WaitState);
         }
     }
 }
