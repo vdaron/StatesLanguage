@@ -13,6 +13,9 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+using System.IO;
+using System.Text;
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -30,6 +33,26 @@ namespace StatesLanguage.Model.States
         public abstract bool IsTerminalState { get; }
 
         public abstract T Accept<T>(StateVisitor<T> visitor);
+
+        public string ToJson()
+        {
+            StringBuilder result = new StringBuilder();
+            using (StringWriter writer = new StringWriter(result))
+            {
+                StateMachine.GetJsonSerializer().Serialize(writer,this);
+            }
+
+            return result.ToString();
+        }
+
+        public static State FromJson(string json)
+        {
+            using (var stringReader = new StringReader(json))
+            using (var jsonTextReader = new JsonTextReader(stringReader))
+            {
+                return StateMachine.GetJsonSerializer().Deserialize<IBuilder<State>>(jsonTextReader).Build();
+            }
+        }
 
         public interface IBuilder<out T> : IBuildable<T> where T : State
         {

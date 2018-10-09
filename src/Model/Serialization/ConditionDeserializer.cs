@@ -13,20 +13,17 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+
+using Newtonsoft.Json.Linq;
 using StatesLanguage.Model.Conditions;
 using StatesLanguage.Model.Internal;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 
-namespace StatesLanguage.Model.Serialisation
+namespace StatesLanguage.Model.Serialization
 {
     /// <summary>
     ///     Custom deserializer for a <see cref="ICondition" />
     /// </summary>
-    public class ConditionDeserializer
+    internal class ConditionDeserializer
     {
         public IConditionBuilder<ICondition> DeserializeCondition(JObject node)
         {

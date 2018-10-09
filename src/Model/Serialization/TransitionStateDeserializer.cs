@@ -13,14 +13,15 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.States;
 
-namespace StatesLanguage.Model.Serialisation
+namespace StatesLanguage.Model.Serialization
 {
-    public class CatcherDeserializer : JsonConverter
+    internal class TransitionStateDeserializer : JsonConverter
     {
         public override bool CanRead => false;
 
@@ -30,10 +31,11 @@ namespace StatesLanguage.Model.Serialisation
                                                   {
                                                       NullValueHandling = NullValueHandling.Ignore,
                                                       DefaultValueHandling = DefaultValueHandling.Ignore,
-                                                      ContractResolver = EmptyCollectionContractResolver.Instance
+                                                      ContractResolver = EmptyCollectionContractResolver.Instance,
+                                                      Converters = {new CatcherDeserializer()}
                                                   });
 
-            var transition = ((Catcher) value).Transition;
+            var transition = ((TransitionState) value).Transition;
 
             var json = JObject.FromObject(transition);
 
@@ -45,14 +47,15 @@ namespace StatesLanguage.Model.Serialisation
             state.WriteTo(writer);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+                                        JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(Catcher) == objectType;
+            return typeof(TransitionState).IsAssignableFrom(objectType) && objectType != typeof(WaitState);
         }
     }
 }

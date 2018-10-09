@@ -13,14 +13,15 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.States;
 
-namespace StatesLanguage.Model.Serialisation
+namespace StatesLanguage.Model.Serialization
 {
-    public class WaitStateDeserializer : JsonConverter
+    internal class CatcherDeserializer : JsonConverter
     {
         public override bool CanRead => false;
 
@@ -33,18 +34,9 @@ namespace StatesLanguage.Model.Serialisation
                                                       ContractResolver = EmptyCollectionContractResolver.Instance
                                                   });
 
-            var wiatFor = ((WaitState) value).WaitFor;
+            var transition = ((Catcher) value).Transition;
 
-            var json = JObject.FromObject(wiatFor);
-
-            foreach (var prop in json.Properties())
-            {
-                state.Add(prop);
-            }
-
-            var transition = ((WaitState) value).Transition;
-
-            json = JObject.FromObject(transition);
+            var json = JObject.FromObject(transition);
 
             foreach (var prop in json.Properties())
             {
@@ -54,15 +46,14 @@ namespace StatesLanguage.Model.Serialisation
             state.WriteTo(writer);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
-                                        JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(WaitState) == objectType;
+            return typeof(Catcher) == objectType;
         }
     }
 }

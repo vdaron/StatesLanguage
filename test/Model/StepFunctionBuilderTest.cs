@@ -18,6 +18,7 @@ using System.IO;
 using StatesLanguage.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.States;
 using test.Model;
 using Xunit;
 
@@ -55,6 +56,25 @@ namespace StatesLanguage.Tests.Model
             {
                 return JObject.Load(jsonReader);
             }
+        }
+
+        [Fact]
+        public void CanSerializeStatesToJson()
+        {
+            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+                .StartAt("InitialState")
+                .TimeoutSeconds(30)
+                .Comment("My Simple State Machine")
+                .State("InitialState", StepFunctionBuilder.SucceedState()
+                    .Comment("Initial State")
+                    .InputPath("$.input")
+                    .OutputPath("$.output"))
+                .Build();
+
+            string value = stateMachine.States["InitialState"].ToJson();
+
+            State s = State.FromJson(value);
+            Assert.True(s.Type == StateType.Succeed);
         }
 
         [Fact]
