@@ -133,6 +133,7 @@ namespace StatesLanguage.Model
             jsonSerializer.Converters.Add(new ChoiceDeserializer());
             jsonSerializer.Converters.Add(new WaitStateDeserializer());
             jsonSerializer.Converters.Add(new TransitionStateDeserializer());
+            jsonSerializer.Converters.Add(new ParallelStateSerializer());
 
             jsonSerializer.NullValueHandling = NullValueHandling.Ignore;
             jsonSerializer.ContractResolver = EmptyCollectionContractResolver.Instance;

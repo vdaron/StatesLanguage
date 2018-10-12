@@ -37,7 +37,8 @@ namespace StatesLanguage.Model.States
         [JsonProperty(PropertyNames.OUTPUT_PATH)]
         public string OutputPath { get; private set; }
 
-        [JsonProperty(PropertyNames.BRANCHES)]
+        //[JsonProperty(PropertyNames.BRANCHES)]
+        [JsonIgnore]
         public List<Branch> Branches { get; private set; }
 
         [JsonProperty(PropertyNames.RETRY)]

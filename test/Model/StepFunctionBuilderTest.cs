@@ -35,8 +35,6 @@ namespace StatesLanguage.Tests.Model
         {
             JObject expected = LoadExpected(resourcePath);
 
-            Console.WriteLine(stateMachine.ToJson());
-
             Equal(expected,stateMachine.ToJObject());
             Equal(expected, roundTripStateMachine(stateMachine).ToJObject());
         }
@@ -482,6 +480,26 @@ namespace StatesLanguage.Tests.Model
                 .Build();
 
             AssertStateMachine(stateMachine, "SimpleParallelState.json");
+        }
+
+        [Fact]
+        public void SimpleParallelStateWithTasks()
+        {
+            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+                .StartAt("para")
+                .State("para", StepFunctionBuilder.ParallelState()
+                    .Transition(StepFunctionBuilder.End())
+                    .Branches(
+                        StepFunctionBuilder.Branch()
+                            .StartAt("t")
+                            .State("t", StepFunctionBuilder.TaskState().Resource("t").Transition(StepFunctionBuilder.End())),
+                        StepFunctionBuilder.Branch()
+                            .StartAt("u")
+                            .State("u", StepFunctionBuilder.TaskState().Resource("u").Transition(StepFunctionBuilder.End()))
+                    ))
+                .Build();
+
+            AssertStateMachine(stateMachine, "SimpleParallelStateWithTasks.json");
         }
 
         [Fact]
