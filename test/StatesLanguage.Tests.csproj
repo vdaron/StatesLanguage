@@ -18,6 +18,7 @@
     <None Remove="Resources\StateMachines\ParallelStateWithRetriers.json" />
     <None Remove="Resources\StateMachines\SimpleChoiceState.json" />
     <None Remove="Resources\StateMachines\SimpleParallelState.json" />
+    <None Remove="Resources\StateMachines\SimpleParallelStateWithTasks.json" />
     <None Remove="Resources\StateMachines\SimpleTaskState.json" />
     <None Remove="Resources\StateMachines\SimpleTaskStateWithCatchers.json" />
     <None Remove="Resources\StateMachines\SimpleTaskStateWithRetries.json" />
@@ -53,6 +54,9 @@
     <EmbeddedResource Include="Resources\StateMachines\ParallelStateWithRetriers.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleChoiceState.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleParallelState.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SimpleParallelStateWithTasks.json">
+      <Generator>MSDataSetGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\StateMachines\SimpleTaskState.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleTaskStateWithCatchers.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleTaskStateWithRetries.json" />
@@ -71,6 +75,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\StatesLanguage.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>System</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>System.Data</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>System.Xml</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,31 @@
+﻿{
+  "StartAt": "para",
+  "States": {
+    "para": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "t",
+          "States": {
+            "t": {
+              "Resource": "t",
+              "Type": "Task",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "u",
+          "States": {
+            "u": {
+              "Resource": "u",
+              "Type": "Task",
+              "End": true
+            }
+          }
+        }
+      ],
+      "End": true
+    }
+  }
+}

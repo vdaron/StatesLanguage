@@ -372,7 +372,9 @@ namespace StatesLanguage.Model.Internal.Validation
                 foreach (var branch in parallelState.Branches)
                 {
                     var branchContext = _currentContext.Branch(index);
+
                     ValidateStates(branchContext, branch.States);
+                    _currentContext.AssertStringNotEmpty(branch.StartAt, PropertyNames.START_AT);
                     if (!branch.States.ContainsKey(branch.StartAt))
                     {
                         _problemReporter.Report(new Problem(branchContext, $"{PropertyNames.START_AT} references a non existent state."));
