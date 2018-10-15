@@ -86,7 +86,7 @@ namespace StatesLanguage.Model
         /**
          * @return Compact JSON representation of this StateMachine.
          */
-        public string ToJson()
+        public string ToJson(Formatting formatting = Formatting.None)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace StatesLanguage.Model
                 using (var stringWriter = new StringWriter(result))
                 using (var jsonWriter = new JsonTextWriter(stringWriter))
                 {
-                    GetJsonSerializer().Serialize(jsonWriter, this);
+                    GetJsonSerializer(formatting).Serialize(jsonWriter, this);
                 }
 
                 return result.ToString();
@@ -125,7 +125,7 @@ namespace StatesLanguage.Model
             return new Builder();
         }
 
-        internal static JsonSerializer GetJsonSerializer()
+        internal static JsonSerializer GetJsonSerializer(Formatting formatting = Formatting.None)
         {
             JsonSerializer jsonSerializer = new JsonSerializer();
 
@@ -137,6 +137,7 @@ namespace StatesLanguage.Model
 
             jsonSerializer.NullValueHandling = NullValueHandling.Ignore;
             jsonSerializer.ContractResolver = EmptyCollectionContractResolver.Instance;
+            jsonSerializer.Formatting = formatting;
             return jsonSerializer;
         }
 

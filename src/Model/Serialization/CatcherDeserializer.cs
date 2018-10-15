@@ -29,6 +29,7 @@ namespace StatesLanguage.Model.Serialization
         {
             var state = JObject.FromObject(value, new JsonSerializer
                                                   {
+                                                      Formatting = serializer.Formatting,
                                                       NullValueHandling = NullValueHandling.Ignore,
                                                       DefaultValueHandling = DefaultValueHandling.Ignore,
                                                       ContractResolver = EmptyCollectionContractResolver.Instance
