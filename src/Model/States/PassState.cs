@@ -108,6 +108,12 @@ namespace StatesLanguage.Model.States
                 return this;
             }
 
+            public Builder Result(object result, JsonSerializerSettings serializerSettings)
+            {
+                _result = JToken.FromObject(result, JsonSerializer.Create(serializerSettings));
+                return this;
+            }
+
             /**
              * OPTIONAL. Sets the "virtual" result of the pass state. Must be a valid JSON document.
              *
