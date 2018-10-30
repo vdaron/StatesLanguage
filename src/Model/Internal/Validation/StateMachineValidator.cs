@@ -171,8 +171,11 @@ namespace StatesLanguage.Model.Internal.Validation
             private bool ValidateChoiceState(ValidationContext stateContext, ChoiceState choiceState)
             {
                 var merged = MergeParentVisited();
-                var hasPathToTerminal = new GraphValidator(stateContext, merged, choiceState.DefaultStateName, _states)
-                    .Validate();
+                var hasPathToTerminal = false;
+                if(!string.IsNullOrEmpty(choiceState.DefaultStateName))
+                {
+                    hasPathToTerminal = new GraphValidator(stateContext, merged, choiceState.DefaultStateName, _states).Validate();
+                }
                 var index = 0;
                 foreach (var choice in choiceState.Choices)
                 {

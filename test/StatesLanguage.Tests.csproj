@@ -14,6 +14,7 @@
     <None Remove="Resources\StateMachines\ChoiceStateWithMultipleChoices.json" />
     <None Remove="Resources\StateMachines\ChoiceStateWithNotCondition.json" />
     <None Remove="Resources\StateMachines\ChoiceStateWithOrCondition.json" />
+    <None Remove="Resources\StateMachines\ChoiceStateWithoutDefault.json" />
     <None Remove="Resources\StateMachines\ParallelStateWithCatchers.json" />
     <None Remove="Resources\StateMachines\ParallelStateWithRetriers.json" />
     <None Remove="Resources\StateMachines\SimpleChoiceState.json" />
@@ -49,6 +50,7 @@
     <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithMissingCondition.json" />
     <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithMultipleChoices.json" />
     <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithNotCondition.json" />
+    <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithoutDefault.json" />
     <EmbeddedResource Include="Resources\StateMachines\ChoiceStateWithOrCondition.json" />
     <EmbeddedResource Include="Resources\StateMachines\ParallelStateWithCatchers.json" />
     <EmbeddedResource Include="Resources\StateMachines\ParallelStateWithRetriers.json" />

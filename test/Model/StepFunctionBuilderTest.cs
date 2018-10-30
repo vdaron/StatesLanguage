@@ -377,6 +377,24 @@ namespace StatesLanguage.Tests.Model
         }
 
         [Fact]
+        public void ChoiceStateWithoutDefaultState()
+        {
+            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+                                                           .StartAt("InitialState")
+                                                           .State("InitialState", StepFunctionBuilder.ChoiceState()
+                                                                                                     .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
+                                                                                                                                .Condition(
+                                                                                                                                           StepFunctionBuilder.Or(StepFunctionBuilder.Gt("$.var", "value"),
+                                                                                                                                                                  StepFunctionBuilder.Lte("$.other-var", 10)
+                                                                                                                                                                 ))))
+                                                           .State("NextState", StepFunctionBuilder.SucceedState())
+                                                           .State("DefaultState", StepFunctionBuilder.SucceedState())
+                                                           .Build();
+
+            AssertStateMachine(stateMachine, "ChoiceStateWithoutDefault.json");
+        }
+
+        [Fact]
         public void ChoiceStateWithNotCondition()
         {
             StateMachine stateMachine = StepFunctionBuilder.StateMachine()
