@@ -13,6 +13,8 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+using System;
 using System.Globalization;
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
@@ -27,6 +29,7 @@ namespace StatesLanguage.Model.Conditions
      * @see Choice
      */
     public sealed class NumericEqualsCondition<T> : IBinaryCondition<T>
+        where T : IComparable<T>
     {
         private NumericEqualsCondition()
         {
@@ -98,6 +101,11 @@ namespace StatesLanguage.Model.Conditions
                 _variable = variable;
                 return this;
             }
+        }
+
+        public bool Match(JObject input)
+        {
+            return input.SelectToken(Variable)?.Value<T>().CompareTo(ExpectedValue) == 0;
         }
     }
 }

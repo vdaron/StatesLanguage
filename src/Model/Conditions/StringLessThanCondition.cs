@@ -15,11 +15,12 @@
  */
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
-     * Binary condition for String greater than comparison.
+     * Binary condition for SE:\StatesLanguage\src\Model\Conditions\StringLessThanCondition.cstring greater than comparison.
      *
      * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
@@ -90,6 +91,12 @@ namespace StatesLanguage.Model.Conditions
                 _variable = variable;
                 return this;
             }
+        }
+
+        public bool Match(JObject input)
+        {
+
+            return input.SelectToken(Variable)?.Value<string>().CompareTo(ExpectedValue) < 0;
         }
     }
 }

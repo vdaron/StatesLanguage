@@ -13,6 +13,9 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+using System;
+
 namespace StatesLanguage.Model.Conditions
 {
     public interface IBinaryCondition : ICondition
@@ -20,7 +23,7 @@ namespace StatesLanguage.Model.Conditions
         string Variable { get; }
     }
 
-    public interface IBinaryCondition<out T> : IBinaryCondition
+    public interface IBinaryCondition<out T> : IBinaryCondition where T : IComparable<T>
     {
         T ExpectedValue { get; }
     }

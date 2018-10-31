@@ -89,5 +89,10 @@ namespace StatesLanguage.Model.Conditions
                 return this;
             }
         }
+
+        public bool Match(JObject input)
+        {
+            return input.SelectToken(Variable)?.Value<bool>() == ExpectedValue;
+        }
     }
 }

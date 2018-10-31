@@ -16,6 +16,8 @@
 using StatesLanguage.Model.Conditions;
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 
 namespace StatesLanguage.Model.States
 {

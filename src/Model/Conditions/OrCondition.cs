@@ -14,8 +14,10 @@
  * permissions and limitations under the License.
  */
 using System.Collections.Generic;
+using System.Linq;
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -64,6 +66,11 @@ namespace StatesLanguage.Model.Conditions
 
                 return this;
             }
+        }
+
+        public bool Match(JObject input)
+        {
+            return Conditions.Any(x => x.Match(input));
         }
     }
 }
