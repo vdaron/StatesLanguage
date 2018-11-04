@@ -361,7 +361,7 @@ namespace StatesLanguage.Model.Internal.Validation
                 context.AssertIsValidJsonPath(condition.Variable, PropertyNames.VARIABLE);
             }
 
-            private void ValidateBinaryCondition<T>(ValidationContext context, IBinaryCondition<T> condition)
+            private void ValidateBinaryCondition<T>(ValidationContext context, IBinaryCondition<T> condition) where T : IComparable<T>
             {
                 context.AssertStringNotEmpty(condition.Variable, PropertyNames.VARIABLE);
                 context.AssertIsValidJsonPath(condition.Variable, PropertyNames.VARIABLE);

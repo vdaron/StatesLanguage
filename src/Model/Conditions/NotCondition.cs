@@ -16,6 +16,7 @@
 using StatesLanguage.Model.Internal;
 using StatesLanguage.Model.States;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -69,6 +70,11 @@ namespace StatesLanguage.Model.Conditions
                 _condition = (IBuildable<ICondition>) conditionBuilder;
                 return this;
             }
+        }
+
+        public bool Match(JObject input)
+        {
+            return !Condition.Match(input);
         }
     }
 }

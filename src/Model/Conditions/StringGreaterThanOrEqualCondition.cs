@@ -15,6 +15,7 @@
  */
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -92,6 +93,12 @@ namespace StatesLanguage.Model.Conditions
                 _variable = variable;
                 return this;
             }
+        }
+
+        public bool Match(JObject input)
+        {
+
+            return input.SelectToken(Variable)?.Value<string>().CompareTo(ExpectedValue) >= 0;
         }
     }
 }
