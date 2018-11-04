@@ -13,6 +13,8 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+using System;
 using StatesLanguage.Model.Internal;
 using StatesLanguage.Model.States;
 using Newtonsoft.Json;
@@ -92,7 +94,14 @@ namespace StatesLanguage.Model.Conditions
 
         public bool Match(JObject input)
         {
-            return input.SelectToken(Variable)?.Value<bool>() == ExpectedValue;
+            try
+            {
+                return input.SelectToken(Variable)?.Value<bool>() == ExpectedValue;
+            }
+            catch (FormatException e)
+            {
+                return false;
+            }
         }
     }
 }

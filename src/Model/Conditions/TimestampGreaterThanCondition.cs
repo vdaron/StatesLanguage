@@ -100,7 +100,14 @@ namespace StatesLanguage.Model.Conditions
 
         public bool Match(JObject input)
         {
-            return input.SelectToken(Variable)?.Value<string>().CompareTo(ExpectedValue) > 0;
+            try
+            {
+                return input.SelectToken(Variable)?.Value<DateTime>().CompareTo(ExpectedValue) > 0;
+            }
+            catch (FormatException e)
+            {
+                return false;
+            }
         }
     }
 }
