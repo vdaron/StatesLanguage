@@ -44,7 +44,7 @@ namespace StatesLanguage.Model
         public string StartAt { get; private set; }
 
         [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
-        public int? TimeoutSeconds { get; private set; }
+        public int TimeoutSeconds { get; private set; } = 0;
 
         [JsonProperty(PropertyNames.STATES)]
         public Dictionary<string, State> States { get; private set; }
@@ -154,7 +154,7 @@ namespace StatesLanguage.Model
             private Dictionary<string, State.IBuilder<State>> _states = new Dictionary<string, State.IBuilder<State>>();
 
             [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
-            private int? _timeoutSeconds;
+            private int _timeoutSeconds;
 
             public Builder Comment(string comment)
             {
