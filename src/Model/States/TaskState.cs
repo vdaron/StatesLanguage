@@ -39,9 +39,10 @@ namespace StatesLanguage.Model.States
 
         [JsonProperty(PropertyNames.COMMENT)]
         public string Comment { get; private set; }
-
         [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
-        public int TimeoutSeconds { get; private set; } = 60;
+        private int? _timeout;
+        [JsonIgnore()]
+        public int TimeoutSeconds => _timeout ?? 60;
 
         [JsonProperty(PropertyNames.HEARTBEAT_SECONDS)]
         public int? HeartbeatSeconds { get; private set; }
@@ -101,7 +102,7 @@ namespace StatesLanguage.Model.States
             private List<Retrier.Builder> _retriers = new List<Retrier.Builder>();
 
             [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
-            private int _timeoutSeconds;
+            private int? _timeoutSeconds;
 
             [JsonIgnore]
             private ITransitionBuilder<ITransition> _transition;
@@ -293,7 +294,7 @@ namespace StatesLanguage.Model.States
                            ResultPath = _resultPath,
                            OutputPath = _outputPath,
                            Comment = _comment,
-                           TimeoutSeconds = _timeoutSeconds,
+                           _timeout = _timeoutSeconds,
                            HeartbeatSeconds = _heartbeatSeconds,
                            Transition = _transition.Build(),
                            Retriers = BuildableUtils.Build(_retriers),

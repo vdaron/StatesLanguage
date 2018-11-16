@@ -25,12 +25,15 @@ namespace StatesLanguage.Model.States
         {
         }
 
-        public List<string> ErrorEquals { get; private set; }
-        public int IntervalSeconds { get; private set; } = 1;
-        public int MaxAttempts { get; private set; } = 3;
 
+        public List<string> ErrorEquals { get; private set; }
+        private int? _interval;
+        private int? _attempts;
         [JsonProperty(PropertyNames.BACKOFF_RATE)]
-        public double BackoffRate { get; private set; } = 2.0;
+        private double? _backoff;
+        public int IntervalSeconds => _interval ?? 1;
+        public int MaxAttempts => _attempts ?? 3;
+        public double BackoffRate => _backoff ?? 2.0;
 
         /**
          * @return Builder instance to construct a {@link Retrier}.
@@ -46,16 +49,16 @@ namespace StatesLanguage.Model.States
         public sealed class Builder : IBuildable<Retrier>
         {
             [JsonProperty(PropertyNames.BACKOFF_RATE)]
-            private double _backoffRate;
+            private double? _backoffRate;
 
             [JsonProperty(PropertyNames.ERROR_EQUALS)]
             private List<string> _errorEquals = new List<string>();
 
             [JsonProperty(PropertyNames.INTERVAL_SECONDS)]
-            private int _intervalSeconds;
+            private int? _intervalSeconds;
 
             [JsonProperty(PropertyNames.MAX_ATTEMPTS)]
-            private int _maxAttempts;
+            private int? _maxAttempts;
 
             internal Builder()
             {
@@ -69,9 +72,9 @@ namespace StatesLanguage.Model.States
                 return new Retrier
                        {
                            ErrorEquals = new List<string>(_errorEquals),
-                           IntervalSeconds = _intervalSeconds,
-                           MaxAttempts = _maxAttempts,
-                           BackoffRate = _backoffRate
+                           _interval = _intervalSeconds,
+                           _attempts = _maxAttempts,
+                           _backoff = _backoffRate
                        };
             }
 
