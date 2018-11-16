@@ -44,7 +44,7 @@ namespace StatesLanguage.Model
         public string StartAt { get; private set; }
 
         [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
-        public int TimeoutSeconds { get; private set; } = 0;
+        public int? TimeoutSeconds { get; private set; }
 
         [JsonProperty(PropertyNames.STATES)]
         public Dictionary<string, State> States { get; private set; }
@@ -82,7 +82,7 @@ namespace StatesLanguage.Model
                 throw new StatesLanguageException($"Could not deserialize state machine.\n{json}", e);
             }
         }
-        
+
         /**
          * @return Compact JSON representation of this StateMachine.
          */
@@ -154,7 +154,7 @@ namespace StatesLanguage.Model
             private Dictionary<string, State.IBuilder<State>> _states = new Dictionary<string, State.IBuilder<State>>();
 
             [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
-            private int _timeoutSeconds;
+            private int? _timeoutSeconds;
 
             public Builder Comment(string comment)
             {
@@ -209,12 +209,12 @@ namespace StatesLanguage.Model
             public StateMachine Build()
             {
                 return new StateMachineValidator(new StateMachine
-                                                 {
-                                                     Comment = _comment,
-                                                     StartAt = _startAt,
-                                                     TimeoutSeconds = _timeoutSeconds,
-                                                     States = BuildableUtils.Build(_states)
-                                                 }).Validate();
+                {
+                    Comment = _comment,
+                    StartAt = _startAt,
+                    TimeoutSeconds = _timeoutSeconds,
+                    States = BuildableUtils.Build(_states)
+                }).Validate();
             }
 
 
