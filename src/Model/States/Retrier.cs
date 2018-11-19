@@ -24,15 +24,22 @@ namespace StatesLanguage.Model.States
         private Retrier()
         {
         }
-
-
+        
         public List<string> ErrorEquals { get; private set; }
+
+
+        [JsonProperty(PropertyNames.INTERVAL_SECONDS)]
         private int? _interval;
+        [JsonProperty(PropertyNames.MAX_ATTEMPTS)]
         private int? _attempts;
         [JsonProperty(PropertyNames.BACKOFF_RATE)]
         private double? _backoff;
+
+        [JsonIgnore]
         public int IntervalSeconds => _interval ?? 1;
+        [JsonIgnore]
         public int MaxAttempts => _attempts ?? 3;
+        [JsonIgnore]
         public double BackoffRate => _backoff ?? 2.0;
 
         /**

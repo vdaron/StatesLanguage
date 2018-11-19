@@ -39,9 +39,10 @@ namespace StatesLanguage.Model.States
 
         [JsonProperty(PropertyNames.COMMENT)]
         public string Comment { get; private set; }
+
         [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
         private int? _timeout;
-        [JsonIgnore()]
+        [JsonIgnore]
         public int TimeoutSeconds => _timeout ?? 60;
 
         [JsonProperty(PropertyNames.HEARTBEAT_SECONDS)]
