@@ -82,7 +82,7 @@ namespace StatesLanguage.Model
                 throw new StatesLanguageException($"Could not deserialize state machine.\n{json}", e);
             }
         }
-        
+
         /**
          * @return Compact JSON representation of this StateMachine.
          */
@@ -209,12 +209,12 @@ namespace StatesLanguage.Model
             public StateMachine Build()
             {
                 return new StateMachineValidator(new StateMachine
-                                                 {
-                                                     Comment = _comment,
-                                                     StartAt = _startAt,
-                                                     TimeoutSeconds = _timeoutSeconds,
-                                                     States = BuildableUtils.Build(_states)
-                                                 }).Validate();
+                {
+                    Comment = _comment,
+                    StartAt = _startAt,
+                    TimeoutSeconds = _timeoutSeconds,
+                    States = BuildableUtils.Build(_states)
+                }).Validate();
             }
 
 

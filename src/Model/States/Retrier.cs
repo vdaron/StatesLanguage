@@ -24,13 +24,23 @@ namespace StatesLanguage.Model.States
         private Retrier()
         {
         }
-
+        
         public List<string> ErrorEquals { get; private set; }
-        public int? IntervalSeconds { get; private set; }
-        public int? MaxAttempts { get; private set; }
 
+
+        [JsonProperty(PropertyNames.INTERVAL_SECONDS)]
+        private int? _interval;
+        [JsonProperty(PropertyNames.MAX_ATTEMPTS)]
+        private int? _attempts;
         [JsonProperty(PropertyNames.BACKOFF_RATE)]
-        public double? BackoffRate { get; private set; }
+        private double? _backoff;
+
+        [JsonIgnore]
+        public int IntervalSeconds => _interval ?? 1;
+        [JsonIgnore]
+        public int MaxAttempts => _attempts ?? 3;
+        [JsonIgnore]
+        public double BackoffRate => _backoff ?? 2.0;
 
         /**
          * @return Builder instance to construct a {@link Retrier}.
@@ -69,9 +79,9 @@ namespace StatesLanguage.Model.States
                 return new Retrier
                        {
                            ErrorEquals = new List<string>(_errorEquals),
-                           IntervalSeconds = _intervalSeconds,
-                           MaxAttempts = _maxAttempts,
-                           BackoffRate = _backoffRate
+                           _interval = _intervalSeconds,
+                           _attempts = _maxAttempts,
+                           _backoff = _backoffRate
                        };
             }
 

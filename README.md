@@ -3,7 +3,7 @@
 This library contains some helper classes to help creating and modifying workflow using the [Amazon States Language](https://states-language.net/spec.html).
 This is the workflow description language used by [AWS StepFunctions](https://aws.amazon.com/step-functions)
 
-This project is a port of the java livrary [light-workflow-4j project](https://github.com/networknt/light-workflow-4j)
+This project starts as a port of the java livrary [light-workflow-4j project](https://github.com/networknt/light-workflow-4j).
 
  
 # Sample
