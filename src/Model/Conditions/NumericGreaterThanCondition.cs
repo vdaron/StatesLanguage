@@ -28,18 +28,15 @@ namespace StatesLanguage.Model.Conditions
      * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
-    public sealed class NumericGreaterThanCondition<T> : IBinaryCondition<T>
+    public sealed class NumericGreaterThanCondition<T> : BinaryCondition<T>
         where T : IComparable<T>
     {
-        private NumericGreaterThanCondition()
+        private NumericGreaterThanCondition():base (Operator.Gt)
         {
         }
 
         [JsonProperty(PropertyNames.NUMERIC_GREATER_THAN)]
-        public T ExpectedValue { get; private set; }
-
-        [JsonProperty(PropertyNames.VARIABLE)]
-        public string Variable { get; private set; }
+        public override T ExpectedValue { get; protected set; }
 
 
         /**
@@ -98,18 +95,6 @@ namespace StatesLanguage.Model.Conditions
                            Variable = _variable,
                            ExpectedValue = _expectedValue
                        };
-            }
-        }
-
-        public bool Match(JObject input)
-        {
-            try
-            {
-                return input.SelectToken(Variable)?.Value<T>().CompareTo(ExpectedValue) > 0;
-            }
-            catch (FormatException e)
-            {
-                return false;
             }
         }
     }

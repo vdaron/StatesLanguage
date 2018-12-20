@@ -26,17 +26,14 @@ namespace StatesLanguage.Model.Conditions
     ///     Binary condition for Boolean equality comparison.
     ///     <see cref="Choice" />
     /// </summary>
-    public sealed class BooleanEqualsCondition : IBinaryCondition<bool>
+    public sealed class BooleanEqualsCondition : BinaryCondition<bool>
     {
-        private BooleanEqualsCondition()
+        private BooleanEqualsCondition():base(Operator.Eq)
         {
         }
 
-        [JsonProperty(PropertyNames.VARIABLE)]
-        public string Variable { get; private set; }
-
         [JsonProperty(PropertyNames.BOOLEAN_EQUALS)]
-        public bool ExpectedValue { get; private set; }
+        public override bool ExpectedValue { get; protected set; }
 
         /// <returns>Builder instance to construct a <see cref="BooleanEqualsCondition" /></returns>
         public static Builder GetBuilder()
@@ -89,18 +86,6 @@ namespace StatesLanguage.Model.Conditions
             {
                 _variable = variable;
                 return this;
-            }
-        }
-
-        public bool Match(JObject input)
-        {
-            try
-            {
-                return input.SelectToken(Variable)?.Value<bool>() == ExpectedValue;
-            }
-            catch (FormatException e)
-            {
-                return false;
             }
         }
     }

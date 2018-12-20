@@ -26,17 +26,13 @@ namespace StatesLanguage.Model.Conditions
      * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
-    public sealed class TimestampLessThanCondition : IBinaryCondition<DateTime>
+    public sealed class TimestampLessThanCondition : BinaryCondition<DateTime>
     {
-        private TimestampLessThanCondition()
+        private TimestampLessThanCondition():base(Operator.Lt)
         {
         }
-
-        [JsonProperty(PropertyNames.VARIABLE)]
-        public string Variable { get; private set; }
-
         [JsonProperty(PropertyNames.TIMESTAMP_LESS_THAN)]
-        public DateTime ExpectedValue { get; private set; }
+        public override DateTime ExpectedValue { get; protected set; }
 
         /**
          * @return Builder instance to construct a {@link NumericEqualsCondition}.
@@ -97,16 +93,5 @@ namespace StatesLanguage.Model.Conditions
             }
         }
 
-        public bool Match(JObject input)
-        {
-            try
-            {
-                return input.SelectToken(Variable)?.Value<DateTime>().CompareTo(ExpectedValue) < 0;
-            }
-            catch (FormatException e)
-            {
-                return false;
-            }
-        }
     }
 }

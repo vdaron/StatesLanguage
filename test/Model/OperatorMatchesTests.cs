@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using StatesLanguage.Model;
+using StatesLanguage.Model.Conditions;
 using Xunit;
 
 namespace StatesLanguage.Tests.Model
@@ -11,7 +12,7 @@ namespace StatesLanguage.Tests.Model
     public class OperatorMatchesTests
     {
         [Fact]
-        public void TestEqOperator()
+        public void TestEqOperatorWithJObject()
         {
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
@@ -22,7 +23,7 @@ namespace StatesLanguage.Tests.Model
                                                                   .Condition(StepFunctionBuilder.Eq("$.varint", 33)))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Eq("$.vardate", new DateTime(2018,10,22,22,33,11))))
+                                                                  .Condition(StepFunctionBuilder.Eq("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
                                                                   .Condition(StepFunctionBuilder.Eq("$.varbool", true)))
@@ -33,14 +34,50 @@ namespace StatesLanguage.Tests.Model
             Assert.True(choices[0].Condition.Match(JObject.FromObject(new { varstr = "value" })));
             Assert.False(choices[0].Condition.Match(JObject.FromObject(new { varstr = "notValue" })));
 
-            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varint  = 33 })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varint = 33 })));
             Assert.False(choices[1].Condition.Match(JObject.FromObject(new { varint = 34 })));
 
-            Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate  = new DateTime(2018, 10, 22, 22, 33, 11) })));
+            Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 11) })));
             Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 12) })));
-            
-            Assert.True(choices[3].Condition.Match(JObject.FromObject(new { varbool  = true })));
+
+            Assert.True(choices[3].Condition.Match(JObject.FromObject(new { varbool = true })));
             Assert.False(choices[3].Condition.Match(JObject.FromObject(new { varbool = false })));
+            Assert.False(choices[3].Condition.Match(JToken.Parse("true")));
+            Assert.False(choices[3].Condition.Match(JToken.Parse("false")));
+        }
+
+        [Fact]
+        public void TestEqOperatorWithJTokens()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.Eq(null,"value")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.Eq(null, 33)))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.Eq(null, new DateTime(2018, 10, 22, 22, 33, 11))))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.Eq(null, true)))
+                                       .Build();
+
+            var choices = c.Choices.ToArray();
+
+            Assert.True(choices[0].Condition.Match(new JValue("value")));
+            Assert.False(choices[0].Condition.Match(new JValue("not-value")));
+
+            Assert.True(choices[1].Condition.Match(new JValue(33)));
+            Assert.False(choices[1].Condition.Match(new JValue(34)));
+
+            Assert.True(choices[2].Condition.Match(new JValue(new DateTime(2018, 10, 22, 22, 33, 11))));
+            Assert.False(choices[2].Condition.Match(new JValue(new DateTime(2018, 10, 22, 22, 33, 12))));
+
+            Assert.True(choices[3].Condition.Match(new JValue(true)));
+            Assert.False(choices[3].Condition.Match(new JValue(false)));
+            
         }
         [Fact]
         public void TestGtOperator()
