@@ -25,17 +25,14 @@ namespace StatesLanguage.Model.Conditions
      * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
-    public sealed class StringEqualsCondition : IBinaryCondition<string>
+    public sealed class StringEqualsCondition : BinaryCondition<string>
     {
-        private StringEqualsCondition()
+        private StringEqualsCondition():base(Operator.Eq)
         {
         }
 
-        [JsonProperty(PropertyNames.VARIABLE)]
-        public string Variable { get; private set; }
-
         [JsonProperty(PropertyNames.STRING_EQUALS)]
-        public string ExpectedValue { get; private set; }
+        public override string ExpectedValue { get; protected set; }
 
         /**
          * @return Builder instance to construct a {@link StringGreaterThanCondition}.
@@ -91,11 +88,6 @@ namespace StatesLanguage.Model.Conditions
                 _variable = variable;
                 return this;
             }
-        }
-
-        public bool Match(JObject input)
-        {
-            return input.SelectToken(Variable)?.Value<string>()?.CompareTo(ExpectedValue) == 0;
         }
     }
 }

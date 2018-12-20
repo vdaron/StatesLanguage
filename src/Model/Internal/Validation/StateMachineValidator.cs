@@ -288,7 +288,7 @@ namespace StatesLanguage.Model.Internal.Validation
                 _currentContext.AssertIsValidResultPath(taskState.ResultPath);
                 _currentContext.AssertIsPositiveIfPresent(taskState.TimeoutSeconds, PropertyNames.TIMEOUT_SECONDS);
                 _currentContext.AssertIsPositiveIfPresent(taskState.HeartbeatSeconds, PropertyNames.HEARTBEAT_SECONDS);
-                if (taskState.TimeoutSeconds != null && taskState.HeartbeatSeconds != null)
+                if (taskState.HeartbeatSeconds != null)
                 {
                     if (taskState.HeartbeatSeconds >= taskState.TimeoutSeconds)
                     {
@@ -315,11 +315,11 @@ namespace StatesLanguage.Model.Internal.Validation
             private void ValidateCondition(ValidationContext context, ICondition condition)
             {
                 context.AssertNotNull(condition, "Condition");
-                if (condition is IBinaryCondition<string> strCondition)
+                if (condition is BinaryCondition<string> strCondition)
                 {
                     ValidateBinaryCondition(context, strCondition);
                 }
-                else if (condition is IBinaryCondition binCondition)
+                else if (condition is BinaryCondition binCondition)
                 {
                     ValidateBinaryCondition(context, binCondition);
                 }
@@ -355,13 +355,13 @@ namespace StatesLanguage.Model.Internal.Validation
                 }
             }
 
-            private void ValidateBinaryCondition(ValidationContext context, IBinaryCondition condition)
+            private void ValidateBinaryCondition(ValidationContext context, BinaryCondition condition)
             {
                 context.AssertStringNotEmpty(condition.Variable, PropertyNames.VARIABLE);
                 context.AssertIsValidJsonPath(condition.Variable, PropertyNames.VARIABLE);
             }
 
-            private void ValidateBinaryCondition<T>(ValidationContext context, IBinaryCondition<T> condition) where T : IComparable<T>
+            private void ValidateBinaryCondition<T>(ValidationContext context, BinaryCondition<T> condition) where T : IComparable<T>
             {
                 context.AssertStringNotEmpty(condition.Variable, PropertyNames.VARIABLE);
                 context.AssertIsValidJsonPath(condition.Variable, PropertyNames.VARIABLE);
@@ -404,7 +404,7 @@ namespace StatesLanguage.Model.Internal.Validation
                     // MaxAttempts may be zero
                     retrierContext.AssertIsNotNegativeIfPresent(retrier.MaxAttempts, PropertyNames.MAX_ATTEMPTS);
                     retrierContext.AssertIsPositiveIfPresent(retrier.IntervalSeconds, PropertyNames.INTERVAL_SECONDS);
-                    if (retrier.BackoffRate != null && retrier.BackoffRate < 1.0)
+                    if (retrier.BackoffRate < 1.0)
                     {
                         _problemReporter.Report(new Problem(retrierContext,
                                                             $"{PropertyNames.BACKOFF_RATE} must be greater than or equal to 1.0"));

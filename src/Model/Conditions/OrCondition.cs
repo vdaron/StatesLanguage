@@ -68,9 +68,9 @@ namespace StatesLanguage.Model.Conditions
             }
         }
 
-        public bool Match(JObject input)
+        public bool Match(JToken token)
         {
-            return Conditions.Any(x => x.Match(input));
+            return Conditions.Any(x => x.Match(token));
         }
     }
 }

@@ -72,9 +72,9 @@ namespace StatesLanguage.Model.Conditions
             }
         }
 
-        public bool Match(JObject input)
+        public bool Match(JToken token)
         {
-            return !Condition.Match(input);
+            return !Condition.Match(token);
         }
     }
 }

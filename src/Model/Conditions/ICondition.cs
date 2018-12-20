@@ -21,7 +21,7 @@ namespace StatesLanguage.Model.Conditions
 {
     public interface ICondition
     {
-        bool Match(JObject input);
+        bool Match(JToken token);
     }
 
 
