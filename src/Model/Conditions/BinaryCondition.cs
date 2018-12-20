@@ -56,13 +56,13 @@ namespace StatesLanguage.Model.Conditions
                 }
 
                 var tmp = string.IsNullOrEmpty(Variable) ? token : ((JObject)token).SelectToken(Variable);
-                if (tmp == null || tmp.Type != JTokenType.Boolean
-                                || tmp.Type != JTokenType.Date
-                                || tmp.Type != JTokenType.Integer
-                                || tmp.Type != JTokenType.Float
-                                || tmp.Type != JTokenType.String
-                                || tmp.Type != JTokenType.Guid
-                                || tmp.Type != JTokenType.Uri)
+                if (tmp == null || (tmp.Type != JTokenType.Boolean
+                                 && tmp.Type != JTokenType.Date
+                                 && tmp.Type != JTokenType.Integer
+                                 && tmp.Type != JTokenType.Float
+                                 && tmp.Type != JTokenType.String
+                                 && tmp.Type != JTokenType.Guid
+                                 && tmp.Type != JTokenType.Uri))
                 {
                     return false;
                 }
