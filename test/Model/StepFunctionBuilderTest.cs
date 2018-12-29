@@ -103,7 +103,8 @@ namespace StatesLanguage.Tests.Model
                     .Resource("resource-arn")
                     .InputPath("$.input")
                     .ResultPath("$.result")
-                    .OutputPath("$.output"))
+                    .OutputPath("$.output")
+                    .Parameters(JValue.CreateString("params")))
                 .State("NextState", StepFunctionBuilder.SucceedState())
                 .Build();
 
@@ -121,6 +122,20 @@ namespace StatesLanguage.Tests.Model
                 .Build();
 
             AssertStateMachine(stateMachine, "TaskStateWithEnd.json");
+        }
+
+        [Fact]
+        public void TaskStateWithParametersAndEnd()
+        {
+            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+                                                           .StartAt("InitialState")
+                                                           .State("InitialState", StepFunctionBuilder.TaskState()
+                                                                                                     .Resource("resource-arn")
+                                                                                                     .Parameters(JValue.CreateString("param"))
+                                                                                                     .Transition(StepFunctionBuilder.End()))
+                                                           .Build();
+
+            AssertStateMachine(stateMachine, "TaskStateWithParametersAndEnd.json");
         }
 
         [Fact]
@@ -180,6 +195,7 @@ namespace StatesLanguage.Tests.Model
                     .InputPath("$.input")
                     .OutputPath("$.output")
                     .ResultPath("$.result")
+                    .Parameters(JValue.CreateString("passParameters"))
                     .Transition(StepFunctionBuilder.Next("NextState"))
                     .Result("{\"Foo\": \"Bar\"}"))
                 .State("NextState", StepFunctionBuilder.SucceedState())
@@ -483,6 +499,7 @@ namespace StatesLanguage.Tests.Model
                     .InputPath("$.input")
                     .OutputPath("$.output")
                     .ResultPath("$.result")
+                    .Parameters(JValue.CreateString("params"))
                     .Transition(StepFunctionBuilder.Next("NextState"))
                     .Branches(
                         StepFunctionBuilder.Branch()

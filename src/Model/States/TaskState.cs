@@ -16,6 +16,7 @@
 using System.Collections.Generic;
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.States
 {
@@ -36,6 +37,9 @@ namespace StatesLanguage.Model.States
 
         [JsonProperty(PropertyNames.OUTPUT_PATH)]
         public string OutputPath { get; private set; }
+
+        [JsonProperty(PropertyNames.PARAMETERS)]
+        public JToken Parameters { get; private set; }
 
         [JsonProperty(PropertyNames.COMMENT)]
         public string Comment { get; private set; }
@@ -92,6 +96,9 @@ namespace StatesLanguage.Model.States
 
             [JsonProperty(PropertyNames.OUTPUT_PATH)]
             private string _outputPath;
+
+            [JsonProperty(PropertyNames.PARAMETERS)]
+            private JToken _parameters;
 
             [JsonProperty(PropertyNames.RESOURCE)]
             private string _resource;
@@ -165,6 +172,12 @@ namespace StatesLanguage.Model.States
             public Builder OutputPath(string outputPath)
             {
                 _outputPath = outputPath;
+                return this;
+            }
+
+            public Builder Parameters(JToken parameters)
+            {
+                _parameters = parameters;
                 return this;
             }
 
@@ -294,6 +307,7 @@ namespace StatesLanguage.Model.States
                            InputPath = _inputPath,
                            ResultPath = _resultPath,
                            OutputPath = _outputPath,
+                           Parameters = _parameters,
                            Comment = _comment,
                            _timeout = _timeoutSeconds,
                            HeartbeatSeconds = _heartbeatSeconds,

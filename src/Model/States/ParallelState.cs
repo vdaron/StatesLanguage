@@ -16,6 +16,7 @@
 using System.Collections.Generic;
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.States
 {
@@ -37,7 +38,9 @@ namespace StatesLanguage.Model.States
         [JsonProperty(PropertyNames.OUTPUT_PATH)]
         public string OutputPath { get; private set; }
 
-        //[JsonProperty(PropertyNames.BRANCHES)]
+        [JsonProperty(PropertyNames.PARAMETERS)]
+        public JToken Parameters { get; private set; }
+        
         [JsonIgnore]
         public List<Branch> Branches { get; private set; }
 
@@ -83,6 +86,9 @@ namespace StatesLanguage.Model.States
 
             [JsonProperty(PropertyNames.RESULT_PATH)]
             private string _resultPath;
+
+            [JsonProperty(PropertyNames.PARAMETERS)]
+            private JToken _parameters;
 
             [JsonProperty(PropertyNames.RETRY)]
             private List<Retrier.Builder> _retriers = new List<Retrier.Builder>();
@@ -175,6 +181,12 @@ namespace StatesLanguage.Model.States
                 return this;
             }
 
+            public Builder Parameters(JToken parameters)
+            {
+                _parameters = parameters;
+                return this;
+            }
+
             /**
              * REQUIRED. Sets the transition that will occur when all branches in this parallel
              * state have executed successfully.
@@ -263,6 +275,7 @@ namespace StatesLanguage.Model.States
                            InputPath = _inputPath,
                            ResultPath = _resultPath,
                            OutputPath = _outputPath,
+                           Parameters = _parameters,
                            Transition = _transition.Build(),
                            Retriers = BuildableUtils.Build(_retriers),
                            Catchers = BuildableUtils.Build(_catchers)
