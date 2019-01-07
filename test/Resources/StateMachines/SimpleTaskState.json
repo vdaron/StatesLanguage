@@ -10,7 +10,8 @@
       "Resource": "resource-arn",
       "InputPath": "$.input",
       "ResultPath": "$.result",
-      "OutputPath": "$.output"
+      "OutputPath": "$.output",
+      "Parameters": "params"
     },
     "NextState": {
       "Type": "Succeed"

@@ -34,6 +34,7 @@
     <None Remove="Resources\StateMachines\SingleWaitStateWithTimestampWithPath.json" />
     <None Remove="Resources\StateMachines\SingleWaitStateWithTimestampWithTimezone.json" />
     <None Remove="Resources\StateMachines\TaskStateWithEnd.json" />
+    <None Remove="Resources\StateMachines\TaskStateWithParametersAndEnd.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,6 +73,7 @@
     <EmbeddedResource Include="Resources\StateMachines\SingleWaitStateWithTimestampWithMilliseconds.json" />
     <EmbeddedResource Include="Resources\StateMachines\SingleWaitStateWithTimestampWithPath.json" />
     <EmbeddedResource Include="Resources\StateMachines\SingleWaitStateWithTimestampWithTimezone.json" />
+    <EmbeddedResource Include="Resources\StateMachines\TaskStateWithParametersAndEnd.json" />
     <EmbeddedResource Include="Resources\StateMachines\TaskStateWithEnd.json" />
   </ItemGroup>
 

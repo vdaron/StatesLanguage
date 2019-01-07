@@ -42,6 +42,9 @@ namespace StatesLanguage.Model.States
         [JsonProperty(PropertyNames.RESULT_PATH)]
         public string ResultPath { get; private set; }
 
+        [JsonProperty(PropertyNames.PARAMETERS)]
+        public JToken Parameters { get; private set; }
+
 
         public override StateType Type => StateType.Pass;
 
@@ -77,6 +80,9 @@ namespace StatesLanguage.Model.States
 
             [JsonProperty(PropertyNames.RESULT_PATH)]
             private string _resultPath;
+
+            [JsonProperty(PropertyNames.PARAMETERS)]
+            private JToken _parameters;
 
             private ITransitionBuilder<ITransition> _transition = NullTransitionBuilder<ITransition>.Instance;
 
@@ -179,6 +185,12 @@ namespace StatesLanguage.Model.States
                 return this;
             }
 
+            public Builder Parameters(JToken parameters)
+            {
+                _parameters = parameters;
+                return this;
+            }
+
             /**
              * REQUIRED. Sets the transition that will occur when this state completes successfully.
              *
@@ -204,6 +216,7 @@ namespace StatesLanguage.Model.States
                            InputPath = _inputPath,
                            OutputPath = _outputPath,
                            ResultPath = _resultPath,
+                           Parameters = _parameters,
                            Transition = _transition.Build()
                        };
             }
