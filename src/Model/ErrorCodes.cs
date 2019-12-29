@@ -42,6 +42,8 @@ namespace StatesLanguage.Model
         //A Task State’s “ResultPath” field cannot be applied to the input the state received.
         //
         public const string RESULT_PATH_MATCH_FAILURE = "States.ResultPathMatchFailure";
+        
+        public const string PARAMETER_PATH_FAILURE = "States.ParameterPathFailure";
 
         //
         //A branch of a Parallel state failed.
