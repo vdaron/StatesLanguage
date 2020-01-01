@@ -55,9 +55,9 @@ namespace StatesLanguage.Model
          *
          * @return Builder used to configure a {@link Branch}.
          */
-        public static Branch.Builder Branch()
+        public static SubStateMachine.Builder Branch()
         {
-            return States.Branch.GetBuilder();
+            return States.SubStateMachine.GetBuilder();
         }
 
         /**

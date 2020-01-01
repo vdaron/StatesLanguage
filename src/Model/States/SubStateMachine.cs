@@ -22,9 +22,9 @@ namespace StatesLanguage.Model.States
     /// <summary>
     ///     A single branch of parallel execution in a state machine. See <see cref="ParallelState" />.
     /// </summary>
-    public class Branch
+    public class SubStateMachine
     {
-        private Branch()
+        private SubStateMachine()
         {
         }
 
@@ -32,13 +32,13 @@ namespace StatesLanguage.Model.States
         public string Comment { get; private set; }
         public Dictionary<string, State> States { get; private set; }
 
-        /// <returns>Builder instance to construct a <see cref="Branch" />.</returns>
+        /// <returns>Builder instance to construct a <see cref="SubStateMachine" />.</returns>
         public static Builder GetBuilder()
         {
             return new Builder();
         }
 
-        public sealed class Builder : IBuildable<Branch>
+        public sealed class Builder : IBuildable<SubStateMachine>
         {
             [JsonProperty(PropertyNames.COMMENT)]
             private string _comment;
@@ -54,12 +54,12 @@ namespace StatesLanguage.Model.States
             }
 
             /// <summary>
-            ///     An immutable <see cref="Branch" /> object.
+            ///     An immutable <see cref="SubStateMachine" /> object.
             /// </summary>
             /// <returns></returns>
-            public Branch Build()
+            public SubStateMachine Build()
             {
-                return new Branch
+                return new SubStateMachine
                        {
                            StartAt = _startAt,
                            Comment = _comment,

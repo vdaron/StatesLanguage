@@ -42,7 +42,7 @@ namespace StatesLanguage.Model.States
         public JToken Parameters { get; private set; }
         
         [JsonIgnore]
-        public List<Branch> Branches { get; private set; }
+        public List<SubStateMachine> Branches { get; private set; }
 
         [JsonProperty(PropertyNames.RETRY)]
         public List<Retrier> Retriers { get; private set; }
@@ -70,7 +70,7 @@ namespace StatesLanguage.Model.States
         public sealed class Builder : TransitionStateBuilder<ParallelState, Builder>
         {
             [JsonProperty(PropertyNames.BRANCHES)]
-            private List<Branch.Builder> _branches = new List<Branch.Builder>();
+            private List<SubStateMachine.Builder> _branches = new List<SubStateMachine.Builder>();
 
             [JsonProperty(PropertyNames.CATCH)]
             private List<Catcher.Builder> _catchers = new List<Catcher.Builder>();
@@ -119,7 +119,7 @@ namespace StatesLanguage.Model.States
              *                      state model will be reflected in this object.
              * @return This object for method chaining.
              */
-            public Builder Branch(Branch.Builder branchBuilder)
+            public Builder Branch(SubStateMachine.Builder branchBuilder)
             {
                 _branches.Add(branchBuilder);
                 return this;
@@ -133,7 +133,7 @@ namespace StatesLanguage.Model.States
              *                       state model will be reflected in this object.
              * @return This object for method chaining.
              */
-            public Builder Branches(params Branch.Builder[] branchBuilders)
+            public Builder Branches(params SubStateMachine.Builder[] branchBuilders)
             {
                 _branches.AddRange(branchBuilders);
                 return this;

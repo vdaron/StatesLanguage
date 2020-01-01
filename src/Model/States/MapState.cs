@@ -31,7 +31,7 @@ namespace StatesLanguage.Model.States
         public string ItemsPath { get; private set; }
         
         [JsonIgnore]
-        public Branch Iterator { get; private set; }
+        public SubStateMachine Iterator { get; private set; }
         
         [JsonProperty(PropertyNames.RETRY)]
         public List<Retrier> Retriers { get; private set; }
@@ -57,7 +57,7 @@ namespace StatesLanguage.Model.States
         public sealed class Builder : TransitionStateBuilder<MapState, Builder>
         {
             [JsonProperty(PropertyNames.ITERATOR)] 
-            private Branch.Builder _iterator = new Branch.Builder();
+            private SubStateMachine.Builder _iterator = new SubStateMachine.Builder();
             
             [JsonProperty(PropertyNames.CATCH)]
             private List<Catcher.Builder> _catchers = new List<Catcher.Builder>();
@@ -105,16 +105,16 @@ namespace StatesLanguage.Model.States
             }
 
             /**
-             * REQUIRED. Adds a new branch of execution to this states branches. A parallel state must have at least one branch.
+             * REQUIRED. Set the iterator for thi MapState.
              *
-             * @param branchBuilder Instance of {@link Branch.Builder}. Note that the {@link
+             * @param iteratorBuilder Instance of {@link Branch.Builder}. Note that the {@link
              *                      Branch} object is not built until the {@link ParallelState} is built so any modifications on the
              *                      state model will be reflected in this object.
              * @return This object for method chaining.
              */
-            public Builder Iterator(Branch.Builder branchBuilder)
+            public Builder Iterator(SubStateMachine.Builder iteratorBuilder)
             {
-                _iterator = branchBuilder;
+                _iterator = iteratorBuilder;
                 return this;
             }
 
