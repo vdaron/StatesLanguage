@@ -50,6 +50,11 @@ namespace StatesLanguage.Model.States
         /// <summary>
         ///     Type identifier for a {@link WaitState}.
         /// </summary>
-        Wait
+        Wait,
+        
+        /// <summary>
+        /// Type identifier for a {@link MapState}.
+        /// </summary>
+        Map
     }
 }

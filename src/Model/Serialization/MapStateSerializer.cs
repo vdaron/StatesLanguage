@@ -17,11 +17,12 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Serialization
 {
-    internal class TransitionStateDeserializer : JsonConverter
+    internal class MapStateSerializer : JsonConverter
     {
         public override bool CanRead => false;
 
@@ -35,6 +36,8 @@ namespace StatesLanguage.Model.Serialization
                                                       ContractResolver = EmptyCollectionContractResolver.Instance,
                                                       Converters = {new CatcherDeserializer()}
                                                   });
+            
+            state.Add(PropertyNames.ITERATOR, JToken.FromObject(((MapState) value).Iterator,serializer));
 
             var transition = ((TransitionState) value).Transition;
 
@@ -56,10 +59,7 @@ namespace StatesLanguage.Model.Serialization
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(TransitionState).IsAssignableFrom(objectType) && 
-                   objectType != typeof(WaitState) && 
-                   objectType != typeof(ParallelState) && 
-                   objectType != typeof(MapState);
+            return objectType == typeof(MapState);
         }
     }
 }

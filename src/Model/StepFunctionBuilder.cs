@@ -137,6 +137,11 @@ namespace StatesLanguage.Model
             return States.ChoiceState.GetBuilder();
         }
 
+        public static MapState.Builder MapState()
+        {
+            return States.MapState.GetBuilder();
+        }
+
         /**
          * Class representing a choice rule to be included in a {@link ChoiceState}. A choice consists of a condition and a state
          * that the state machine will transition to if the condition evaluates to true.

@@ -59,6 +59,9 @@ namespace StatesLanguage.Model.Serialization
                 case StateType.Wait:
                     result = WaitState.GetBuilder();
                     break;
+                case StateType.Map:
+                    result = MapState.GetBuilder();
+                    break;
             }
 
             serializer.Populate(obj.CreateReader(), result);

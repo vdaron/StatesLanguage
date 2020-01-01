@@ -15,6 +15,7 @@
  */
 using System;
 using System.IO;
+using System.Linq;
 using StatesLanguage.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -601,6 +602,27 @@ namespace StatesLanguage.Tests.Model
                 .Build();
 
             AssertStateMachine(stateMachine, "ParallelStateWithCatchers.json");
+        }
+
+        [Fact]
+        public void SimpleMapState()
+        {
+            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+                .StartAt("Validate-All")
+                .State("Validate-All", StepFunctionBuilder.MapState()
+                    .InputPath("$.detail")
+                    .ItemPath("$.shipped")
+                    .ResultPath("$.detail.shipped")
+                    .MaxConcurrency(0)
+                    .Transition(StepFunctionBuilder.End())
+                    .Iterator(StepFunctionBuilder.Branch()
+                        .StartAt("Validate")
+                        .State("Validate", StepFunctionBuilder.TaskState()
+                            .Resource("arn:aws:lambda:us-east-1:123456789012:function:ship-val")
+                            .Transition(StepFunctionBuilder.End()))))
+                    .Build();
+
+            AssertStateMachine(stateMachine, "SimpleMapState.json");
         }
 
         [Fact]

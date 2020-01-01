@@ -45,9 +45,8 @@ namespace StatesLanguage.Model.Internal
 
         public const string CAUSE = "Cause";
 
-        // ChoiceState propert names
+        // ChoiceState property names
         public const string DEFAULT_STATE = "Default";
-
         public const string CHOICES = "Choices";
 
         // Retrier/Catcher property names
@@ -56,15 +55,18 @@ namespace StatesLanguage.Model.Internal
         public const string ERROR_EQUALS = "ErrorEquals";
         public const string INTERVAL_SECONDS = "IntervalSeconds";
         public const string MAX_ATTEMPTS = "MaxAttempts";
-
         public const string BACKOFF_RATE = "BackoffRate";
 
         // WaitState property names
         public const string SECONDS = "Seconds";
         public const string TIMESTAMP = "Timestamp";
         public const string TIMESTAMP_PATH = "TimestampPath";
-
         public const string SECONDS_PATH = "SecondsPath";
+        
+        // MapState property names
+        public const string MAX_CONCURENCY = "MaxConcurrency";
+        public const string ITERATOR = "Iterator";
+        public const string ITEMS_PATH = "ItemsPath";
 
         // Binary condition property names
         public const string VARIABLE = "Variable";

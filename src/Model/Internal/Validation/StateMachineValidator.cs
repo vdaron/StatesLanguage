@@ -264,6 +264,20 @@ namespace StatesLanguage.Model.Internal.Validation
                 ValidateBranches(parallelState);
                 return 0;
             }
+            
+            public override int Visit(MapState mapState)
+            {
+                _currentContext.AssertIsValidInputPath(mapState.InputPath);
+                _currentContext.AssertIsValidOutputPath(mapState.OutputPath);
+                _currentContext.AssertIsValidResultPath(mapState.ResultPath);
+                _currentContext.AssertIsValidItemPath(mapState.ItemsPath);
+                _currentContext.AssertIsNotNegativeIfPresent(mapState.MaxConcurrency,PropertyNames.MAX_CONCURENCY);
+                ValidateTransition(mapState.Transition);
+                ValidateRetriers(mapState.Retriers);
+                ValidateCatchers(mapState.Catchers);
+                ValidateIterator(mapState);
+                return 0;
+            }
 
             public override int Visit(PassState passState)
             {
@@ -368,6 +382,18 @@ namespace StatesLanguage.Model.Internal.Validation
                 context.AssertNotNull(condition.ExpectedValue, "ExpectedValue");
             }
 
+            private void ValidateIterator(MapState mapState)
+            {
+                _currentContext.AssertNotNull(mapState.Iterator, PropertyNames.ITERATOR);
+                var iteratorContext = _currentContext.Iterator();
+                ValidateStates(iteratorContext, mapState.Iterator.States);
+                
+                _currentContext.AssertStringNotEmpty(mapState.Iterator.StartAt, PropertyNames.START_AT);
+                if (!mapState.Iterator.States.ContainsKey(mapState.Iterator.StartAt))
+                {
+                    _problemReporter.Report(new Problem(iteratorContext, $"{PropertyNames.START_AT} references a non existent state."));
+                }
+            }
             private void ValidateBranches(ParallelState parallelState)
             {
                 _currentContext.AssertNotEmpty(parallelState.Branches, PropertyNames.BRANCHES);
