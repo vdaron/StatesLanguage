@@ -189,7 +189,7 @@ namespace StatesLanguage.Tests.Model.Validation
                                                        .StartAt("Parallel")
                                                        .State("Parallel", StepFunctionBuilder.ParallelState()
                                                                                              .Transition(StepFunctionBuilder.End())
-                                                                                             .Branch(StepFunctionBuilder.Branch()
+                                                                                             .Branch(StepFunctionBuilder.SubStateMachine()
                                                                                                                         .StartAt("Initial")
                                                                                                                         .State("Initial", StepFunctionBuilder.PassState()
                                                                                                                                                              .Transition(StepFunctionBuilder
@@ -219,10 +219,10 @@ namespace StatesLanguage.Tests.Model.Validation
             AssertNoCycle(StepFunctionBuilder.StateMachine()
                                              .StartAt("Initial")
                                              .State("Initial", StepFunctionBuilder.ParallelState()
-                                                                                  .Branch(StepFunctionBuilder.Branch()
+                                                                                  .Branch(StepFunctionBuilder.SubStateMachine()
                                                                                                              .StartAt("BranchOneStart")
                                                                                                              .State("BranchOneStart", StepFunctionBuilder.SucceedState()))
-                                                                                  .Branch(StepFunctionBuilder.Branch()
+                                                                                  .Branch(StepFunctionBuilder.SubStateMachine()
                                                                                                              .StartAt("BranchTwoStart")
                                                                                                              .State("BranchTwoStart", StepFunctionBuilder.PassState()
                                                                                                                                                          .Transition(StepFunctionBuilder
@@ -240,7 +240,7 @@ namespace StatesLanguage.Tests.Model.Validation
                                                                                                     .StartAt("Parallel")
                                                                                                     .State("Parallel", StepFunctionBuilder.ParallelState()
                                                                                                                                           .Transition(StepFunctionBuilder.End())
-                                                                                                                                          .Branch(StepFunctionBuilder.Branch()
+                                                                                                                                          .Branch(StepFunctionBuilder.SubStateMachine()
                                                                                                                                                                      .StartAt("Initial")
                                                                                                                                                                      .State("Initial",
                                                                                                                                                                             StepFunctionBuilder
@@ -279,7 +279,7 @@ namespace StatesLanguage.Tests.Model.Validation
                                                    AssertCycle(StepFunctionBuilder.StateMachine()
                                                                                   .StartAt("Parallel")
                                                                                   .State("Parallel", StepFunctionBuilder.ParallelState()
-                                                                                                                        .Branch(StepFunctionBuilder.Branch()
+                                                                                                                        .Branch(StepFunctionBuilder.SubStateMachine()
                                                                                                                                                    .StartAt("BranchOneInitial")
                                                                                                                                                    .State("BranchOneInitial", StepFunctionBuilder
                                                                                                                                                                               .PassState()

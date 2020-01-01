@@ -56,6 +56,7 @@
     <EmbeddedResource Include="Resources\StateMachines\ParallelStateWithCatchers.json" />
     <EmbeddedResource Include="Resources\StateMachines\ParallelStateWithRetriers.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleChoiceState.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SimpleMapState.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleParallelState.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleParallelStateWithTasks.json">
       <Generator>MSDataSetGenerator</Generator>

@@ -51,5 +51,10 @@ namespace StatesLanguage.Model.States
         {
             return default(T);
         }
+        
+        public virtual T Visit(MapState mapState)
+        {
+            return default(T);
+        }
     }
 }

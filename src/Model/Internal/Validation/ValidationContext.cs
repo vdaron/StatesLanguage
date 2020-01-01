@@ -180,6 +180,11 @@ namespace StatesLanguage.Model.Internal.Validation
         {
             AssertIsValidReferencePath(path, PropertyNames.RESULT_PATH);
         }
+        
+        public void AssertIsValidItemPath(string path)
+        {
+            AssertIsValidReferencePath(path, PropertyNames.ITEMS_PATH);
+        }
 
         /**
          * Asserts that the string represents a valid JsonPath expression.
@@ -284,6 +289,13 @@ namespace StatesLanguage.Model.Internal.Validation
                    .Identifier(index.ToString())
                    .Location(Location.Branch)
                    .Build();
+        }
+        
+        public ValidationContext Iterator()
+        {
+            return NewChildContext()
+                .Location(Location.Iterator)
+                .Build();
         }
 
         /**

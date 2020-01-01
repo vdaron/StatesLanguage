@@ -23,6 +23,7 @@ namespace StatesLanguage.Model.Internal.Validation
         Branch,
         Catcher,
         Retrier,
+        Iterator,
         Unknown
     }
 }

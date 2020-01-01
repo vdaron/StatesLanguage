@@ -55,9 +55,15 @@ namespace StatesLanguage.Model
          *
          * @return Builder used to configure a {@link Branch}.
          */
-        public static Branch.Builder Branch()
+        [Obsolete("Use SubStateMachine instead")]
+        public static SubStateMachine.Builder Branch()
         {
-            return States.Branch.GetBuilder();
+            return States.SubStateMachine.GetBuilder();
+        }
+        
+        public static SubStateMachine.Builder SubStateMachine()
+        {
+            return States.SubStateMachine.GetBuilder();
         }
 
         /**
@@ -135,6 +141,11 @@ namespace StatesLanguage.Model
         public static ChoiceState.Builder ChoiceState()
         {
             return States.ChoiceState.GetBuilder();
+        }
+
+        public static MapState.Builder MapState()
+        {
+            return States.MapState.GetBuilder();
         }
 
         /**

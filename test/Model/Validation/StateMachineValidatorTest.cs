@@ -713,7 +713,7 @@ namespace StatesLanguage.Tests.Model.Validation
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.ParallelState()
-                               .Branch(StepFunctionBuilder.Branch()
+                               .Branch(StepFunctionBuilder.SubStateMachine()
                                                .StartAt("InitialBranchState")
                                                .State("InitialBranchState", StepFunctionBuilder.SucceedState()))
                                .Transition(StepFunctionBuilder.Next("NoSuchState")))
@@ -727,7 +727,7 @@ namespace StatesLanguage.Tests.Model.Validation
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.ParallelState()
-                               .Branch(StepFunctionBuilder.Branch()
+                               .Branch(StepFunctionBuilder.SubStateMachine()
                                                .StartAt("NoSuchState")
                                                .State("InitialBranchState", StepFunctionBuilder.SucceedState()))
                                .Transition(StepFunctionBuilder.End()))
@@ -741,7 +741,7 @@ namespace StatesLanguage.Tests.Model.Validation
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.ParallelState()
-                               .Branch(StepFunctionBuilder.Branch()
+                               .Branch(StepFunctionBuilder.SubStateMachine()
                                                .StartAt("InitialBranchState")
                                                .State("InitialBranchState", StepFunctionBuilder.FailState()))
                                .Transition(StepFunctionBuilder.End()))
@@ -755,7 +755,7 @@ namespace StatesLanguage.Tests.Model.Validation
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.ParallelState()
-                               .Branch(StepFunctionBuilder.Branch()
+                               .Branch(StepFunctionBuilder.SubStateMachine()
                                                .StartAt("InitialBranchState")
                                                .State("InitialBranchState", StepFunctionBuilder.SucceedState()))
                                .Transition(StepFunctionBuilder.End())
@@ -771,13 +771,24 @@ namespace StatesLanguage.Tests.Model.Validation
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.ParallelState()
-                               .Branch(StepFunctionBuilder.Branch()
+                               .Branch(StepFunctionBuilder.SubStateMachine()
                                                .StartAt("InitialBranchState")
                                                .State("InitialBranchState", StepFunctionBuilder.SucceedState()))
                                .Transition(StepFunctionBuilder.End())
                                .Catcher(StepFunctionBuilder.Catcher()
                                                 .Transition(StepFunctionBuilder.Next("NoSuchState"))))
                        .Build());
+        }
+        
+        [Fact]
+        public void MapStateWithoutIterator_IsNotValid()
+        {
+                Assert.Throws<ValidationException>(() =>
+                        StepFunctionBuilder.StateMachine()
+                                .StartAt("Initial")
+                                .State("Initial", StepFunctionBuilder.MapState()
+                                        .Transition(StepFunctionBuilder.End()))
+                                .Build());
         }
     }
 

@@ -1,34 +1,17 @@
-/*
- * Copyright 2010-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
- * Copyright 2018- Vincent DARON All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
- *
- *  http://aws.amazon.com/apache2.0
- *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
 using System.Collections.Generic;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
-    public class ParallelState : TransitionState
+    public class MapState: TransitionState
     {
-        private ParallelState()
-        {
-        }
-
+        public override StateType Type => StateType.Map;
+        
         [JsonProperty(PropertyNames.COMMENT)]
         public string Comment { get; private set; }
-
+        
         [JsonProperty(PropertyNames.INPUT_PATH)]
         public string InputPath { get; private set; }
 
@@ -41,42 +24,45 @@ namespace StatesLanguage.Model.States
         [JsonProperty(PropertyNames.PARAMETERS)]
         public JToken Parameters { get; private set; }
         
+        [JsonProperty(PropertyNames.MAX_CONCURENCY)]
+        public int? MaxConcurrency { get; private set; }
+        
+        [JsonProperty(PropertyNames.ITEMS_PATH)]
+        public string ItemsPath { get; private set; }
+        
         [JsonIgnore]
-        public List<SubStateMachine> Branches { get; private set; }
-
+        public SubStateMachine Iterator { get; private set; }
+        
         [JsonProperty(PropertyNames.RETRY)]
         public List<Retrier> Retriers { get; private set; }
 
         [JsonProperty(PropertyNames.CATCH)]
         public List<Catcher> Catchers { get; private set; }
-
-        public override StateType Type => StateType.Parallel;
-
+        
         public override bool IsTerminalState => Transition.IsTerminal;
-
+        
         /**
-         * @return Builder instance to construct a {@link ParallelState}.
+         * @return Builder instance to construct a {@link MapState}.
          */
         internal static Builder GetBuilder()
         {
             return new Builder();
         }
-
+        
         public override T Accept<T>(StateVisitor<T> visitor)
         {
             return visitor.Visit(this);
         }
 
-        public sealed class Builder : TransitionStateBuilder<ParallelState, Builder>
+        public sealed class Builder : TransitionStateBuilder<MapState, Builder>
         {
-            [JsonProperty(PropertyNames.BRANCHES)]
-            private List<SubStateMachine.Builder> _branches = new List<SubStateMachine.Builder>();
-
+            [JsonProperty(PropertyNames.ITERATOR)] 
+            private SubStateMachine.Builder _iterator = new SubStateMachine.Builder();
+            
             [JsonProperty(PropertyNames.CATCH)]
             private List<Catcher.Builder> _catchers = new List<Catcher.Builder>();
-
-            [JsonProperty(PropertyNames.COMMENT)]
-            private string _comment;
+            
+            [JsonProperty(PropertyNames.COMMENT)] private string _comment;
 
             [JsonProperty(PropertyNames.INPUT_PATH)]
             private string _inputPath;
@@ -90,15 +76,22 @@ namespace StatesLanguage.Model.States
             [JsonProperty(PropertyNames.PARAMETERS)]
             private JToken _parameters;
 
-            [JsonProperty(PropertyNames.RETRY)]
+            [JsonProperty(PropertyNames.MAX_CONCURENCY)]
+            private int? _maxConcurrency;
+
+            [JsonProperty(PropertyNames.ITEMS_PATH)]
+            private string _itemsPath;
+
+            [JsonProperty(PropertyNames.RETRY)] 
             private List<Retrier.Builder> _retriers = new List<Retrier.Builder>();
 
             private ITransitionBuilder<ITransition> _transition = NullTransitionBuilder<ITransition>.Instance;
-
+            
             internal Builder()
             {
             }
-
+            
+            
             /**
              * OPTIONAL. Human readable description for the state.
              *
@@ -112,30 +105,16 @@ namespace StatesLanguage.Model.States
             }
 
             /**
-             * REQUIRED. Adds a new branch of execution to this states branches. A parallel state must have at least one branch.
+             * REQUIRED. Set the iterator for thi MapState.
              *
-             * @param branchBuilder Instance of {@link Branch.Builder}. Note that the {@link
+             * @param iteratorBuilder Instance of {@link Branch.Builder}. Note that the {@link
              *                      Branch} object is not built until the {@link ParallelState} is built so any modifications on the
              *                      state model will be reflected in this object.
              * @return This object for method chaining.
              */
-            public Builder Branch(SubStateMachine.Builder branchBuilder)
+            public Builder Iterator(SubStateMachine.Builder iteratorBuilder)
             {
-                _branches.Add(branchBuilder);
-                return this;
-            }
-
-            /**
-             * REQUIRED. Adds the branches of execution to this states branches. A parallel state must have at least one branch.
-             *
-             * @param branchBuilders Instances of {@link Branch.Builder}. Note that the {@link
-             *                       Branch} object is not built until the {@link ParallelState} is built so any modifications on the
-             *                       state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
-            public Builder Branches(params SubStateMachine.Builder[] branchBuilders)
-            {
-                _branches.AddRange(branchBuilders);
+                _iterator = iteratorBuilder;
                 return this;
             }
 
@@ -178,6 +157,28 @@ namespace StatesLanguage.Model.States
             public Builder OutputPath(string outputPath)
             {
                 _outputPath = outputPath;
+                return this;
+            }
+            
+            /// <summary>
+            /// Reference path identifying where in the effective input the array field is found.
+            /// </summary>
+            /// <param name="itemPath"></param>
+            /// <returns></returns>
+            public Builder ItemPath(string itemPath)
+            {
+                _itemsPath = itemPath;
+                return this;
+            }
+            
+            /// <summary>
+            /// Provides an upper bound on how many invocations of the Iterator may run in parallel.
+            /// </summary>
+            /// <param name="maxConcurrency"></param>
+            /// <returns></returns>
+            public Builder MaxConcurrency(int maxConcurrency)
+            {
+                _maxConcurrency = maxConcurrency;
                 return this;
             }
 
@@ -266,12 +267,14 @@ namespace StatesLanguage.Model.States
             /**
              * @return An immutable {@link ParallelState} object.
              */
-            public override ParallelState Build()
+            public override MapState Build()
             {
-                return new ParallelState()
+                return new MapState()
                        {
                            Comment = _comment,
-                           Branches = BuildableUtils.Build(_branches),
+                           Iterator = _iterator.Build(),
+                           ItemsPath = _itemsPath,
+                           MaxConcurrency = _maxConcurrency,
                            InputPath = _inputPath,
                            ResultPath = _resultPath,
                            OutputPath = _outputPath,
