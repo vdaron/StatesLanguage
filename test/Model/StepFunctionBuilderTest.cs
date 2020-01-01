@@ -503,11 +503,11 @@ namespace StatesLanguage.Tests.Model
                     .Parameters(JValue.CreateString("params"))
                     .Transition(StepFunctionBuilder.Next("NextState"))
                     .Branches(
-                        StepFunctionBuilder.Branch()
+                        StepFunctionBuilder.SubStateMachine()
                             .Comment("Branch one")
                             .StartAt("BranchOneInitial")
                             .State("BranchOneInitial", StepFunctionBuilder.SucceedState()),
-                        StepFunctionBuilder.Branch()
+                        StepFunctionBuilder.SubStateMachine()
                             .Comment("Branch two")
                             .StartAt("BranchTwoInitial")
                             .State("BranchTwoInitial", StepFunctionBuilder.SucceedState())
@@ -526,10 +526,10 @@ namespace StatesLanguage.Tests.Model
                 .State("para", StepFunctionBuilder.ParallelState()
                     .Transition(StepFunctionBuilder.End())
                     .Branches(
-                        StepFunctionBuilder.Branch()
+                        StepFunctionBuilder.SubStateMachine()
                             .StartAt("t")
                             .State("t", StepFunctionBuilder.TaskState().Resource("t").Transition(StepFunctionBuilder.End())),
-                        StepFunctionBuilder.Branch()
+                        StepFunctionBuilder.SubStateMachine()
                             .StartAt("u")
                             .State("u", StepFunctionBuilder.TaskState().Resource("u").Transition(StepFunctionBuilder.End()))
                     ))
@@ -546,11 +546,11 @@ namespace StatesLanguage.Tests.Model
                 .State("InitialState", StepFunctionBuilder.ParallelState()
                     .Transition(StepFunctionBuilder.End())
                     .Branches(
-                        StepFunctionBuilder.Branch()
+                        StepFunctionBuilder.SubStateMachine()
                             .Comment("Branch one")
                             .StartAt("BranchOneInitial")
                             .State("BranchOneInitial", StepFunctionBuilder.SucceedState()),
-                        StepFunctionBuilder.Branch()
+                        StepFunctionBuilder.SubStateMachine()
                             .Comment("Branch two")
                             .StartAt("BranchTwoInitial")
                             .State("BranchTwoInitial", StepFunctionBuilder.SucceedState())
@@ -579,11 +579,11 @@ namespace StatesLanguage.Tests.Model
                 .State("InitialState", StepFunctionBuilder.ParallelState()
                     .Transition(StepFunctionBuilder.End())
                     .Branches(
-                        StepFunctionBuilder.Branch()
+                        StepFunctionBuilder.SubStateMachine()
                             .Comment("Branch one")
                             .StartAt("BranchOneInitial")
                             .State("BranchOneInitial", StepFunctionBuilder.SucceedState()),
-                        StepFunctionBuilder.Branch()
+                        StepFunctionBuilder.SubStateMachine()
                             .Comment("Branch two")
                             .StartAt("BranchTwoInitial")
                             .State("BranchTwoInitial", StepFunctionBuilder.SucceedState())
@@ -615,7 +615,7 @@ namespace StatesLanguage.Tests.Model
                     .ResultPath("$.detail.shipped")
                     .MaxConcurrency(0)
                     .Transition(StepFunctionBuilder.End())
-                    .Iterator(StepFunctionBuilder.Branch()
+                    .Iterator(StepFunctionBuilder.SubStateMachine()
                         .StartAt("Validate")
                         .State("Validate", StepFunctionBuilder.TaskState()
                             .Resource("arn:aws:lambda:us-east-1:123456789012:function:ship-val")

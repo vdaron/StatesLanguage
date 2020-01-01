@@ -384,16 +384,21 @@ namespace StatesLanguage.Model.Internal.Validation
 
             private void ValidateIterator(MapState mapState)
             {
-                _currentContext.AssertNotNull(mapState.Iterator, PropertyNames.ITERATOR);
+                _currentContext.AssertStringNotEmpty(mapState.Iterator.StartAt, PropertyNames.START_AT);
+                _currentContext.AssertNotEmpty(mapState.Iterator.States, PropertyNames.STATES);
                 var iteratorContext = _currentContext.Iterator();
                 ValidateStates(iteratorContext, mapState.Iterator.States);
-                
-                _currentContext.AssertStringNotEmpty(mapState.Iterator.StartAt, PropertyNames.START_AT);
-                if (!mapState.Iterator.States.ContainsKey(mapState.Iterator.StartAt))
+
+                if (!string.IsNullOrEmpty(mapState.Iterator.StartAt))
                 {
-                    _problemReporter.Report(new Problem(iteratorContext, $"{PropertyNames.START_AT} references a non existent state."));
+                    if (!mapState.Iterator.States.ContainsKey(mapState.Iterator.StartAt))
+                    {
+                        _problemReporter.Report(new Problem(iteratorContext,
+                            $"{PropertyNames.START_AT} references a non existent state."));
+                    }
                 }
             }
+
             private void ValidateBranches(ParallelState parallelState)
             {
                 _currentContext.AssertNotEmpty(parallelState.Branches, PropertyNames.BRANCHES);
