@@ -35,14 +35,12 @@ namespace StatesLanguage.Model.States
                     Transition(EndTransition.GetBuilder());
                 }
             }
-            //get { return false; }
         }
 
         [JsonProperty(PropertyNames.NEXT)]
         internal string Next
         {
             set => Transition(NextStateTransition.GetBuilder().NextStateName(value));
-            //get { return null; }
         }
 
         public abstract T Build();

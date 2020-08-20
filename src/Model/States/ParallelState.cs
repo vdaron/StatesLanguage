@@ -20,7 +20,7 @@ using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.States
 {
-    public class ParallelState : TransitionState
+    public class ParallelState : RetryCatchState
     {
         private ParallelState()
         {
@@ -44,12 +44,6 @@ namespace StatesLanguage.Model.States
         [JsonIgnore]
         public List<SubStateMachine> Branches { get; private set; }
 
-        [JsonProperty(PropertyNames.RETRY)]
-        public List<Retrier> Retriers { get; private set; }
-
-        [JsonProperty(PropertyNames.CATCH)]
-        public List<Catcher> Catchers { get; private set; }
-
         public override StateType Type => StateType.Parallel;
 
         public override bool IsTerminalState => Transition.IsTerminal;
@@ -67,13 +61,10 @@ namespace StatesLanguage.Model.States
             return visitor.Visit(this);
         }
 
-        public sealed class Builder : TransitionStateBuilder<ParallelState, Builder>
+        public sealed class Builder : RetryCatchStateBuilder<ParallelState, Builder>
         {
             [JsonProperty(PropertyNames.BRANCHES)]
             private List<SubStateMachine.Builder> _branches = new List<SubStateMachine.Builder>();
-
-            [JsonProperty(PropertyNames.CATCH)]
-            private List<Catcher.Builder> _catchers = new List<Catcher.Builder>();
 
             [JsonProperty(PropertyNames.COMMENT)]
             private string _comment;
@@ -89,10 +80,7 @@ namespace StatesLanguage.Model.States
 
             [JsonProperty(PropertyNames.PARAMETERS)]
             private JToken _parameters;
-
-            [JsonProperty(PropertyNames.RETRY)]
-            private List<Retrier.Builder> _retriers = new List<Retrier.Builder>();
-
+            
             private ITransitionBuilder<ITransition> _transition = NullTransitionBuilder<ITransition>.Instance;
 
             internal Builder()
@@ -197,69 +185,6 @@ namespace StatesLanguage.Model.States
             public override Builder Transition<U>(ITransitionBuilder<U> transition)
             {
                 _transition = (ITransitionBuilder<ITransition>) transition;
-                return this;
-            }
-
-            /**
-             * OPTIONAL. Adds the {@link Retrier}s to this states retries. If a single branch fails then the entire parallel state is
-             * considered failed and eligible for retry.
-             *
-             * @param retrierBuilders Instances of {@link Retrier.Builder}. Note that the {@link
-             *                        Retrier} object is not built until the {@link ParallelState} is built so any modifications on
-             *                        the state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
-            public Builder Retriers(params Retrier.Builder[] retrierBuilders)
-            {
-                _retriers.AddRange(retrierBuilders);
-                return this;
-            }
-
-            /**
-             * OPTIONAL. Adds the {@link Retrier} to this states retries. If a single branch fails then the entire parallel state is
-             * considered failed and eligible for retry.
-             *
-             * @param retrierBuilder Instance of {@link Retrier.Builder}. Note that the {@link
-             *                       Retrier} object is not built until the {@link ParallelState} is built so any modifications on
-             *                       the
-             *                       state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
-            public Builder Retrier(Retrier.Builder retrierBuilder)
-            {
-                _retriers.Add(retrierBuilder);
-                return this;
-            }
-
-            /**
-             * OPTIONAL. Adds the {@link Catcher}s to this states catchers.  If a single branch fails then the entire parallel state
-             * is considered failed and eligible to be caught.
-             *
-             * @param catcherBuilders Instances of {@link Catcher.Builder}. Note that the {@link
-             *                        Catcher} object is not built until the {@link ParallelState} is built so any modifications on
-             *                        the state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
-            public Builder Catchers(params Catcher.Builder[] catcherBuilders)
-            {
-                _catchers.AddRange(catcherBuilders);
-                return this;
-            }
-
-            /**
-             * OPTIONAL. Adds the {@link Catcher} to this states catchers.  If a single branch fails then the entire parallel state
-             * is
-             * considered failed and eligible to be caught.
-             *
-             * @param catcherBuilder Instance of {@link Catcher.Builder}. Note that the {@link
-             *                       Catcher} object is not built until the {@link ParallelState} is built so any modifications on
-             *                       the
-             *                       state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
-            public Builder Catcher(Catcher.Builder catcherBuilder)
-            {
-                _catchers.Add(catcherBuilder);
                 return this;
             }
 

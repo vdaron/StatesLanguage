@@ -13,6 +13,7 @@
     <Company />
     <AssemblyVersion>1.10.0</AssemblyVersion>
     <FileVersion>1.10.0</FileVersion>
+    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0.txt</PackageLicenseUrl>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

@@ -13,6 +13,9 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+using System;
+
 namespace StatesLanguage.Model.States
 {
     public enum StateType
@@ -55,6 +58,6 @@ namespace StatesLanguage.Model.States
         /// <summary>
         /// Type identifier for a {@link MapState}.
         /// </summary>
-        Map
+        Map,
     }
 }
