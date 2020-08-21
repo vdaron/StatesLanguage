@@ -201,6 +201,17 @@ namespace StatesLanguage.Model
         }
         
         /// <summary>
+        /// Binary condition for String match comparison.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison</param>
+        /// <param name="expectedValue">The value MUST be a String which MAY contain one or more "*" characters</param>
+        /// <returns></returns>
+        public static StringMatchesCondition.Builder Match(string variable, string expectedValue)
+        {
+            return StringMatchesCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
         /// Binary condition for String equality comparison using Json Path.
         /// </summary>
         /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison</param>

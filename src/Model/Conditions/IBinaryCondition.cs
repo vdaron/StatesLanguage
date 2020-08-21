@@ -23,7 +23,7 @@ namespace StatesLanguage.Model.Conditions
 {
     public enum Operator
     {
-        Eq,Gt,Gte,Lt,Lte
+        Eq,Gt,Gte,Lt,Lte,Match
     }
     public interface IBinaryCondition : ICondition
     {
@@ -79,6 +79,8 @@ namespace StatesLanguage.Model.Conditions
                         return tmp.Value<T>()?.CompareTo(ExpectedValue) < 0;
                     case Operator.Lte:
                         return tmp.Value<T>()?.CompareTo(ExpectedValue) <= 0;
+                    case Operator.Match:
+                        return IsMatch(tmp.Value<string>(), ExpectedValue.ToString());
                 }
             }
             catch (FormatException)
@@ -86,6 +88,51 @@ namespace StatesLanguage.Model.Conditions
             }
             return false;
 
+        }
+
+        private static bool IsMatch(string s, string pattern)
+        {
+            // Characters matched so far
+            int matched = 0;
+
+            // Loop through pattern string
+            for (int i = 0; i < pattern.Length;)
+            {
+                // Check for end of string
+                if (matched > s.Length)
+                    return false;
+
+                // Get next pattern character
+                char c = pattern[i++];
+                if (c == '*') // Zero or more characters
+                {
+                    if (i < pattern.Length)
+                    {
+                        // Matches all characters until
+                        // next character in pattern
+                        char next = pattern[i];
+                        int j = s.IndexOf(next, matched);
+                        if (j < 0)
+                            return false;
+                        matched = j;
+                    }
+                    else
+                    {
+                        // Matches all remaining characters
+                        matched = s.Length;
+                        break;
+                    }
+                }
+                else // Exact character
+                {
+                    if (matched >= s.Length || c != s[matched])
+                        return false;
+                    matched++;
+                }
+            }
+
+            // Return true if all characters matched
+            return matched == s.Length;
         }
 
     }
@@ -131,6 +178,8 @@ namespace StatesLanguage.Model.Conditions
                         return tmp.Value<T>()?.CompareTo(val.Value<T>()) < 0;
                     case Operator.Lte:
                         return tmp.Value<T>()?.CompareTo(val.Value<T>()) <= 0;
+                    case Operator.Match:
+                        return false; // not supported
                 }
             }
             catch (FormatException)
@@ -139,20 +188,15 @@ namespace StatesLanguage.Model.Conditions
             return false;
         }
 
-        private bool IsValidToken(JToken tmp)
+        private static bool IsValidToken(JToken tmp)
         {
-            if (tmp == null || (tmp.Type != JTokenType.Boolean
-                                && tmp.Type != JTokenType.Date
-                                && tmp.Type != JTokenType.Integer
-                                && tmp.Type != JTokenType.Float
-                                && tmp.Type != JTokenType.String
-                                && tmp.Type != JTokenType.Guid
-                                && tmp.Type != JTokenType.Uri))
-            {
-                return false;
-            }
-
-            return true;
+            return tmp != null && (tmp.Type == JTokenType.Boolean || 
+                                   tmp.Type == JTokenType.Date ||
+                                   tmp.Type == JTokenType.Integer ||
+                                   tmp.Type == JTokenType.Float ||
+                                   tmp.Type == JTokenType.String ||
+                                   tmp.Type == JTokenType.Guid ||
+                                   tmp.Type == JTokenType.Uri);
         }
     }
 }

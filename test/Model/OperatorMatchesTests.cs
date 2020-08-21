@@ -79,6 +79,34 @@ namespace StatesLanguage.Tests.Model
             Assert.False(choices[3].Condition.Match(new JValue(false)));
             
         }
+        
+        [Fact]
+        public void TestMatchOperatorWithJObject()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.Match("$.varstr", "val*")))
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.Match("$.varstr", "val*ue")))
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.Match("$.varstr", "val\\*ue")))
+                .Build();
+
+            var choices = c.Choices.ToArray();
+
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { varstr = "value" })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { varstr = "test" })));
+            
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varstr = "value" })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varstr = "valDFDFDFue" })));
+            
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varstr = "val\\*ue" })));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { varstr = "val\\*DFDFue" })));
+        }
+        
         [Fact]
         public void TestGtOperator()
         {
