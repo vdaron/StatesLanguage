@@ -17,13 +17,22 @@ using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.Conditions
 {
-    public interface IBinaryConditionBuilder<out TBuilder, out TConfition, in TValue> : IConditionBuilder<TConfition> 
-        where TConfition : ICondition
-        where TBuilder : IBinaryConditionBuilder<TBuilder,TConfition, TValue>
+    public interface IBinaryConditionBuilder<out TBuilder, out TCondition, in TValue> : IConditionBuilder<TCondition> 
+        where TCondition : ICondition
+        where TBuilder : IBinaryConditionBuilder<TBuilder,TCondition, TValue>
     {
         string Type { get; }
 
         TBuilder Variable(string variable);
         TBuilder ExpectedValue(TValue expectedValue);
+    }
+    
+    public interface IBinaryConditionPathBuilder<out TBuilder, out TCondition> : IConditionBuilder<TCondition> 
+        where TCondition : ICondition
+        where TBuilder : IBinaryConditionPathBuilder<TBuilder,TCondition>
+    {
+        string Type { get; }
+        TBuilder Variable(string variable);
+        TBuilder ExpectedValuePath(string expectedValuePath);
     }
 }

@@ -20,19 +20,19 @@ using Newtonsoft.Json.Linq;
 namespace StatesLanguage.Model.Conditions
 {
     /**
-     * Binary condition for String equal comparison.
+     * Binary condition for String equal using Path comparison.
      *
      * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
-    public sealed class StringEqualsCondition : BinaryCondition<string>
+    public sealed class StringEqualsPathCondition : BinaryConditionPath<string>
     {
-        private StringEqualsCondition():base(Operator.Eq)
+        private StringEqualsPathCondition():base(Operator.Eq)
         {
         }
 
-        [JsonProperty(PropertyNames.STRING_EQUALS)]
-        public override string ExpectedValue { get; protected set; }
+        [JsonProperty(PropertyNames.STRING_EQUALS_PATH)]
+        public override string ExpectedValuePath { get; protected set; }
 
         /**
          * @return Builder instance to construct a {@link StringGreaterThanCondition}.
@@ -45,12 +45,12 @@ namespace StatesLanguage.Model.Conditions
         /**
          * Builder for a {@link StringGreaterThanCondition}.
          */
-        public sealed class Builder : IBinaryConditionBuilder<Builder, StringEqualsCondition, string>
+        public sealed class Builder : IBinaryConditionPathBuilder<Builder, StringEqualsPathCondition>
         {
-            private string _expectedValue;
+            private string _expectedValuePath;
             private string _variable;
 
-            public string Type => PropertyNames.STRING_EQUALS;
+            public string Type => PropertyNames.STRING_EQUALS_PATH;
 
             /**
              * Sets the expected value for this condition.
@@ -58,21 +58,21 @@ namespace StatesLanguage.Model.Conditions
              * @param expectedValue Expected value.
              * @return This object for method chaining.
              */
-            public Builder ExpectedValue(string expectedValue)
+            public Builder ExpectedValuePath(string expectedValue)
             {
-                _expectedValue = expectedValue;
+                _expectedValuePath = expectedValue;
                 return this;
             }
 
             /**
              * @return An immutable {@link StringGreaterThanCondition} object.
              */
-            public StringEqualsCondition Build()
+            public StringEqualsPathCondition Build()
             {
-                return new StringEqualsCondition
+                return new StringEqualsPathCondition()
                        {
                            Variable = _variable,
-                           ExpectedValue = _expectedValue
+                           ExpectedValuePath = _expectedValuePath
                        };
             }
 
@@ -82,7 +82,6 @@ namespace StatesLanguage.Model.Conditions
              * @param variable Reference path.
              * @return This object for method chaining.
              */
-
             public Builder Variable(string variable)
             {
                 _variable = variable;

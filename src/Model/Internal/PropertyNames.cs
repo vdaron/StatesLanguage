@@ -73,6 +73,7 @@ namespace StatesLanguage.Model.Internal
 
         // Binary string condition property names
         public const string STRING_EQUALS = "StringEquals";
+        public const string STRING_EQUALS_PATH = "StringEqualsPath";
         public const string STRING_LESS_THAN = "StringLessThan";
         public const string STRING_GREATER_THAN = "StringGreaterThan";
         public const string STRING_GREATER_THAN_EQUALS = "StringGreaterThanEquals";

@@ -25,12 +25,12 @@ namespace StatesLanguage.Model.Conditions
     {
         Eq,Gt,Gte,Lt,Lte
     }
-    public interface BinaryCondition : ICondition
+    public interface IBinaryCondition : ICondition
     {
         string Variable { get; }
     }
 
-    public abstract class BinaryCondition<T> : BinaryCondition where T : IComparable<T>
+    public abstract class BinaryCondition<T> : IBinaryCondition where T : IComparable<T>
     {
         private readonly Operator _operator;
 
@@ -88,5 +88,71 @@ namespace StatesLanguage.Model.Conditions
 
         }
 
+    }
+
+    public abstract class BinaryConditionPath<T> : IBinaryCondition where T : IComparable<T>
+    {
+        private readonly Operator _operator;
+
+        protected BinaryConditionPath(Operator op)
+        {
+            _operator = op;
+        }
+
+        [JsonProperty(PropertyNames.VARIABLE)]
+        public string Variable { get; protected set; }
+        
+        public abstract string ExpectedValuePath { get; protected set; }
+        
+        public bool Match(JToken token)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(Variable) && token.Type != JTokenType.Object)
+                {
+                    return false;
+                }
+
+                var val = string.IsNullOrEmpty(ExpectedValuePath) ? token : ((JObject)token).SelectToken(ExpectedValuePath);
+                var tmp = string.IsNullOrEmpty(Variable) ? token : ((JObject)token).SelectToken(Variable);
+                
+                if (!IsValidToken(val) || !IsValidToken(tmp))
+                    return false;
+
+                switch (_operator)
+                {
+                    case Operator.Eq:
+                        return tmp.Value<T>()?.CompareTo(val.Value<T>()) == 0;
+                    case Operator.Gt:
+                        return tmp.Value<T>()?.CompareTo(val.Value<T>()) > 0;
+                    case Operator.Gte:
+                        return tmp.Value<T>()?.CompareTo(val.Value<T>()) >= 0;
+                    case Operator.Lt:
+                        return tmp.Value<T>()?.CompareTo(val.Value<T>()) < 0;
+                    case Operator.Lte:
+                        return tmp.Value<T>()?.CompareTo(val.Value<T>()) <= 0;
+                }
+            }
+            catch (FormatException)
+            {
+            }
+            return false;
+        }
+
+        private bool IsValidToken(JToken tmp)
+        {
+            if (tmp == null || (tmp.Type != JTokenType.Boolean
+                                && tmp.Type != JTokenType.Date
+                                && tmp.Type != JTokenType.Integer
+                                && tmp.Type != JTokenType.Float
+                                && tmp.Type != JTokenType.String
+                                && tmp.Type != JTokenType.Guid
+                                && tmp.Type != JTokenType.Uri))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

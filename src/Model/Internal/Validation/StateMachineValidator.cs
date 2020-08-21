@@ -333,7 +333,7 @@ namespace StatesLanguage.Model.Internal.Validation
                 {
                     ValidateBinaryCondition(context, strCondition);
                 }
-                else if (condition is BinaryCondition binCondition)
+                else if (condition is IBinaryCondition binCondition)
                 {
                     ValidateBinaryCondition(context, binCondition);
                 }
@@ -369,7 +369,7 @@ namespace StatesLanguage.Model.Internal.Validation
                 }
             }
 
-            private void ValidateBinaryCondition(ValidationContext context, BinaryCondition condition)
+            private void ValidateBinaryCondition(ValidationContext context, IBinaryCondition condition)
             {
                 context.AssertStringNotEmpty(condition.Variable, PropertyNames.VARIABLE);
                 context.AssertIsValidJsonPath(condition.Variable, PropertyNames.VARIABLE);

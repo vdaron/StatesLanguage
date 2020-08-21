@@ -199,6 +199,17 @@ namespace StatesLanguage.Model
             return (StringEqualsCondition.Builder) StringEqualsCondition.GetBuilder().Variable(variable)
                                                                         .ExpectedValue(expectedValue);
         }
+        
+        /// <summary>
+        /// Binary condition for String equality comparison using Json Path.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition</param>
+        /// <returns><see cref="StringEqualsPathCondition.Builder"/></returns>
+        public static StringEqualsPathCondition.Builder EqPath(string variable, string expectedValuePath)
+        {
+            return StringEqualsPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
+        }
 
         /**
          * Binary condition for Numeric equality comparison. Supports both integral and floating point numeric types.

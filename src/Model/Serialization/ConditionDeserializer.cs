@@ -33,6 +33,11 @@ namespace StatesLanguage.Model.Serialization
                 {
                     return DeserializeBinaryCondition(StringEqualsCondition.GetBuilder(), node);
                 }
+                
+                if (node.Property(PropertyNames.STRING_EQUALS_PATH) != null)
+                {
+                    return DeserializeBinaryPathCondition(StringEqualsPathCondition.GetBuilder(), node);
+                }
 
                 if (node.Property(PropertyNames.STRING_GREATER_THAN) != null)
                 {
@@ -160,6 +165,15 @@ namespace StatesLanguage.Model.Serialization
             return builder
                 .Variable(node.Property(PropertyNames.VARIABLE).Value.Value<string>())
                 .ExpectedValue(node.Property(builder.Type).Value.Value<TValue>());
+        }
+        
+        private TBuilder DeserializeBinaryPathCondition<TBuilder>(IBinaryConditionPathBuilder<TBuilder, ICondition> builder,
+            JObject node)
+            where TBuilder : IBinaryConditionPathBuilder<TBuilder, ICondition>
+        {
+            return builder
+                .Variable(node.Property(PropertyNames.VARIABLE).Value.Value<string>())
+                .ExpectedValuePath(node.Property(builder.Type).Value.Value<string>());
         }
     }
 }
