@@ -22,6 +22,7 @@ namespace StatesLanguage.Model.Internal
         public const string COMMENT = "Comment";
         public const string NEXT = "Next";
         public const string TIMEOUT_SECONDS = "TimeoutSeconds";
+        public const string TIMEOUT_SECONDS_PATH = "TimeoutSecondsPath";
         public const string START_AT = "StartAt";
         public const string STATES = "States";
         public const string RESULT = "Result";
@@ -36,6 +37,7 @@ namespace StatesLanguage.Model.Internal
         public const string RESOURCE = "Resource";
 
         public const string HEARTBEAT_SECONDS = "HeartbeatSeconds";
+        public const string HEARTBEAT_SECONDS_PATH = "HeartbeatSecondsPath";
 
         // ParallelState property names
         public const string BRANCHES = "Branches";

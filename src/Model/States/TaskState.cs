@@ -43,14 +43,18 @@ namespace StatesLanguage.Model.States
 
         [JsonProperty(PropertyNames.COMMENT)]
         public string Comment { get; private set; }
+        
+        [JsonProperty(PropertyNames.TIMEOUT_SECONDS_PATH)]
+        public string TimeoutSecondPath { get; private set; }
 
         [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
-        private int? _timeout;
-        [JsonIgnore]
-        public int TimeoutSeconds => _timeout ?? 60;
-
+        public int? TimeoutSeconds { get; private set; }
+        
         [JsonProperty(PropertyNames.HEARTBEAT_SECONDS)]
         public int? HeartbeatSeconds { get; private set; }
+        
+        [JsonProperty(PropertyNames.HEARTBEAT_SECONDS_PATH)]
+        public string HeartbeatSecondsPath { get; private set; }
 
         [JsonProperty(PropertyNames.TYPE)]
         public override StateType Type => StateType.Task;
@@ -81,6 +85,9 @@ namespace StatesLanguage.Model.States
 
             [JsonProperty(PropertyNames.HEARTBEAT_SECONDS)]
             private int? _heartbeatSeconds;
+            
+            [JsonProperty(PropertyNames.HEARTBEAT_SECONDS_PATH)]
+            private string _heartbeatSecondsPath;
 
             [JsonProperty(PropertyNames.INPUT_PATH)]
             private string _inputPath;
@@ -99,6 +106,9 @@ namespace StatesLanguage.Model.States
 
             [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
             private int? _timeoutSeconds;
+            
+            [JsonProperty(PropertyNames.TIMEOUT_SECONDS_PATH)]
+            private string _timeoutSecondsPath;
 
             [JsonIgnore]
             private ITransitionBuilder<ITransition> _transition;
@@ -193,6 +203,12 @@ namespace StatesLanguage.Model.States
                 _timeoutSeconds = timeoutSeconds;
                 return this;
             }
+            
+            public Builder TimeoutSecondsPath(string timeoutSecondsPath)
+            {
+                _timeoutSecondsPath = timeoutSecondsPath;
+                return this;
+            }
 
             /**
              * OPTIONAL. Allowed time between "Heartbeats". If the task does not send "Heartbeats" within the timeout then execution
@@ -206,6 +222,12 @@ namespace StatesLanguage.Model.States
             public Builder HeartbeatSeconds(int heartbeatSeconds)
             {
                 _heartbeatSeconds = heartbeatSeconds;
+                return this;
+            }
+            
+            public Builder HeartbeatSecondsPath(string heartbeatSecondsPath)
+            {
+                _heartbeatSecondsPath = heartbeatSecondsPath;
                 return this;
             }
 
@@ -234,8 +256,10 @@ namespace StatesLanguage.Model.States
                            OutputPath = _outputPath,
                            Parameters = _parameters,
                            Comment = _comment,
-                           _timeout = _timeoutSeconds,
+                           TimeoutSeconds = _timeoutSeconds,
                            HeartbeatSeconds = _heartbeatSeconds,
+                           HeartbeatSecondsPath = _heartbeatSecondsPath,
+                           TimeoutSecondPath = _timeoutSecondsPath,
                            Transition = _transition.Build(),
                            Retriers = BuildableUtils.Build(_retriers),
                            Catchers = BuildableUtils.Build(_catchers)

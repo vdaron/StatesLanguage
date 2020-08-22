@@ -302,6 +302,7 @@ namespace StatesLanguage.Model.Internal.Validation
                 _currentContext.AssertIsValidResultPath(taskState.ResultPath);
                 _currentContext.AssertIsPositiveIfPresent(taskState.TimeoutSeconds, PropertyNames.TIMEOUT_SECONDS);
                 _currentContext.AssertIsPositiveIfPresent(taskState.HeartbeatSeconds, PropertyNames.HEARTBEAT_SECONDS);
+                
                 if (taskState.HeartbeatSeconds != null)
                 {
                     if (taskState.HeartbeatSeconds >= taskState.TimeoutSeconds)
@@ -310,6 +311,16 @@ namespace StatesLanguage.Model.Internal.Validation
                     }
                 }
 
+                if (taskState.HeartbeatSeconds.HasValue && !string.IsNullOrEmpty(taskState.HeartbeatSecondsPath))
+                {
+                    _problemReporter.Report(new Problem(_currentContext, $"TaskState cannot contain HeartbeatSecondsPath and HeartbeatSecond property"));
+                }
+                
+                if (taskState.TimeoutSeconds.HasValue && !string.IsNullOrEmpty(taskState.TimeoutSecondPath))
+                {
+                    _problemReporter.Report(new Problem(_currentContext, $"TaskState cannot contain TimeoutSecondPath and TimeoutSeconds property"));
+                }
+                
                 _currentContext.AssertStringNotEmpty(taskState.Resource, PropertyNames.RESOURCE);
                 ValidateRetriers(taskState.Retriers);
                 ValidateCatchers(taskState.Catchers);
