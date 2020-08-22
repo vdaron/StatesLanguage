@@ -206,7 +206,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static StringEqualsCondition.Builder Eq(string variable, string expectedValue)
+        public static StringEqualsCondition.Builder StringEquals(string variable, string expectedValue)
         {
             return StringEqualsCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
@@ -217,7 +217,7 @@ namespace StatesLanguage.Model
         /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison</param>
         /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition</param>
         /// <returns><see cref="StringEqualsPathCondition.Builder"/></returns>
-        public static StringEqualsPathCondition.Builder EqPath(string variable, string expectedValuePath)
+        public static StringEqualsPathCondition.Builder StringEqualsPath(string variable, string expectedValuePath)
         {
             return StringEqualsPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
@@ -231,10 +231,20 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static NumericEqualsCondition<long>.Builder Eq(string variable, long expectedValue)
+        public static NumericEqualsCondition<long>.Builder NumericEquals(string variable, long expectedValue)
         {
-            return (NumericEqualsCondition<long>.Builder) NumericEqualsCondition<long>.GetBuilder().Variable(variable)
-                                                                          .ExpectedValue(expectedValue);
+            return NumericEqualsCondition<long>.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for Numeric equality comparison using path. Supports both integral and floating point numeric types.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition</param>
+        /// <returns><see cref="NumericEqualsPathCondition.Builder"/></returns>
+        public static NumericEqualsPathCondition.Builder NumericEqualsPath(string variable, string expectedValuePath)
+        {
+            return NumericEqualsPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
@@ -246,7 +256,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static NumericEqualsCondition<double>.Builder Eq(string variable, double expectedValue)
+        public static NumericEqualsCondition<double>.Builder NumericEquals(string variable, double expectedValue)
         {
             return (NumericEqualsCondition<double>.Builder) NumericEqualsCondition<double>.GetBuilder()
                                                                           .Variable(variable)
@@ -262,7 +272,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static BooleanEqualsCondition.Builder Eq(string variable, bool expectedValue)
+        public static BooleanEqualsCondition.Builder BooleanEquals(string variable, bool expectedValue)
         {
             return (BooleanEqualsCondition.Builder) BooleanEqualsCondition.GetBuilder()
                                                                           .Variable(variable)
@@ -278,7 +288,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static TimestampEqualCondition.Builder Eq(string variable, DateTime expectedValue)
+        public static TimestampEqualCondition.Builder TimestampEquals(string variable, DateTime expectedValue)
         {
             return (TimestampEqualCondition.Builder) TimestampEqualCondition.GetBuilder().Variable(variable)
                                                                             .ExpectedValue(expectedValue);
@@ -293,7 +303,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static StringGreaterThanCondition.Builder Gt(string variable, string expectedValue)
+        public static StringGreaterThanCondition.Builder StringGreaterThan(string variable, string expectedValue)
         {
             return StringGreaterThanCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
@@ -304,7 +314,7 @@ namespace StatesLanguage.Model
         /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
         /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
         /// <returns><see cref="StringGreaterThanPathCondition.Builder"/></returns>
-        public static StringGreaterThanPathCondition.Builder GtPath(string variable, string expectedValuePath)
+        public static StringGreaterThanPathCondition.Builder StringGreaterThanPath(string variable, string expectedValuePath)
         {
             return StringGreaterThanPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
@@ -318,11 +328,20 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static NumericGreaterThanCondition<long>.Builder Gt(string variable, long expectedValue)
+        public static NumericGreaterThanCondition<long>.Builder NumericGreaterThan(string variable, long expectedValue)
         {
-            return (NumericGreaterThanCondition<long>.Builder) NumericGreaterThanCondition<long>.GetBuilder()
-                                                                                    .Variable(variable)
-                                                                                    .ExpectedValue(expectedValue);
+            return NumericGreaterThanCondition<long>.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for Numeric greater than comparison using path. Supports both integral and floating point numeric types.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns></returns>
+        public static NumericGreaterThanPathCondition.Builder NumericGreaterThanPath(string variable, string expectedValuePath)
+        {
+            return NumericGreaterThanPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
@@ -334,7 +353,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static NumericGreaterThanCondition<double>.Builder Gt(string variable, double expectedValue)
+        public static NumericGreaterThanCondition<double>.Builder NumericGreaterThan(string variable, double expectedValue)
         {
             return (NumericGreaterThanCondition<double>.Builder) NumericGreaterThanCondition<double>.GetBuilder().Variable(variable)
                                                                                     .ExpectedValue(expectedValue);
@@ -349,7 +368,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static TimestampGreaterThanCondition.Builder Gt(string variable, DateTime expectedValue)
+        public static TimestampGreaterThanCondition.Builder TimestampGreaterThan(string variable, DateTime expectedValue)
         {
             return (TimestampGreaterThanCondition.Builder) TimestampGreaterThanCondition.GetBuilder().Variable(variable)
                                                                                         .ExpectedValue(expectedValue);
@@ -364,7 +383,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static StringGreaterThanOrEqualCondition.Builder Gte(string variable, string expectedValue)
+        public static StringGreaterThanOrEqualCondition.Builder StringGreaterThanEquals(string variable, string expectedValue)
         {
             return StringGreaterThanOrEqualCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
@@ -375,9 +394,20 @@ namespace StatesLanguage.Model
         /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
         /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
         /// <returns><see cref="StringGreaterThanOrEqualPathCondition.Builder"/></returns>
-        public static StringGreaterThanOrEqualPathCondition.Builder GtePath(string variable, string expectedValuePath)
+        public static StringGreaterThanOrEqualPathCondition.Builder StringGreaterThanEqualsPath(string variable, string expectedValuePath)
         {
             return StringGreaterThanOrEqualPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
+        }
+
+        /// <summary>
+        /// Binary condition for Numeric greater than comparison. Supports both integral and floating point numeric types.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns></returns>
+        public static NumericGreaterThanOrEqualPathCondition.Builder NumericGreaterThanEqualsPath(string variable, string expectedValuePath)
+        {
+            return NumericGreaterThanOrEqualPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
@@ -389,7 +419,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static NumericGreaterThanOrEqualCondition<long>.Builder Gte(string variable, long expectedValue)
+        public static NumericGreaterThanOrEqualCondition<long>.Builder NumericGreaterThanEquals(string variable, long expectedValue)
         {
             return (NumericGreaterThanOrEqualCondition<long>.Builder) NumericGreaterThanOrEqualCondition<long>.GetBuilder()
                                                                                                   .Variable(variable).ExpectedValue(expectedValue);
@@ -404,7 +434,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static NumericGreaterThanOrEqualCondition<double>.Builder Gte(string variable, double expectedValue)
+        public static NumericGreaterThanOrEqualCondition<double>.Builder NumericGreaterThanEquals(string variable, double expectedValue)
         {
             return (NumericGreaterThanOrEqualCondition<double>.Builder) NumericGreaterThanOrEqualCondition<double>.GetBuilder()
                                                                                                   .Variable(variable).ExpectedValue(expectedValue);
@@ -419,7 +449,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static TimestampGreaterThanOrEqualCondition.Builder Gte(string variable, DateTime expectedValue)
+        public static TimestampGreaterThanOrEqualCondition.Builder TimestampGreaterThanEquals(string variable, DateTime expectedValue)
         {
             return (TimestampGreaterThanOrEqualCondition.Builder) TimestampGreaterThanOrEqualCondition.GetBuilder()
                                                                                                       .Variable(variable).ExpectedValue(expectedValue);
@@ -434,7 +464,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static StringLessThanCondition.Builder Lt(string variable, string expectedValue)
+        public static StringLessThanCondition.Builder StringLessThan(string variable, string expectedValue)
         {
             return StringLessThanCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
@@ -445,11 +475,22 @@ namespace StatesLanguage.Model
         /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
         /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
         /// <returns><see cref="StringLessThanPathCondition.Builder"/></returns>
-        public static StringLessThanPathCondition.Builder LtPath(string variable, string expectedValuePath)
+        public static StringLessThanPathCondition.Builder StringLessThanPath(string variable, string expectedValuePath)
         {
             return StringLessThanPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
         
+        /// <summary>
+        /// Binary condition for Numeric less than comparison. Supports both integral and floating point numeric types.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns></returns>
+        public static NumericLessThanPathCondition.Builder NumericLessThanPath(string variable, string expectedValuePath)
+        {
+            return NumericLessThanPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
+        }
+
         /**
          * Binary condition for Numeric less than comparison. Supports both integral and floating point numeric types.
          *
@@ -459,7 +500,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static NumericLessThanCondition<long>.Builder Lt(string variable, long expectedValue)
+        public static NumericLessThanCondition<long>.Builder NumericLessThan(string variable, long expectedValue)
         {
             return (NumericLessThanCondition<long>.Builder) NumericLessThanCondition<long>.GetBuilder().Variable(variable)
                                                                               .ExpectedValue(expectedValue);
@@ -474,7 +515,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static NumericLessThanCondition<double>.Builder Lt(string variable, double expectedValue)
+        public static NumericLessThanCondition<double>.Builder NumericLessThan(string variable, double expectedValue)
         {
             return (NumericLessThanCondition<double>.Builder) NumericLessThanCondition<double>.GetBuilder().Variable(variable)
                                                                               .ExpectedValue(expectedValue);
@@ -489,7 +530,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static TimestampLessThanCondition.Builder Lt(string variable, DateTime expectedValue)
+        public static TimestampLessThanCondition.Builder TimestampLessThan(string variable, DateTime expectedValue)
         {
             return (TimestampLessThanCondition.Builder) TimestampLessThanCondition.GetBuilder().Variable(variable)
                                                                                   .ExpectedValue(expectedValue);
@@ -504,20 +545,31 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static StringLessThanOrEqualCondition.Builder Lte(string variable, string expectedValue)
+        public static StringLessThanOrEqualCondition.Builder StringLessThanEquals(string variable, string expectedValue)
         {
             return StringLessThanOrEqualCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
-        
+
         /// <summary>
         /// Binary condition for String less than or equal path comparison.
         /// </summary>
         /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
         /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
         /// <returns><see cref="StringLessThanPathCondition.Builder"/></returns>
-        public static StringLessThanOrEqualPathCondition.Builder LtePath(string variable, string expectedValuePath)
+        public static StringLessThanOrEqualPathCondition.Builder StringLessThanEqualsPath(string variable, string expectedValuePath)
         {
             return StringLessThanOrEqualPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
+        }
+          
+        /// <summary>
+        /// Binary condition for Numeric less than or equal to comparison. Supports both integral and floating point numeric types.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns></returns>
+        public static NumericLessThanOrEqualPathCondition.Builder NumericLessThanEqualsPath(string variable, string expectedValuePath)
+        {
+            return NumericLessThanOrEqualPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
@@ -529,7 +581,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static NumericLessThanOrEqualCondition<long>.Builder Lte(string variable, long expectedValue)
+        public static NumericLessThanOrEqualCondition<long>.Builder NumericLessThanEquals(string variable, long expectedValue)
         {
             return (NumericLessThanOrEqualCondition<long>.Builder) NumericLessThanOrEqualCondition<long>.GetBuilder()
                                                                                             .Variable(variable).ExpectedValue(expectedValue);
@@ -544,7 +596,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static NumericLessThanOrEqualCondition<double>.Builder Lte(string variable, double expectedValue)
+        public static NumericLessThanOrEqualCondition<double>.Builder NumericLessThanEquals(string variable, double expectedValue)
         {
             return (NumericLessThanOrEqualCondition<double>.Builder) NumericLessThanOrEqualCondition<double>.GetBuilder()
                                                                                             .Variable(variable).ExpectedValue(expectedValue);
@@ -559,7 +611,7 @@ namespace StatesLanguage.Model
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
          * @see Choice
          */
-        public static TimestampLessThanOrEqualCondition.Builder Lte(string variable, DateTime expectedValue)
+        public static TimestampLessThanOrEqualCondition.Builder TimestampLessThanEquals(string variable, DateTime expectedValue)
         {
             return (TimestampLessThanOrEqualCondition.Builder) TimestampLessThanOrEqualCondition.GetBuilder()
                                                                                                 .Variable(variable).ExpectedValue(expectedValue);

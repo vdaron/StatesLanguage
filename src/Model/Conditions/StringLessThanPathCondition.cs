@@ -25,9 +25,9 @@ namespace StatesLanguage.Model.Conditions
      * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
-    public sealed class StringLessThanPathCondition : BinaryConditionPath<string>
+    public sealed class StringLessThanPathCondition : BinaryConditionPath
     {
-        private StringLessThanPathCondition():base(Operator.Lt)
+        private StringLessThanPathCondition():base(Operator.Lt, JTokenType.String, JTokenType.Guid, JTokenType.Uri)
         {
         }
 

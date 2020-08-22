@@ -74,10 +74,10 @@ namespace StatesLanguage.Tests.Model.Validation
                                                                                                                       .DefaultStateName("Terminal")
                                                                                                                       .Choice(StepFunctionBuilder.Choice()
                                                                                                                                                  .Transition(StepFunctionBuilder.Next("Terminal"))
-                                                                                                                                                 .Condition(StepFunctionBuilder.Eq("$.foo", "bar")))
+                                                                                                                                                 .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar")))
                                                                                                                       .Choice(StepFunctionBuilder.Choice()
                                                                                                                                                  .Transition(StepFunctionBuilder.Next("NonTerminal"))
-                                                                                                                                                 .Condition(StepFunctionBuilder.Eq("$.foo", "bar"))))
+                                                                                                                                                 .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
                                                                                   .State("Terminal", StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.End()))
                                                                                   .State("NonTerminal",
                                                                                          StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("Cyclic")))
@@ -99,13 +99,13 @@ namespace StatesLanguage.Tests.Model.Validation
                                                                                                                                                                    .Transition(StepFunctionBuilder
                                                                                                                                                                                    .Next("Initial"))
                                                                                                                                                                    .Condition(StepFunctionBuilder
-                                                                                                                                                                                  .Eq("$.foo",
+                                                                                                                                                                                  .StringEquals("$.foo",
                                                                                                                                                                                       "bar")))
                                                                                                                                         .Choice(StepFunctionBuilder.Choice()
                                                                                                                                                                    .Transition(StepFunctionBuilder
                                                                                                                                                                                    .Next("Default"))
                                                                                                                                                                    .Condition(StepFunctionBuilder
-                                                                                                                                                                                  .Eq("$.foo",
+                                                                                                                                                                                  .StringEquals("$.foo",
                                                                                                                                                                                       "bar"))))
                                                                                                     .State("Default",
                                                                                                            StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("Choice")))));
@@ -128,13 +128,13 @@ namespace StatesLanguage.Tests.Model.Validation
                                                                                     .DefaultStateName("DefaultOne")
                                                                                     .Choice(StepFunctionBuilder.Choice()
                                                                                                                .Transition(StepFunctionBuilder.Next("ChoiceTwo"))
-                                                                                                               .Condition(StepFunctionBuilder.Eq("$.foo", "bar"))))
+                                                                                                               .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
                                              .State("DefaultOne", StepFunctionBuilder.SucceedState())
                                              .State("ChoiceTwo", StepFunctionBuilder.ChoiceState()
                                                                                     .DefaultStateName("DefaultTwo")
                                                                                     .Choice(StepFunctionBuilder.Choice()
                                                                                                                .Transition(StepFunctionBuilder.Next("ChoiceOne"))
-                                                                                                               .Condition(StepFunctionBuilder.Eq("$.foo", "bar"))))
+                                                                                                               .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
                                              .State("DefaultTwo",
                                                     StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("ChoiceTwo"))));
         }
@@ -150,10 +150,10 @@ namespace StatesLanguage.Tests.Model.Validation
                                                                                            .DefaultStateName("Default")
                                                                                            .Choice(StepFunctionBuilder.Choice()
                                                                                                                       .Transition(StepFunctionBuilder.Next("Initial"))
-                                                                                                                      .Condition(StepFunctionBuilder.Eq("$.foo", "bar")))
+                                                                                                                      .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar")))
                                                                                            .Choice(StepFunctionBuilder.Choice()
                                                                                                                       .Transition(StepFunctionBuilder.Next("Default"))
-                                                                                                                      .Condition(StepFunctionBuilder.Eq("$.foo", "bar"))))
+                                                                                                                      .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
                                                        .State("Default", StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.End())));
         }
 
@@ -170,10 +170,10 @@ namespace StatesLanguage.Tests.Model.Validation
                                                                                                                       .DefaultStateName("Terminal")
                                                                                                                       .Choice(StepFunctionBuilder.Choice()
                                                                                                                                                  .Transition(StepFunctionBuilder.Next("Terminal"))
-                                                                                                                                                 .Condition(StepFunctionBuilder.Eq("$.foo", "bar")))
+                                                                                                                                                 .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar")))
                                                                                                                       .Choice(StepFunctionBuilder.Choice()
                                                                                                                                                  .Transition(StepFunctionBuilder.Next("NonTerminal"))
-                                                                                                                                                 .Condition(StepFunctionBuilder.Eq("$.foo", "bar"))))
+                                                                                                                                                 .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
                                                                                   .State("Terminal", StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.End()))
                                                                                   .State("NonTerminal",
                                                                                          StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("Cyclic")))
@@ -200,13 +200,13 @@ namespace StatesLanguage.Tests.Model.Validation
                                                                                                                                                                                        .Transition(StepFunctionBuilder
                                                                                                                                                                                                        .Next("Initial"))
                                                                                                                                                                                        .Condition(StepFunctionBuilder
-                                                                                                                                                                                                      .Eq("$.foo",
+                                                                                                                                                                                                      .StringEquals("$.foo",
                                                                                                                                                                                                           "bar")))
                                                                                                                                                             .Choice(StepFunctionBuilder.Choice()
                                                                                                                                                                                        .Transition(StepFunctionBuilder
                                                                                                                                                                                                        .Next("Default"))
                                                                                                                                                                                        .Condition(StepFunctionBuilder
-                                                                                                                                                                                                      .Eq("$.foo",
+                                                                                                                                                                                                      .StringEquals("$.foo",
                                                                                                                                                                                                           "bar"))))
                                                                                                                         .State("Default",
                                                                                                                                StepFunctionBuilder
@@ -256,14 +256,14 @@ namespace StatesLanguage.Tests.Model.Validation
                                                                                                                                                                                         .Transition(StepFunctionBuilder
                                                                                                                                                                                                         .Next("Initial"))
                                                                                                                                                                                         .Condition(StepFunctionBuilder
-                                                                                                                                                                                                       .Eq("$.foo",
+                                                                                                                                                                                                       .StringEquals("$.foo",
                                                                                                                                                                                                            "bar")))
                                                                                                                                                                                 .Choice(StepFunctionBuilder
                                                                                                                                                                                         .Choice()
                                                                                                                                                                                         .Transition(StepFunctionBuilder
                                                                                                                                                                                                         .Next("Default"))
                                                                                                                                                                                         .Condition(StepFunctionBuilder
-                                                                                                                                                                                                       .Eq("$.foo",
+                                                                                                                                                                                                       .StringEquals("$.foo",
                                                                                                                                                                                                            "bar"))))
                                                                                                                                                                      .State("Default",
                                                                                                                                                                             StepFunctionBuilder

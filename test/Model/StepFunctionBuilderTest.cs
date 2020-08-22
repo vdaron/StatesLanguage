@@ -327,7 +327,7 @@ namespace StatesLanguage.Tests.Model
                     .InputPath("$.input")
                     .OutputPath("$.output")
                     .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
-                        .Condition(StepFunctionBuilder.Eq("$.var", "value"))))
+                        .Condition(StepFunctionBuilder.StringEquals("$.var", "value"))))
                 .State("NextState", StepFunctionBuilder.SucceedState())
                 .State("DefaultState", StepFunctionBuilder.SucceedState())
                 .Build();
@@ -344,9 +344,9 @@ namespace StatesLanguage.Tests.Model
                     .DefaultStateName("DefaultState")
                     .Choices(
                         StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
-                            .Condition(StepFunctionBuilder.Eq("$.var", "value")),
+                            .Condition(StepFunctionBuilder.StringEquals("$.var", "value")),
                         StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("OtherNextState"))
-                            .Condition(StepFunctionBuilder.Gt("$.number", 10))))
+                            .Condition(StepFunctionBuilder.NumericGreaterThan("$.number", 10))))
                 .State("NextState", StepFunctionBuilder.SucceedState())
                 .State("OtherNextState", StepFunctionBuilder.SucceedState())
                 .State("DefaultState", StepFunctionBuilder.SucceedState())
@@ -364,8 +364,8 @@ namespace StatesLanguage.Tests.Model
                     .DefaultStateName("DefaultState")
                     .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
                         .Condition(
-                            StepFunctionBuilder.And(StepFunctionBuilder.Eq("$.var", "value"),
-                                StepFunctionBuilder.Eq("$.other-var", 10)
+                            StepFunctionBuilder.And(StepFunctionBuilder.StringEquals("$.var", "value"),
+                                StepFunctionBuilder.NumericEquals("$.other-var", 10)
                             ))))
                 .State("NextState", StepFunctionBuilder.SucceedState())
                 .State("DefaultState", StepFunctionBuilder.SucceedState())
@@ -383,8 +383,8 @@ namespace StatesLanguage.Tests.Model
                     .DefaultStateName("DefaultState")
                     .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
                         .Condition(
-                            StepFunctionBuilder.Or(StepFunctionBuilder.Gt("$.var", "value"),
-                                StepFunctionBuilder.Lte("$.other-var", 10)
+                            StepFunctionBuilder.Or(StepFunctionBuilder.StringGreaterThan("$.var", "value"),
+                                StepFunctionBuilder.NumericLessThanEquals("$.other-var", 10)
                             ))))
                 .State("NextState", StepFunctionBuilder.SucceedState())
                 .State("DefaultState", StepFunctionBuilder.SucceedState())
@@ -401,8 +401,8 @@ namespace StatesLanguage.Tests.Model
                                                            .State("InitialState", StepFunctionBuilder.ChoiceState()
                                                                                                      .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
                                                                                                                                 .Condition(
-                                                                                                                                           StepFunctionBuilder.Or(StepFunctionBuilder.Gt("$.var", "value"),
-                                                                                                                                                                  StepFunctionBuilder.Lte("$.other-var", 10)
+                                                                                                                                           StepFunctionBuilder.Or(StepFunctionBuilder.StringGreaterThan("$.var", "value"),
+                                                                                                                                                                  StepFunctionBuilder.NumericLessThanEquals("$.other-var", 10)
                                                                                                                                                                  ))))
                                                            .State("NextState", StepFunctionBuilder.SucceedState())
                                                            .State("DefaultState", StepFunctionBuilder.SucceedState())
@@ -419,7 +419,7 @@ namespace StatesLanguage.Tests.Model
                 .State("InitialState", StepFunctionBuilder.ChoiceState()
                     .DefaultStateName("DefaultState")
                     .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
-                        .Condition(StepFunctionBuilder.Not(StepFunctionBuilder.Gte("$.var", "value")))))
+                        .Condition(StepFunctionBuilder.Not(StepFunctionBuilder.StringGreaterThanEquals("$.var", "value")))))
                 .State("NextState", StepFunctionBuilder.SucceedState())
                 .State("DefaultState", StepFunctionBuilder.SucceedState())
                 .Build();
@@ -436,11 +436,11 @@ namespace StatesLanguage.Tests.Model
                     .DefaultStateName("DefaultState")
                     .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
                         .Condition(StepFunctionBuilder.And(
-                            StepFunctionBuilder.Gte("$.var", "value"),
-                            StepFunctionBuilder.Lte("$.other-var", "foo"),
+                            StepFunctionBuilder.StringGreaterThanEquals("$.var", "value"),
+                            StepFunctionBuilder.StringLessThanEquals("$.other-var", "foo"),
                             StepFunctionBuilder.Or(
-                                StepFunctionBuilder.Lt("$.numeric", 9000.1),
-                                StepFunctionBuilder.Not(StepFunctionBuilder.Gte("$.numeric", 42))
+                                StepFunctionBuilder.NumericLessThan("$.numeric", 9000.1),
+                                StepFunctionBuilder.Not(StepFunctionBuilder.NumericGreaterThanEquals("$.numeric", 42))
                             )
                         ))))
                 .State("NextState", StepFunctionBuilder.SucceedState())
@@ -460,28 +460,28 @@ namespace StatesLanguage.Tests.Model
                     .DefaultStateName("DefaultState")
                     .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
                         .Condition(StepFunctionBuilder.And(
-                            StepFunctionBuilder.Eq("$.string", "value"),
-                            StepFunctionBuilder.Gt("$.string", "value"),
-                            StepFunctionBuilder.Gte("$.string", "value"),
-                            StepFunctionBuilder.Lt("$.string", "value"),
-                            StepFunctionBuilder.Lte("$.string", "value"),
-                            StepFunctionBuilder.Eq("$.integral", 42),
-                            StepFunctionBuilder.Gt("$.integral", 42),
-                            StepFunctionBuilder.Gte("$.integral", 42),
-                            StepFunctionBuilder.Lt("$.integral", 42),
-                            StepFunctionBuilder.Lte("$.integral", 42),
-                            StepFunctionBuilder.Eq("$.double", 9000.1),
-                            StepFunctionBuilder.Gt("$.double", 9000.1),
-                            StepFunctionBuilder.Gte("$.double", 9000.1),
-                            StepFunctionBuilder.Lt("$.double", 9000.1),
-                            StepFunctionBuilder.Lte("$.double", 9000.1),
-                            StepFunctionBuilder.Eq("$.timestamp", date),
-                            StepFunctionBuilder.Gt("$.timestamp", date),
-                            StepFunctionBuilder.Gte("$.timestamp", date),
-                            StepFunctionBuilder.Lt("$.timestamp", date),
-                            StepFunctionBuilder.Lte("$.timestamp", date),
-                            StepFunctionBuilder.Eq("$.boolean", true),
-                            StepFunctionBuilder.Eq("$.boolean", false)
+                            StepFunctionBuilder.StringEquals("$.string", "value"),
+                            StepFunctionBuilder.StringGreaterThan("$.string", "value"),
+                            StepFunctionBuilder.StringGreaterThanEquals("$.string", "value"),
+                            StepFunctionBuilder.StringLessThan("$.string", "value"),
+                            StepFunctionBuilder.StringLessThanEquals("$.string", "value"),
+                            StepFunctionBuilder.NumericEquals("$.integral", 42),
+                            StepFunctionBuilder.NumericGreaterThan("$.integral", 42),
+                            StepFunctionBuilder.NumericGreaterThanEquals("$.integral", 42),
+                            StepFunctionBuilder.NumericLessThan("$.integral", 42),
+                            StepFunctionBuilder.NumericLessThanEquals("$.integral", 42),
+                            StepFunctionBuilder.NumericEquals("$.double", 9000.1),
+                            StepFunctionBuilder.NumericGreaterThan("$.double", 9000.1),
+                            StepFunctionBuilder.NumericGreaterThanEquals("$.double", 9000.1),
+                            StepFunctionBuilder.NumericLessThan("$.double", 9000.1),
+                            StepFunctionBuilder.NumericLessThanEquals("$.double", 9000.1),
+                            StepFunctionBuilder.TimestampEquals("$.timestamp", date),
+                            StepFunctionBuilder.TimestampGreaterThan("$.timestamp", date),
+                            StepFunctionBuilder.TimestampGreaterThanEquals("$.timestamp", date),
+                            StepFunctionBuilder.TimestampLessThan("$.timestamp", date),
+                            StepFunctionBuilder.TimestampLessThanEquals("$.timestamp", date),
+                            StepFunctionBuilder.BooleanEquals("$.boolean", true),
+                            StepFunctionBuilder.BooleanEquals("$.boolean", false)
                         ))))
                 .State("NextState", StepFunctionBuilder.SucceedState())
                 .State("DefaultState", StepFunctionBuilder.SucceedState())

@@ -13,6 +13,9 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+using System;
+using System.Globalization;
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,22 +23,23 @@ using Newtonsoft.Json.Linq;
 namespace StatesLanguage.Model.Conditions
 {
     /**
-     * Binary condition for String greater than comparison.
+     * Binary condition for Numeric greather than comparison. Supports both integral and floating point numeric types.
      *
      * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
-    public sealed class StringLessThanOrEqualPathCondition : BinaryConditionPath
+    public sealed class NumericGreaterThanPathCondition : BinaryConditionPath
     {
-        private StringLessThanOrEqualPathCondition():base(Operator.Lte, JTokenType.String, JTokenType.Guid, JTokenType.Uri)
+        private NumericGreaterThanPathCondition():base (Operator.Gt,JTokenType.Float, JTokenType.Integer)
         {
         }
 
-        [JsonProperty(PropertyNames.STRING_LESS_THAN_EQUALS_PATH)]
+        [JsonProperty(PropertyNames.NUMERIC_GREATER_THAN_PATH)]
         public override string ExpectedValuePath { get; protected set; }
 
+
         /**
-         * @return Builder instance to construct a {@link StringGreaterThanCondition}.
+         * @return Builder instance to construct a {@link NumericEqualsCondition}.
          */
         public static Builder GetBuilder()
         {
@@ -43,14 +47,30 @@ namespace StatesLanguage.Model.Conditions
         }
 
         /**
-         * Builder for a {@link StringGreaterThanCondition}.
+         * Builder for a {@link NumericEqualsCondition}.
          */
-        public sealed class Builder : IBinaryConditionPathBuilder<Builder, StringLessThanOrEqualPathCondition>
+        public sealed class Builder : IBinaryConditionPathBuilder<Builder, NumericGreaterThanPathCondition>
         {
             private string _expectedValuePath;
             private string _variable;
 
-            public string Type => PropertyNames.STRING_LESS_THAN_EQUALS_PATH;
+            internal Builder()
+            {
+            }
+
+            public string Type => PropertyNames.NUMERIC_GREATER_THAN_PATH;
+
+            /**
+             * Sets the JSONPath expression that determines which piece of the input document is used for the comparison.
+             *
+             * @param variable Reference path.
+             * @return This object for method chaining.
+             */
+            public Builder Variable(string variable)
+            {
+                _variable = variable;
+                return this;
+            }
 
             /**
              * Sets the expected value for this condition.
@@ -65,28 +85,15 @@ namespace StatesLanguage.Model.Conditions
             }
 
             /**
-             * @return An immutable {@link StringGreaterThanCondition} object.
+             * @return An immutable {@link NumericEqualsCondition} object.
              */
-            public StringLessThanOrEqualPathCondition Build()
+            public NumericGreaterThanPathCondition Build()
             {
-                return new StringLessThanOrEqualPathCondition
+                return new NumericGreaterThanPathCondition
                        {
                            Variable = _variable,
                            ExpectedValuePath = _expectedValuePath
                        };
-            }
-
-            /**
-             * Sets the JSONPath expression that determines which piece of the input document is used for the comparison.
-             *
-             * @param variable Reference path.
-             * @return This object for method chaining.
-             */
-
-            public Builder Variable(string variable)
-            {
-                _variable = variable;
-                return this;
             }
         }
     }

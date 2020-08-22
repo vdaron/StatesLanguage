@@ -17,16 +17,16 @@ namespace StatesLanguage.Tests.Model
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Eq("$.varstr", "value")))
+                                                                  .Condition(StepFunctionBuilder.StringEquals("$.varstr", "value")))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Eq("$.varint", 33)))
+                                                                  .Condition(StepFunctionBuilder.NumericEquals("$.varint", 33)))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Eq("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
+                                                                  .Condition(StepFunctionBuilder.TimestampEquals("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Eq("$.varbool", true)))
+                                                                  .Condition(StepFunctionBuilder.BooleanEquals("$.varbool", true)))
                                        .Build();
 
             var choices = c.Choices.ToArray();
@@ -52,16 +52,16 @@ namespace StatesLanguage.Tests.Model
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Eq(null,"value")))
+                                                                  .Condition(StepFunctionBuilder.StringEquals(null,"value")))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Eq(null, 33)))
+                                                                  .Condition(StepFunctionBuilder.NumericEquals(null, 33)))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Eq(null, new DateTime(2018, 10, 22, 22, 33, 11))))
+                                                                  .Condition(StepFunctionBuilder.TimestampEquals(null, new DateTime(2018, 10, 22, 22, 33, 11))))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Eq(null, true)))
+                                                                  .Condition(StepFunctionBuilder.BooleanEquals(null, true)))
                                        .Build();
 
             var choices = c.Choices.ToArray();
@@ -113,13 +113,13 @@ namespace StatesLanguage.Tests.Model
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Gt("$.varstr", "value")))
+                                                                  .Condition(StepFunctionBuilder.StringGreaterThan("$.varstr", "value")))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Gt("$.varint", 33)))
+                                                                  .Condition(StepFunctionBuilder.NumericGreaterThan("$.varint", 33)))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Gt("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
+                                                                  .Condition(StepFunctionBuilder.TimestampGreaterThan("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
                                        .Build();
 
             var choices = c.Choices.ToArray();
@@ -142,13 +142,13 @@ namespace StatesLanguage.Tests.Model
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Gte("$.varstr", "value")))
+                                                                  .Condition(StepFunctionBuilder.StringGreaterThanEquals("$.varstr", "value")))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Gte("$.varint", 33)))
+                                                                  .Condition(StepFunctionBuilder.NumericGreaterThanEquals("$.varint", 33)))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Gte("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
+                                                                  .Condition(StepFunctionBuilder.TimestampGreaterThanEquals("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
                                        .Build();
 
             var choices = c.Choices.ToArray();
@@ -171,13 +171,13 @@ namespace StatesLanguage.Tests.Model
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Lt("$.varstr", "value")))
+                                                                  .Condition(StepFunctionBuilder.StringLessThan("$.varstr", "value")))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Lt("$.varint", 33)))
+                                                                  .Condition(StepFunctionBuilder.NumericLessThan("$.varint", 33)))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Lt("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
+                                                                  .Condition(StepFunctionBuilder.TimestampLessThan("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
                                        .Build();
 
             var choices = c.Choices.ToArray();
@@ -200,13 +200,13 @@ namespace StatesLanguage.Tests.Model
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Lte("$.varstr", "value")))
+                                                                  .Condition(StepFunctionBuilder.StringLessThanEquals("$.varstr", "value")))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Lte("$.varint", 33)))
+                                                                  .Condition(StepFunctionBuilder.NumericLessThanEquals("$.varint", 33)))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Lte("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
+                                                                  .Condition(StepFunctionBuilder.TimestampLessThanEquals("$.vardate", new DateTime(2018, 10, 22, 22, 33, 11))))
                                        .Build();
 
             var choices = c.Choices.ToArray();
@@ -230,7 +230,7 @@ namespace StatesLanguage.Tests.Model
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Not(StepFunctionBuilder.Eq("$.varstr", "value"))))
+                                                                  .Condition(StepFunctionBuilder.Not(StepFunctionBuilder.StringEquals("$.varstr", "value"))))
                                        .Build();
 
             var choices = c.Choices.ToArray();
@@ -243,8 +243,8 @@ namespace StatesLanguage.Tests.Model
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.And(StepFunctionBuilder.Eq("$.varstr", "value"),
-                                                                                                     StepFunctionBuilder.Eq("$.varbool", true)))
+                                                                  .Condition(StepFunctionBuilder.And(StepFunctionBuilder.StringEquals("$.varstr", "value"),
+                                                                                                     StepFunctionBuilder.BooleanEquals("$.varbool", true)))
                                                                    )
                                        .Build();
 
@@ -261,8 +261,8 @@ namespace StatesLanguage.Tests.Model
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Or(StepFunctionBuilder.Eq("$.varstr", "value"),
-                                                                                                     StepFunctionBuilder.Eq("$.varbool", false)))
+                                                                  .Condition(StepFunctionBuilder.Or(StepFunctionBuilder.StringEquals("$.varstr", "value"),
+                                                                                                     StepFunctionBuilder.BooleanEquals("$.varbool", false)))
                                               )
                                        .Build();
 
@@ -281,21 +281,21 @@ namespace StatesLanguage.Tests.Model
             var c = StepFunctionBuilder.ChoiceState()
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Or(StepFunctionBuilder.Eq("$.varint", 33),
-                                                                                                    StepFunctionBuilder.Gt("$.varint", 33),
-                                                                                                    StepFunctionBuilder.Gte("$.varint", 33),
-                                                                                                    StepFunctionBuilder.Lt("$.varint", 33),
-                                                                                                    StepFunctionBuilder.Lte("$.varint", 33))))
+                                                                  .Condition(StepFunctionBuilder.Or(StepFunctionBuilder.NumericEquals("$.varint", 33),
+                                                                                                    StepFunctionBuilder.NumericGreaterThan("$.varint", 33),
+                                                                                                    StepFunctionBuilder.NumericGreaterThanEquals("$.varint", 33),
+                                                                                                    StepFunctionBuilder.NumericLessThan("$.varint", 33),
+                                                                                                    StepFunctionBuilder.NumericLessThanEquals("$.varint", 33))))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Or(StepFunctionBuilder.Eq("$.vardate", dt),
-                                                                                                    StepFunctionBuilder.Gt("$.vardate", dt),
-                                                                                                    StepFunctionBuilder.Gte("$.vardate", dt),
-                                                                                                    StepFunctionBuilder.Lt("$.vardate", dt),
-                                                                                                    StepFunctionBuilder.Lte("$.vardate", dt))))
+                                                                  .Condition(StepFunctionBuilder.Or(StepFunctionBuilder.TimestampEquals("$.vardate", dt),
+                                                                                                    StepFunctionBuilder.TimestampGreaterThan("$.vardate", dt),
+                                                                                                    StepFunctionBuilder.TimestampGreaterThanEquals("$.vardate", dt),
+                                                                                                    StepFunctionBuilder.TimestampLessThan("$.vardate", dt),
+                                                                                                    StepFunctionBuilder.TimestampLessThanEquals("$.vardate", dt))))
                                        .Choice(StepFunctionBuilder.Choice()
                                                                   .Transition(StepFunctionBuilder.Next("NextState"))
-                                                                  .Condition(StepFunctionBuilder.Eq("$.varbool", true)))
+                                                                  .Condition(StepFunctionBuilder.BooleanEquals("$.varbool", true)))
                                        .Build();
 
             var choices = c.Choices.ToArray();

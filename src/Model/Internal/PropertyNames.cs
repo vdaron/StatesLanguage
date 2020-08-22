@@ -87,11 +87,16 @@ namespace StatesLanguage.Model.Internal
 
         // Binary numeric condition property names
         public const string NUMERIC_EQUALS = "NumericEquals";
+        public const string NUMERIC_EQUALS_PATH = "NumericEqualsPath";
         public const string NUMERIC_LESS_THAN = "NumericLessThan";
-        public const string NUMERIC_GREATER_THAN = "NumericGreaterThan";
-        public const string NUMERIC_GREATER_THAN_EQUALS = "NumericGreaterThanEquals";
-
+        public const string NUMERIC_LESS_THAN_PATH = "NumericLessThanPath";
         public const string NUMERIC_LESS_THAN_EQUALS = "NumericLessThanEquals";
+        public const string NUMERIC_LESS_THAN_EQUALS_PATH = "NumericLessThanEqualsPath";
+        public const string NUMERIC_GREATER_THAN = "NumericGreaterThan";
+        public const string NUMERIC_GREATER_THAN_PATH = "NumericGreaterThanPath";
+        public const string NUMERIC_GREATER_THAN_EQUALS = "NumericGreaterThanEquals";
+        public const string NUMERIC_GREATER_THAN_EQUALS_PATH = "NumericGreaterThanEqualsPath";
+
 
         // Binary timestamp condition property names
         public const string TIMESTAMP_EQUALS = "TimestampEquals";

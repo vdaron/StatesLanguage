@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StatesLanguage.Model.Internal;
@@ -137,13 +138,15 @@ namespace StatesLanguage.Model.Conditions
 
     }
 
-    public abstract class BinaryConditionPath<T> : IBinaryCondition where T : IComparable<T>
+    public abstract class BinaryConditionPath : IBinaryCondition
     {
         private readonly Operator _operator;
+        private readonly JTokenType[] _validTokenTypes;
 
-        protected BinaryConditionPath(Operator op)
+        protected BinaryConditionPath(Operator op, params JTokenType[] validTokenTypes)
         {
             _operator = op;
+            _validTokenTypes = validTokenTypes;
         }
 
         [JsonProperty(PropertyNames.VARIABLE)]
@@ -162,24 +165,38 @@ namespace StatesLanguage.Model.Conditions
 
                 var val = string.IsNullOrEmpty(ExpectedValuePath) ? token : ((JObject)token).SelectToken(ExpectedValuePath);
                 var tmp = string.IsNullOrEmpty(Variable) ? token : ((JObject)token).SelectToken(Variable);
-                
-                if (!IsValidToken(val) || !IsValidToken(tmp))
+
+                if (val.Type != tmp.Type)
                     return false;
 
-                switch (_operator)
+                if (!_validTokenTypes.Contains(val.Type))
+                    return false;
+
+                switch (val.Type)
                 {
-                    case Operator.Eq:
-                        return tmp.Value<T>()?.CompareTo(val.Value<T>()) == 0;
-                    case Operator.Gt:
-                        return tmp.Value<T>()?.CompareTo(val.Value<T>()) > 0;
-                    case Operator.Gte:
-                        return tmp.Value<T>()?.CompareTo(val.Value<T>()) >= 0;
-                    case Operator.Lt:
-                        return tmp.Value<T>()?.CompareTo(val.Value<T>()) < 0;
-                    case Operator.Lte:
-                        return tmp.Value<T>()?.CompareTo(val.Value<T>()) <= 0;
-                    case Operator.Match:
-                        return false; // not supported
+                    case JTokenType.None:
+                    case JTokenType.Object:
+                    case JTokenType.Array:
+                    case JTokenType.Constructor:
+                    case JTokenType.Property:
+                    case JTokenType.Comment:
+                        return false;
+                    case JTokenType.Integer:
+                        return Compare(tmp.Value<int>(), val.Value<int>());
+                    case JTokenType.Float:
+                        return Compare(tmp.Value<float>(), val.Value<float>());
+                    case JTokenType.Guid:
+                    case JTokenType.Uri:
+                    case JTokenType.String:
+                        return Compare(tmp.Value<string>(), val.Value<string>());
+                    case JTokenType.Boolean:
+                        return Compare(tmp.Value<bool>(), val.Value<bool>());
+                    case JTokenType.Date:
+                        return Compare(tmp.Value<DateTime>(), val.Value<DateTime>());
+                    case JTokenType.TimeSpan:
+                        return Compare(tmp.Value<TimeSpan>(), val.Value<TimeSpan>());
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
             catch (FormatException)
@@ -188,15 +205,23 @@ namespace StatesLanguage.Model.Conditions
             return false;
         }
 
-        private static bool IsValidToken(JToken tmp)
+        private bool Compare<T>(T val1, T val2) where T : IComparable
         {
-            return tmp != null && (tmp.Type == JTokenType.Boolean || 
-                                   tmp.Type == JTokenType.Date ||
-                                   tmp.Type == JTokenType.Integer ||
-                                   tmp.Type == JTokenType.Float ||
-                                   tmp.Type == JTokenType.String ||
-                                   tmp.Type == JTokenType.Guid ||
-                                   tmp.Type == JTokenType.Uri);
+            switch (_operator)
+            {
+                case Operator.Eq:
+                    return val1?.CompareTo(val2) == 0;
+                case Operator.Gt:
+                    return val1?.CompareTo(val2) > 0;
+                case Operator.Gte:
+                    return val1?.CompareTo(val2) >= 0;
+                case Operator.Lt:
+                    return val1?.CompareTo(val2) < 0;
+                case Operator.Lte:
+                    return val1?.CompareTo(val2) <= 0;
+                default:
+                    return false; // not supported
+            } ;
         }
     }
 }
