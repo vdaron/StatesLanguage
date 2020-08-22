@@ -100,11 +100,16 @@ namespace StatesLanguage.Model.Internal
 
         // Binary timestamp condition property names
         public const string TIMESTAMP_EQUALS = "TimestampEquals";
+        public const string TIMESTAMP_EQUALS_PATH = "TimestampEqualsPath";
         public const string TIMESTAMP_LESS_THAN = "TimestampLessThan";
-        public const string TIMESTAMP_GREATER_THAN = "TimestampGreaterThan";
-        public const string TIMESTAMP_GREATER_THAN_EQUALS = "TimestampGreaterThanEquals";
-
+        public const string TIMESTAMP_LESS_THAN_PATH = "TimestampLessThanPath";        
         public const string TIMESTAMP_LESS_THAN_EQUALS = "TimestampLessThanEquals";
+        public const string TIMESTAMP_LESS_THAN_EQUALS_PATH = "TimestampLessThanEqualsPath";
+        public const string TIMESTAMP_GREATER_THAN = "TimestampGreaterThan";
+        public const string TIMESTAMP_GREATER_THAN_PATH = "TimestampGreaterThanPath";
+        public const string TIMESTAMP_GREATER_THAN_EQUALS = "TimestampGreaterThanEquals";
+        public const string TIMESTAMP_GREATER_THAN_EQUALS_PATH = "TimestampGreaterThanEqualsPath";
+
 
         // Binary boolean condition property names
         public const string BOOLEAN_EQUALS = "BooleanEquals";

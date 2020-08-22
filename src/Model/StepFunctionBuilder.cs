@@ -290,8 +290,18 @@ namespace StatesLanguage.Model
          */
         public static TimestampEqualCondition.Builder TimestampEquals(string variable, DateTime expectedValue)
         {
-            return (TimestampEqualCondition.Builder) TimestampEqualCondition.GetBuilder().Variable(variable)
-                                                                            .ExpectedValue(expectedValue);
+            return TimestampEqualCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for Timestamp equality comparison. Dates are converted to ISO8601 UTC timestamps.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns></returns>
+        public static TimestampEqualPathCondition.Builder TimestampEqualsPath(string variable, string expectedValuePath)
+        {
+            return TimestampEqualPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
@@ -370,8 +380,18 @@ namespace StatesLanguage.Model
          */
         public static TimestampGreaterThanCondition.Builder TimestampGreaterThan(string variable, DateTime expectedValue)
         {
-            return (TimestampGreaterThanCondition.Builder) TimestampGreaterThanCondition.GetBuilder().Variable(variable)
-                                                                                        .ExpectedValue(expectedValue);
+            return TimestampGreaterThanCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for Timestamp greater than comparison. Dates are converted to ISO8601 UTC timestamps.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns></returns>
+        public static TimestampGreaterThanPathCondition.Builder TimestampGreaterThanPath(string variable, string expectedValuePath)
+        {
+            return TimestampGreaterThanPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
@@ -451,8 +471,18 @@ namespace StatesLanguage.Model
          */
         public static TimestampGreaterThanOrEqualCondition.Builder TimestampGreaterThanEquals(string variable, DateTime expectedValue)
         {
-            return (TimestampGreaterThanOrEqualCondition.Builder) TimestampGreaterThanOrEqualCondition.GetBuilder()
-                                                                                                      .Variable(variable).ExpectedValue(expectedValue);
+            return TimestampGreaterThanOrEqualCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for Timestamp greater than or equal to comparison. Dates are converted to ISO8601 UTC timestamps.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns></returns>
+        public static TimestampGreaterThanOrEqualPathCondition.Builder TimestampGreaterThanEqualsPath(string variable, string expectedValuePath)
+        {
+            return TimestampGreaterThanOrEqualPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
@@ -532,9 +562,19 @@ namespace StatesLanguage.Model
          */
         public static TimestampLessThanCondition.Builder TimestampLessThan(string variable, DateTime expectedValue)
         {
-            return (TimestampLessThanCondition.Builder) TimestampLessThanCondition.GetBuilder().Variable(variable)
-                                                                                  .ExpectedValue(expectedValue);
+            return TimestampLessThanCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
+        /// <summary>
+        /// Binary condition for Timestamp less than comparison using Path. Dates are converted to ISO8601 UTC timestamps.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns></returns>
+        public static TimestampLessThanPathCondition.Builder TimestampLessThanPath(string variable, string expectedValuePath)
+        {
+            return TimestampLessThanPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
+        }
+
 
         /**
          * Binary condition for String less than or equal to comparison.
@@ -583,8 +623,7 @@ namespace StatesLanguage.Model
          */
         public static NumericLessThanOrEqualCondition<long>.Builder NumericLessThanEquals(string variable, long expectedValue)
         {
-            return (NumericLessThanOrEqualCondition<long>.Builder) NumericLessThanOrEqualCondition<long>.GetBuilder()
-                                                                                            .Variable(variable).ExpectedValue(expectedValue);
+            return NumericLessThanOrEqualCondition<long>.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
 
         /**
@@ -598,8 +637,7 @@ namespace StatesLanguage.Model
          */
         public static NumericLessThanOrEqualCondition<double>.Builder NumericLessThanEquals(string variable, double expectedValue)
         {
-            return (NumericLessThanOrEqualCondition<double>.Builder) NumericLessThanOrEqualCondition<double>.GetBuilder()
-                                                                                            .Variable(variable).ExpectedValue(expectedValue);
+            return NumericLessThanOrEqualCondition<double>.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
 
         /**
@@ -613,8 +651,18 @@ namespace StatesLanguage.Model
          */
         public static TimestampLessThanOrEqualCondition.Builder TimestampLessThanEquals(string variable, DateTime expectedValue)
         {
-            return (TimestampLessThanOrEqualCondition.Builder) TimestampLessThanOrEqualCondition.GetBuilder()
-                                                                                                .Variable(variable).ExpectedValue(expectedValue);
+            return TimestampLessThanOrEqualCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for Timestamp less than or equal to comparison using path. Dates are converted to ISO8601 UTC timestamps.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns></returns>
+        public static TimestampLessThanOrEqualPathCondition.Builder TimestampLessThanEqualsPath(string variable, string expectedValuePath)
+        {
+            return TimestampLessThanOrEqualPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
