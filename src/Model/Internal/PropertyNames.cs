@@ -76,10 +76,14 @@ namespace StatesLanguage.Model.Internal
         public const string STRING_EQUALS_PATH = "StringEqualsPath";
         public const string STRING_MATCHES = "StringMatches";
         public const string STRING_LESS_THAN = "StringLessThan";
-        public const string STRING_GREATER_THAN = "StringGreaterThan";
-        public const string STRING_GREATER_THAN_EQUALS = "StringGreaterThanEquals";
-
+        public const string STRING_LESS_THAN_PATH = "StringLessThanPath";
         public const string STRING_LESS_THAN_EQUALS = "StringLessThanEquals";
+        public const string STRING_LESS_THAN_EQUALS_PATH = "StringLessThanEqualsPath";
+        public const string STRING_GREATER_THAN = "StringGreaterThan";
+        public const string STRING_GREATER_THAN_PATH = "StringGreaterThanPath";
+        public const string STRING_GREATER_THAN_EQUALS = "StringGreaterThanEquals";
+        public const string STRING_GREATER_THAN_EQUALS_PATH = "StringGreaterThanEqualsPath";
+
 
         // Binary numeric condition property names
         public const string NUMERIC_EQUALS = "NumericEquals";

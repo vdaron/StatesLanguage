@@ -184,6 +184,18 @@ namespace StatesLanguage.Model
         {
             return States.Catcher.GetBuilder();
         }
+        
+                
+        /// <summary>
+        /// Binary condition for String match comparison.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison</param>
+        /// <param name="expectedValue">The value MUST be a String which MAY contain one or more "*" characters</param>
+        /// <returns></returns>
+        public static StringMatchesCondition.Builder Match(string variable, string expectedValue)
+        {
+            return StringMatchesCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
 
         /**
          * Binary condition for String equality comparison.
@@ -196,21 +208,9 @@ namespace StatesLanguage.Model
          */
         public static StringEqualsCondition.Builder Eq(string variable, string expectedValue)
         {
-            return (StringEqualsCondition.Builder) StringEqualsCondition.GetBuilder().Variable(variable)
-                                                                        .ExpectedValue(expectedValue);
+            return StringEqualsCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
-        
-        /// <summary>
-        /// Binary condition for String match comparison.
-        /// </summary>
-        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison</param>
-        /// <param name="expectedValue">The value MUST be a String which MAY contain one or more "*" characters</param>
-        /// <returns></returns>
-        public static StringMatchesCondition.Builder Match(string variable, string expectedValue)
-        {
-            return StringMatchesCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
-        }
-        
+
         /// <summary>
         /// Binary condition for String equality comparison using Json Path.
         /// </summary>
@@ -287,7 +287,7 @@ namespace StatesLanguage.Model
         /**
          * Binary condition for String greater than comparison.
          *
-         * @param variable      The JSONPath expression that determines which piece of the input document is used for the comparison.
+         * @param variable      
          * @param expectedValue The expected value for this condition.
          * @return StringGreaterThanCondition.Builder
          * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
@@ -295,11 +295,20 @@ namespace StatesLanguage.Model
          */
         public static StringGreaterThanCondition.Builder Gt(string variable, string expectedValue)
         {
-            return (StringGreaterThanCondition.Builder) StringGreaterThanCondition.GetBuilder()
-                                                                                  .Variable(variable)
-                                                                                  .ExpectedValue(expectedValue);
+            return StringGreaterThanCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
-
+        
+        /// <summary>
+        /// Binary condition for String greater than path comparison.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns><see cref="StringGreaterThanPathCondition.Builder"/></returns>
+        public static StringGreaterThanPathCondition.Builder GtPath(string variable, string expectedValuePath)
+        {
+            return StringGreaterThanPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
+        }
+        
         /**
          * Binary condition for Numeric greater than comparison. Supports both integral and floating point numeric types.
          *
@@ -357,8 +366,18 @@ namespace StatesLanguage.Model
          */
         public static StringGreaterThanOrEqualCondition.Builder Gte(string variable, string expectedValue)
         {
-            return (StringGreaterThanOrEqualCondition.Builder) StringGreaterThanOrEqualCondition.GetBuilder()
-                                                                                                .Variable(variable).ExpectedValue(expectedValue);
+            return StringGreaterThanOrEqualCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for String greater than or equal to path comparison.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns><see cref="StringGreaterThanOrEqualPathCondition.Builder"/></returns>
+        public static StringGreaterThanOrEqualPathCondition.Builder GtePath(string variable, string expectedValuePath)
+        {
+            return StringGreaterThanOrEqualPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
@@ -417,10 +436,20 @@ namespace StatesLanguage.Model
          */
         public static StringLessThanCondition.Builder Lt(string variable, string expectedValue)
         {
-            return (StringLessThanCondition.Builder) StringLessThanCondition.GetBuilder().Variable(variable)
-                                                                            .ExpectedValue(expectedValue);
+            return StringLessThanCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
         }
-
+        
+        /// <summary>
+        /// Binary condition for String less than path comparison.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns><see cref="StringLessThanPathCondition.Builder"/></returns>
+        public static StringLessThanPathCondition.Builder LtPath(string variable, string expectedValuePath)
+        {
+            return StringLessThanPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
+        }
+        
         /**
          * Binary condition for Numeric less than comparison. Supports both integral and floating point numeric types.
          *
@@ -477,8 +506,18 @@ namespace StatesLanguage.Model
          */
         public static StringLessThanOrEqualCondition.Builder Lte(string variable, string expectedValue)
         {
-            return (StringLessThanOrEqualCondition.Builder) StringLessThanOrEqualCondition.GetBuilder()
-                                                                                          .Variable(variable).ExpectedValue(expectedValue);
+            return StringLessThanOrEqualCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for String less than or equal path comparison.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns><see cref="StringLessThanPathCondition.Builder"/></returns>
+        public static StringLessThanOrEqualPathCondition.Builder LtePath(string variable, string expectedValuePath)
+        {
+            return StringLessThanOrEqualPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
