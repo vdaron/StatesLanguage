@@ -114,6 +114,14 @@ namespace StatesLanguage.Model.Internal
         // Binary boolean condition property names
         public const string BOOLEAN_EQUALS = "BooleanEquals";
         public const string BOOLEAN_EQUALS_PATH = "BooleanEqualsPath";
+        
+        
+        public const string IS_NULL = "IsNull";
+        public const string IS_PRESENT = "IsPresent";
+        public const string IS_NUMERIC = "IsNumeric";
+        public const string IS_STRING = "IsString";
+        public const string IS_BOOLEAN = "IsBoolean";
+        public const string IS_TIMESTAMP = "IsTimestamp";
 
         // Composite conditions property names
         public const string AND = "And";

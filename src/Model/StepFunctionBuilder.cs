@@ -673,6 +673,72 @@ namespace StatesLanguage.Model
         {
             return TimestampLessThanOrEqualPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
+        
+        /// <summary>
+        /// Binary condition for testing if a Path is null.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValue">Must be null or not</param>
+        /// <returns></returns>
+        public static IsNullCondition.Builder IsNull(string variable, bool expectedValue)
+        {
+            return IsNullCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for testing if a Path is present.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValue"></param>
+        /// <returns></returns>
+        public static IsPresentCondition.Builder IsPresent(string variable, bool expectedValue)
+        {
+            return IsPresentCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for testing if a Path is a Numeric (integer or float).
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValue"></param>
+        /// <returns></returns>
+        public static IsNumericCondition.Builder IsNumeric(string variable, bool expectedValue)
+        {
+            return IsNumericCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for testing if a Path is a String.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValue"></param>
+        /// <returns></returns>
+        public static IsStringCondition.Builder IsString(string variable, bool expectedValue)
+        {
+            return IsStringCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for testing if a Path is a Boolean.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValue"></param>
+        /// <returns></returns>
+        public static IsBooleanCondition.Builder IsBoolean(string variable, bool expectedValue)
+        {
+            return IsBooleanCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for testing if a Path is a Timestamp.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</param>
+        /// <param name="expectedValue"></param>
+        /// <returns></returns>
+        public static IsTimestampCondition.Builder IsTimestamp(string variable, bool expectedValue)
+        {
+            return IsTimestampCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
 
         /**
          * Represents the logical NOT of a single condition. May be used in a {@link ChoiceState}.

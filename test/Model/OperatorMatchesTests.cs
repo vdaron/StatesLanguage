@@ -275,6 +275,157 @@ namespace StatesLanguage.Tests.Model
         }
 
         [Fact]
+        public void TestIsNull()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsNull("$.isNull", true)))
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsNull("$.isNotNull", false))
+                )
+                .Build();
+            
+            var choices = c.Choices.ToArray();
+
+            Assert.True(choices[0].Condition.Match(JObject.Parse("{\"isNull\":null}")));
+            Assert.False(choices[0].Condition.Match(JObject.Parse("{\"isNull\":33}")));
+            
+            Assert.True(choices[1].Condition.Match(JObject.Parse("{\"isNotNull\":22}")));
+            Assert.False(choices[1].Condition.Match(JObject.Parse("{\"isNotNull\":null}")));
+        }
+        
+        [Fact]
+        public void TestIsPresent()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsPresent("$.isPresent", true)))
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsPresent("$.isNotPresent", false))
+                )
+                .Build();
+            
+            var choices = c.Choices.ToArray();
+
+            Assert.True(choices[0].Condition.Match(JObject.Parse("{\"isPresent\":null}")));
+            Assert.True(choices[0].Condition.Match(JObject.Parse("{\"isPresent\":33}")));
+            Assert.False(choices[0].Condition.Match(JObject.Parse("{}")));
+
+            Assert.True(choices[1].Condition.Match(JObject.Parse("{}")));
+            Assert.False(choices[1].Condition.Match(JObject.Parse("{\"isNotPresent\":33}")));
+        }
+        
+        [Fact]
+        public void TestIsString()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsString("$.isString", true)))
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsString("$.isString", false))
+                )
+                .Build();
+            
+            var choices = c.Choices.ToArray();
+
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { isString = "str" })));
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { isString = DateTime.Now })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isString = 33 })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isString = 33.23 })));
+            
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { isString = "str" })));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { isString = DateTime.Now })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isString = 33 })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isString = 33.23 })));
+        }
+        
+        [Fact]
+        public void TestIsNumeric()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsNumeric("$.isNumeric", true)))
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsNumeric("$.isNumeric", false))
+                )
+                .Build();
+            
+            var choices = c.Choices.ToArray();
+
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isNumeric = "str" })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isNumeric = DateTime.Now })));
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { isNumeric = 33 })));
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { isNumeric = 33.23 })));
+            
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isNumeric = "str" })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isNumeric = DateTime.Now })));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { isNumeric = 33 })));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { isNumeric = 33.23 })));
+        }
+        
+        [Fact]
+        public void TestIsTimestamp()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsTimestamp("$.isTimestamp", true)))
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsTimestamp("$.isTimestamp", false))
+                )
+                .Build();
+            
+            var choices = c.Choices.ToArray();
+
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isTimestamp = "str" })));
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { isTimestamp = DateTime.Now })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isTimestamp = 33 })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isTimestamp = 33.23 })));
+            
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isTimestamp = "str" })));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { isTimestamp = DateTime.Now })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isTimestamp = 33 })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isTimestamp = 33.23 })));
+        }
+        
+        [Fact]
+        public void TestIsBoolean()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsBoolean("$.isBoolean", true)))
+                .Choice(StepFunctionBuilder.Choice()
+                    .Transition(StepFunctionBuilder.Next("NextState"))
+                    .Condition(StepFunctionBuilder.IsBoolean("$.isBoolean", false))
+                )
+                .Build();
+            
+            var choices = c.Choices.ToArray();
+
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isBoolean = "str" })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isBoolean = DateTime.Now })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isBoolean = 33 })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { isBoolean = 33.23 })));
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { isBoolean = true })));
+            
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isBoolean = "str" })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isBoolean = DateTime.Now })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isBoolean = 33 })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { isBoolean = 33.23 })));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { isBoolean = true })));
+        }
+
+        [Fact]
         public void TestBadFormat()
         {
             var dt = new DateTime(2018, 10, 22, 22, 33, 11);
