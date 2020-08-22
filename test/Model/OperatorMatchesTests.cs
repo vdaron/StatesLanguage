@@ -103,8 +103,8 @@ namespace StatesLanguage.Tests.Model
             Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varstr = "value" })));
             Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varstr = "valDFDFDFue" })));
             
-            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varstr = "val\\*ue" })));
-            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { varstr = "val\\*DFDFue" })));
+            Assert.True(choices[2].Condition.Match(JObject.FromObject(new { varstr = "val*ue" })));
+            Assert.False(choices[2].Condition.Match(JObject.FromObject(new { varstr = "value" })));
         }
         
         [Fact]

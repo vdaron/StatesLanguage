@@ -16,6 +16,8 @@
 
 using System;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StatesLanguage.Model.Internal;
@@ -93,47 +95,58 @@ namespace StatesLanguage.Model.Conditions
 
         private static bool IsMatch(string s, string pattern)
         {
-            // Characters matched so far
-            int matched = 0;
-
-            // Loop through pattern string
-            for (int i = 0; i < pattern.Length;)
+            return new Regex(WildcardToRegex(pattern)).IsMatch(s);
+        }
+        
+        private static string WildcardToRegex(String wildcard)
+        {
+            var s = new StringBuilder();
+            s.Append('^');
+            bool skipNext = false;
+            for (int i = 0, isa = wildcard.Length; i < isa; i++)
             {
-                // Check for end of string
-                if (matched > s.Length)
-                    return false;
+                char c = wildcard[i];
 
-                // Get next pattern character
-                char c = pattern[i++];
-                if (c == '*') // Zero or more characters
+                if (skipNext)
                 {
-                    if (i < pattern.Length)
-                    {
-                        // Matches all characters until
-                        // next character in pattern
-                        char next = pattern[i];
-                        int j = s.IndexOf(next, matched);
-                        if (j < 0)
-                            return false;
-                        matched = j;
-                    }
-                    else
-                    {
-                        // Matches all remaining characters
-                        matched = s.Length;
-                        break;
-                    }
+                    s.Append(c);
+                    skipNext = false;
+                    continue;
                 }
-                else // Exact character
+                
+                switch (c)
                 {
-                    if (matched >= s.Length || c != s[matched])
-                        return false;
-                    matched++;
+                    case '*':
+                        s.Append(".*?");
+                        break;
+                    case '?':
+                        s.Append(".");
+                        break;
+                    case '(':
+                    case ')':
+                    case '[':
+                    case ']':
+                    case '$':
+                    case '^':
+                    case '.':
+                    case '{':
+                    case '}':
+                    case '|':
+                        s.Append("\\");
+                        s.Append(c);
+                        break;
+                    case '\\':
+                        s.Append("\\");
+                        skipNext = true;
+                        break;
+                    default:
+                        s.Append(c);
+                        break;
                 }
             }
 
-            // Return true if all characters matched
-            return matched == s.Length;
+            s.Append('$');
+            return s.ToString();
         }
 
     }
