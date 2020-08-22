@@ -274,9 +274,18 @@ namespace StatesLanguage.Model
          */
         public static BooleanEqualsCondition.Builder BooleanEquals(string variable, bool expectedValue)
         {
-            return (BooleanEqualsCondition.Builder) BooleanEqualsCondition.GetBuilder()
-                                                                          .Variable(variable)
-                                                                          .ExpectedValue(expectedValue);
+            return BooleanEqualsCondition.GetBuilder().Variable(variable).ExpectedValue(expectedValue);
+        }
+        
+        /// <summary>
+        /// Binary condition for Boolean equality comparison.
+        /// </summary>
+        /// <param name="variable">The JSONPath expression that determines which piece of the input document is used for the comparison.</
+        /// <param name="expectedValuePath">The JSONPath expression that determines the expected value for this condition.</param>
+        /// <returns></returns>
+        public static BooleanEqualsPathCondition.Builder BooleanEqualsPath(string variable, string expectedValuePath)
+        {
+            return BooleanEqualsPathCondition.GetBuilder().Variable(variable).ExpectedValuePath(expectedValuePath);
         }
 
         /**
