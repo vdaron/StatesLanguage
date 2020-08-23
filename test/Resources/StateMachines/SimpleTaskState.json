@@ -11,7 +11,12 @@
       "InputPath": "$.input",
       "ResultPath": "$.result",
       "OutputPath": "$.output",
-      "Parameters": "params"
+      "Parameters": {
+        "value": "param"
+      },
+      "ResultSelector": {
+        "value": "param"
+      }
     },
     "NextState": {
       "Type": "Succeed"

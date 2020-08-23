@@ -4,7 +4,9 @@
     "InitialState": {
       "Type": "Task",
       "Resource": "resource-arn",
-      "Parameters": "param",
+      "Parameters": {
+        "value": "param"
+      },
       "End": true
     }
   }

@@ -23,7 +23,14 @@ namespace StatesLanguage.Model.States
         public string OutputPath { get; private set; }
 
         [JsonProperty(PropertyNames.PARAMETERS)]
-        public JToken Parameters { get; private set; }
+        private JToken _parameters;
+
+        [JsonIgnore] public JObject Parameters => (JObject)_parameters;
+
+        [JsonProperty(PropertyNames.RESULT_SELECTOR)]
+        private JToken _resultSelector;
+
+        [JsonIgnore] public JObject ResultSelector => (JObject) _resultSelector;
         
         [JsonProperty(PropertyNames.MAX_CONCURENCY)]
         public int? MaxConcurrency { get; private set; }
@@ -66,7 +73,10 @@ namespace StatesLanguage.Model.States
             private string _resultPath;
 
             [JsonProperty(PropertyNames.PARAMETERS)]
-            private JToken _parameters;
+            private JObject _parameters;
+            
+            [JsonProperty(PropertyNames.RESULT_SELECTOR)]
+            private JObject _resultSelector;
 
             [JsonProperty(PropertyNames.MAX_CONCURENCY)]
             private int? _maxConcurrency;
@@ -171,9 +181,15 @@ namespace StatesLanguage.Model.States
                 return this;
             }
 
-            public Builder Parameters(JToken parameters)
+            public Builder Parameters(JObject parameters)
             {
                 _parameters = parameters;
+                return this;
+            }
+            
+            public Builder ResultSelector(JObject resultSelector)
+            {
+                _resultSelector = resultSelector;
                 return this;
             }
 
@@ -204,7 +220,8 @@ namespace StatesLanguage.Model.States
                            InputPath = _inputPath,
                            ResultPath = _resultPath,
                            OutputPath = _outputPath,
-                           Parameters = _parameters,
+                           _parameters = _parameters,
+                           _resultSelector = _resultSelector,
                            Transition = _transition.Build(),
                            Retriers = BuildableUtils.Build(_retriers),
                            Catchers = BuildableUtils.Build(_catchers)

@@ -39,7 +39,14 @@ namespace StatesLanguage.Model.States
         public string OutputPath { get; private set; }
 
         [JsonProperty(PropertyNames.PARAMETERS)]
-        public JToken Parameters { get; private set; }
+        private JToken _parameters;
+
+        [JsonIgnore] public JObject Parameters => (JObject)_parameters;
+
+        [JsonProperty(PropertyNames.RESULT_SELECTOR)]
+        private JToken _resultSelector;
+
+        [JsonIgnore] public JObject ResultSelector => (JObject) _resultSelector;
 
         [JsonProperty(PropertyNames.COMMENT)]
         public string Comment { get; private set; }
@@ -96,7 +103,10 @@ namespace StatesLanguage.Model.States
             private string _outputPath;
 
             [JsonProperty(PropertyNames.PARAMETERS)]
-            private JToken _parameters;
+            private JObject _parameters;
+            
+            [JsonProperty(PropertyNames.RESULT_SELECTOR)]
+            private JObject _resultSelector;
 
             [JsonProperty(PropertyNames.RESOURCE)]
             private string _resource;
@@ -173,9 +183,15 @@ namespace StatesLanguage.Model.States
                 return this;
             }
 
-            public Builder Parameters(JToken parameters)
+            public Builder Parameters(JObject parameters)
             {
                 _parameters = parameters;
+                return this;
+            }
+            
+            public Builder ResultSelector(JObject resultSelector)
+            {
+                _resultSelector = resultSelector;
                 return this;
             }
 
@@ -254,7 +270,8 @@ namespace StatesLanguage.Model.States
                            InputPath = _inputPath,
                            ResultPath = _resultPath,
                            OutputPath = _outputPath,
-                           Parameters = _parameters,
+                           _parameters = _parameters,
+                           _resultSelector = _resultSelector,
                            Comment = _comment,
                            TimeoutSeconds = _timeoutSeconds,
                            HeartbeatSeconds = _heartbeatSeconds,

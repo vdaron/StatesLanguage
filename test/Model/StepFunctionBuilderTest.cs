@@ -105,7 +105,8 @@ namespace StatesLanguage.Tests.Model
                     .InputPath("$.input")
                     .ResultPath("$.result")
                     .OutputPath("$.output")
-                    .Parameters(JValue.CreateString("params")))
+                    .Parameters(JObject.FromObject(new {value = "param"}))
+                    .ResultSelector(JObject.FromObject(new {value = "param"})))
                 .State("NextState", StepFunctionBuilder.SucceedState())
                 .Build();
 
@@ -132,7 +133,7 @@ namespace StatesLanguage.Tests.Model
                                                            .StartAt("InitialState")
                                                            .State("InitialState", StepFunctionBuilder.TaskState()
                                                                                                      .Resource("resource-arn")
-                                                                                                     .Parameters(JValue.CreateString("param"))
+                                                                                                     .Parameters(JObject.FromObject(new {value = "param"}))
                                                                                                      .Transition(StepFunctionBuilder.End()))
                                                            .Build();
 
@@ -500,7 +501,8 @@ namespace StatesLanguage.Tests.Model
                     .InputPath("$.input")
                     .OutputPath("$.output")
                     .ResultPath("$.result")
-                    .Parameters(JValue.CreateString("params"))
+                    .Parameters(JObject.FromObject(new {value = "param"}))
+                    .ResultSelector(JObject.FromObject(new {value = "param"}))
                     .Transition(StepFunctionBuilder.Next("NextState"))
                     .Branches(
                         StepFunctionBuilder.SubStateMachine()
@@ -614,6 +616,8 @@ namespace StatesLanguage.Tests.Model
                     .ItemPath("$.shipped")
                     .ResultPath("$.detail.shipped")
                     .MaxConcurrency(0)
+                    .Parameters(JObject.FromObject(new {value = "param"}))
+                    .ResultSelector(JObject.FromObject(new {value = "param"}))
                     .Transition(StepFunctionBuilder.End())
                     .Iterator(StepFunctionBuilder.SubStateMachine()
                         .StartAt("Validate")

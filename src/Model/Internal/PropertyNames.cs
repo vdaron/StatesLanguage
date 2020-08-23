@@ -30,6 +30,7 @@ namespace StatesLanguage.Model.Internal
         public const string INPUT_PATH = "InputPath";
         public const string OUTPUT_PATH = "OutputPath";
         public const string PARAMETERS = "Parameters";
+        public const string RESULT_SELECTOR = "ResultSelector";
 
         public const string END = "End";
 
