@@ -21,7 +21,7 @@ using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Serialization
 {
-    internal class CatcherDeserializer : JsonConverter
+    internal class  CatcherDeserializer : JsonConverter
     {
         public override bool CanRead => false;
 
@@ -32,7 +32,7 @@ namespace StatesLanguage.Model.Serialization
                                                       Formatting = serializer.Formatting,
                                                       NullValueHandling = NullValueHandling.Ignore,
                                                       DefaultValueHandling = DefaultValueHandling.Ignore,
-                                                      ContractResolver = EmptyCollectionContractResolver.Instance
+                                                      ContractResolver = StatesContractResolver.Instance
                                                   });
 
             var transition = ((Catcher) value).Transition;

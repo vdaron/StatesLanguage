@@ -31,7 +31,7 @@ namespace StatesLanguage.Model.Serialization
                                                       Formatting = serializer.Formatting,
                                                       NullValueHandling = NullValueHandling.Ignore,
                                                       DefaultValueHandling = DefaultValueHandling.Ignore,
-                                                      ContractResolver = EmptyCollectionContractResolver.Instance
+                                                      ContractResolver = StatesContractResolver.Instance
                                                   });
 
             var transition = ((Choice) value).Transition;

@@ -7,10 +7,10 @@ namespace StatesLanguage.Model.States
     public abstract class InputOutputState : State
     {
         [JsonProperty(PropertyNames.INPUT_PATH)]
-        public string InputPath { get; private set; }
+        public OptionalString InputPath { get; private set; }
 
         [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        public string OutputPath { get; private set; }
+        public OptionalString OutputPath { get; private set; }
     }
 
     public abstract class InputOutputStateBuilder<T, B> : State.IBuilder<T> 
@@ -18,10 +18,10 @@ namespace StatesLanguage.Model.States
         where B : InputOutputStateBuilder<T, B>
     {
         [JsonProperty(PropertyNames.INPUT_PATH)]
-        private string _inputPath;
+        private OptionalString _inputPath;
 
         [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        private string _outputPath;
+        private OptionalString _outputPath;
         
         internal InputOutputStateBuilder()
         {

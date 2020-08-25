@@ -18,23 +18,32 @@ using System.Collections;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Serialization
 {
     /// <summary>
-    /// Do not serilize empty collections
+    /// Do not serialize empty collections nor UnSet OptionalString 
     /// </summary>
-    internal class EmptyCollectionContractResolver : DefaultContractResolver
+    public class StatesContractResolver : DefaultContractResolver
     {
-        public static readonly EmptyCollectionContractResolver Instance = new EmptyCollectionContractResolver();
+        public static readonly StatesContractResolver Instance = new StatesContractResolver();
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
 
             var shouldSerialize = property.ShouldSerialize;
-            property.ShouldSerialize = obj => (shouldSerialize == null || shouldSerialize(obj)) && !IsEmptyCollection(property, obj);
+            property.ShouldSerialize = obj => (shouldSerialize == null || shouldSerialize(obj)) && !IsEmptyCollection(property, obj) && IsSet(property,obj);
             return property;
+        }
+
+        private bool IsSet(JsonProperty property, object o)
+        {
+            var val = property.ValueProvider.GetValue(o);
+            if (val is OptionalString ostring)
+                return ostring.IsSet;
+            return true;
         }
 
         private bool IsEmptyCollection(JsonProperty property, object target)

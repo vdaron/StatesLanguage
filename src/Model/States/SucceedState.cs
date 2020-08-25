@@ -28,10 +28,10 @@ namespace StatesLanguage.Model.States
         public string Comment { get; private set; }
 
         [JsonProperty(PropertyNames.INPUT_PATH)]
-        public string InputPath { get; private set; }
+        public OptionalString InputPath { get; private set; }
 
         [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        public string OutputPath { get; private set; }
+        public OptionalString OutputPath { get; private set; }
 
         public override StateType Type => StateType.Succeed;
 
@@ -61,10 +61,10 @@ namespace StatesLanguage.Model.States
             private string _comment;
 
             [JsonProperty(PropertyNames.INPUT_PATH)]
-            private string _inputPath;
+            private OptionalString _inputPath;
 
             [JsonProperty(PropertyNames.OUTPUT_PATH)]
-            private string _outputPath;
+            private OptionalString _outputPath;
 
             internal Builder()
             {

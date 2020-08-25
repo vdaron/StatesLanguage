@@ -30,13 +30,13 @@ namespace StatesLanguage.Model.States
         public string Comment { get; private set; }
 
         [JsonProperty(PropertyNames.INPUT_PATH)]
-        public string InputPath { get; private set; }
+        public OptionalString InputPath { get; private set; }
 
         [JsonProperty(PropertyNames.RESULT_PATH)]
-        public string ResultPath { get; private set; }
+        public OptionalString ResultPath { get; private set; }
 
         [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        public string OutputPath { get; private set; }
+        public OptionalString OutputPath { get; private set; }
 
         [JsonProperty(PropertyNames.PARAMETERS)]
         private JToken _parameters;
@@ -77,13 +77,13 @@ namespace StatesLanguage.Model.States
             private string _comment;
 
             [JsonProperty(PropertyNames.INPUT_PATH)]
-            private string _inputPath;
+            private OptionalString _inputPath;
 
             [JsonProperty(PropertyNames.OUTPUT_PATH)]
-            private string _outputPath;
+            private OptionalString _outputPath;
 
             [JsonProperty(PropertyNames.RESULT_PATH)]
-            private string _resultPath;
+            private OptionalString _resultPath;
 
             [JsonProperty(PropertyNames.PARAMETERS)]
             private JToken _parameters;

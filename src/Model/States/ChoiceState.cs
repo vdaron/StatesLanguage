@@ -15,6 +15,7 @@
  */
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
 
@@ -33,10 +34,10 @@ namespace StatesLanguage.Model.States
         public string DefaultStateName { get; set; }
 
         [JsonProperty(PropertyNames.INPUT_PATH)]
-        public string InputPath { get; set; }
+        public OptionalString InputPath { get; set; }
 
         [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        public string OutputPath { get; set; }
+        public OptionalString OutputPath { get; set; }
 
         [JsonProperty(PropertyNames.CHOICES)]
         public List<Choice> Choices { get; set; }
@@ -73,10 +74,10 @@ namespace StatesLanguage.Model.States
             private string _defaultStateName;
 
             [JsonProperty(PropertyNames.INPUT_PATH)]
-            private string _inputPath;
+            private OptionalString _inputPath;
 
             [JsonProperty(PropertyNames.OUTPUT_PATH)]
-            private string _outputPath;
+            private OptionalString _outputPath;
 
             internal Builder()
             {
