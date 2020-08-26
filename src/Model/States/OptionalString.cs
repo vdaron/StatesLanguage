@@ -1,14 +1,19 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 using StatesLanguage.Model.Serialization;
 
 namespace StatesLanguage.Model.States
 {
+    // Inspired by https://github.com/alberto-chiesa/SettableJsonProperties
+    
+    /// <summary>
+    /// String wrapper used to make difference between null and absent values in Json
+    /// </summary>
     [JsonConverter(typeof(OptionalStringSerializer))]
     public struct OptionalString
     {
         private string _value;
-        private bool _isSet;
 
         /// <summary>
         /// Standard constructor.
@@ -16,19 +21,19 @@ namespace StatesLanguage.Model.States
         /// <param name="value"></param>
         public OptionalString(string value)
         {
-            _isSet = true;
+            IsSet = true;
             _value = value;
         }
 
         /// <summary>
         /// True if a value has been set, even if it is null.
         /// </summary>
-        public bool IsSet => _isSet;
+        public bool IsSet { get; private set; }
 
         /// <summary>
         /// True if not null or undefined.
         /// </summary>
-        public bool HasValue => _isSet && _value != null;
+        public bool HasValue => IsSet && _value != null;
 
         /// <summary>
         /// Gets the value of the current <see cref="OptionalString"/>. 
@@ -43,7 +48,7 @@ namespace StatesLanguage.Model.States
                 throw new InvalidOperationException("The value is undefined.");
             }
             set {
-                _isSet = true;
+                IsSet = true;
                 _value = value;
             }
         }
@@ -91,10 +96,10 @@ namespace StatesLanguage.Model.States
         public static bool operator ==(OptionalString t1, OptionalString t2)
         {
             // undefined equals undefined
-            if (!t1._isSet && !t2.IsSet) return true;
+            if (!t1.IsSet && !t2.IsSet) return true;
 
             // undefined != everything else
-            if (t1._isSet ^ t2._isSet) return false;
+            if (t1.IsSet ^ t2.IsSet) return false;
 
             // null equals null
             if (!t1.HasValue && !t2.HasValue) return true;
@@ -124,11 +129,11 @@ namespace StatesLanguage.Model.States
         /// <returns>
         /// A 32-bit signed integer that is the hash code for this instance.
         /// </returns>
+        [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
         public override int GetHashCode()
         {
-            if (!_isSet) return -1;
-            if (!HasValue) return 0;
-            return _value.GetHashCode();
+            if (!IsSet) return -1;
+            return !HasValue ? 0 : _value.GetHashCode();
         }
 
         /// <summary>
@@ -138,7 +143,7 @@ namespace StatesLanguage.Model.States
         /// </summary>
         public override string ToString()
         {
-            return _isSet ? HasValue ? _value : "null" : "undefined";
+            return IsSet ? HasValue ? _value : "null" : "undefined";
         }
     }
 }
