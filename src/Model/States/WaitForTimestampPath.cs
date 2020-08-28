@@ -65,7 +65,7 @@ namespace StatesLanguage.Model.States
              * @param timestampPath Reference path to date in the input.
              * @return This object for method chaining.
              */
-            public Builder TimestampPath(string timestampPath)
+            public Builder TimestampPath(ReferencePath timestampPath)
             {
                 _timestampPath = timestampPath;
                 return this;

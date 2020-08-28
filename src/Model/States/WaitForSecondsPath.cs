@@ -68,7 +68,7 @@ namespace StatesLanguage.Model.States
              * @param secondsPath Reference path to seconds in the input.
              * @return This object for method chaining.
              */
-            public Builder SecondsPath(string secondsPath)
+            public Builder SecondsPath(ReferencePath secondsPath)
             {
                 _secondsPath = secondsPath;
                 return this;

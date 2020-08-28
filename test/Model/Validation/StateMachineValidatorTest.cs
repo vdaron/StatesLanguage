@@ -430,23 +430,10 @@ namespace StatesLanguage.Tests.Model.Validation
                        .Build());
         }
 
-        //NA
-
-        //    [Fact]
-        //public void WaitForTimestamp_NullDate_IsNotValid()
-        //    {Assert.Throws<ValidationException>(() =>
-        //        StepFunctionBuilder.StateMachine()
-        //                .StartAt("Initial")
-        //                .State("Initial", StepFunctionBuilder.WaitState()
-        //                        .WaitFor(StepFunctionBuilder.Timestamp(null))
-        //                        .Transition(StepFunctionBuilder.End()))
-        //                .Build());
-        //    }
-
         [Fact]
         public void WaitForTimestampPath_MissingPath_IsNotValid()
         {
-            Assert.Throws<ValidationException>(() =>
+            Assert.ThrowsAny<ValidationException>(() =>
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.WaitState()
@@ -458,7 +445,7 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact]
         public void WaitForTimestampPath_EmptyPath_IsNotValid()
         {
-            Assert.Throws<ValidationException>(() =>
+            Assert.ThrowsAny<ValidationException>(() =>
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.WaitState()
@@ -467,10 +454,10 @@ namespace StatesLanguage.Tests.Model.Validation
                        .Build());
         }
 
-        [Fact(Skip = "Unable to test JsonPath queries")]
+        [Fact()]
         public void WaitForTimestampPath_InvalidJsonPath_IsNotValid()
         {
-            Assert.Throws<ValidationException>(() =>
+            Assert.ThrowsAny<ValidationException>(() =>
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.WaitState()
@@ -479,10 +466,10 @@ namespace StatesLanguage.Tests.Model.Validation
                        .Build());
         }
 
-        [Fact(Skip = "Unable to test jsonpath")]
+        [Fact()]
         public void WaitForTimestampPath_InvalidReferencePath_IsNotValid()
         {
-            Assert.Throws<ValidationException>(() =>
+            Assert.ThrowsAny<ValidationException>(() =>
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.WaitState()
@@ -494,7 +481,7 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact]
         public void WaitForSecondsPath_MissingPath_IsNotValid()
         {
-            Assert.Throws<ValidationException>(() =>
+            Assert.ThrowsAny<ValidationException>(() =>
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.WaitState()
@@ -506,7 +493,7 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact]
         public void WaitForSecondsPath_EmptyPath_IsNotValid()
         {
-            Assert.Throws<ValidationException>(() =>
+            Assert.ThrowsAny<ValidationException>(() =>
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.WaitState()
@@ -515,10 +502,10 @@ namespace StatesLanguage.Tests.Model.Validation
                        .Build());
         }
 
-        [Fact(Skip = "Unable to test jsonpath")]
+        [Fact()]
         public void WaitForSecondsPath_InvalidJsonPath_IsNotValid()
         {
-            Assert.Throws<ValidationException>(() =>
+            Assert.ThrowsAny<ValidationException>(() =>
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.WaitState()
@@ -527,10 +514,10 @@ namespace StatesLanguage.Tests.Model.Validation
                        .Build());
         }
 
-        [Fact(Skip = "Unable to test jsonpath")]
+        [Fact()]
         public void WaitForSecondsPath_InvalidReferencePath_IsNotValid()
         {
-            Assert.Throws<ValidationException>(() =>
+            Assert.ThrowsAny<ValidationException>(() =>
                StepFunctionBuilder.StateMachine()
                        .StartAt("Initial")
                        .State("Initial", StepFunctionBuilder.WaitState()
@@ -787,6 +774,18 @@ namespace StatesLanguage.Tests.Model.Validation
                         StepFunctionBuilder.StateMachine()
                                 .StartAt("Initial")
                                 .State("Initial", StepFunctionBuilder.MapState()
+                                        .Transition(StepFunctionBuilder.End()))
+                                .Build());
+        }
+        
+        [Fact]
+        public void InputPath_IsNotValid()
+        {
+                Assert.Throws<ValidationException>(() =>
+                        StepFunctionBuilder.StateMachine()
+                                .StartAt("Initial")
+                                .State("Initial", StepFunctionBuilder.PassState()
+                                        .InputPath("['invalidPath")
                                         .Transition(StepFunctionBuilder.End()))
                                 .Build());
         }

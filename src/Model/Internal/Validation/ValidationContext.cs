@@ -13,7 +13,10 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+using System;
 using System.Collections;
+using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.Internal.Validation
 {
@@ -203,20 +206,24 @@ namespace StatesLanguage.Model.Internal.Validation
             {
                 ProblemReporter.Report(new Problem(this, $"{propertyName} cannot be empty"));
             }
+            
+            // Newtonsoft.Json seems to allow JsonPath to not start with $
+            if(path[0] != '$')
+            {
+                ProblemReporter.Report(new Problem(this,
+                    $"{propertyName} with value '{path}' is not a valid JsonPath. Must Start with '$'"));
+            }
 
-            //  JPath is an internal class of Newtonsoft... can't be used here
-            //  JPath test = new JPath(path);
-            //  TODO: Find how to validate JPath query
-            // try
-            // {
-            //     JsonPath.compile(path);
-            // }
-            // catch (InvalidPathException e)
-            // {
-            //     problemReporter.Report(new Problem(this,
-            //         string.Format("{0} with value '{1}' is not a valid JsonPath. {2}", propertyName, path,
-            //             e.getMessage())));
-            // }
+            try
+            {
+                
+                var token = JToken.Parse("{}").SelectTokens(path);
+            }
+            catch (Exception e)
+            {
+                ProblemReporter.Report(new Problem(this,
+                    $"{propertyName} with value '{path}' is not a valid JsonPath. {e.Message}"));
+            }
         }
 
         /**
@@ -237,22 +244,15 @@ namespace StatesLanguage.Model.Internal.Validation
                 ProblemReporter.Report(new Problem(this, $"{propertyName} cannot be empty"));
             }
 
-            //TODO: Find how to validate JPath query
-            // try
-            // {
-            //     if (!JsonPath.isPathDefinite(path))
-            //     {
-            //         problemReporter.Report(new Problem(this,
-            //             string.Format("{0} with value '{0}' is not a definite reference path.",
-            //                 propertyName, path)));
-            //     }
-            // }
-            // catch (InvalidPathException e)
-            // {
-            //     problemReporter.Report(new Problem(this,
-            //         string.Format("{0} with value '{0}' is not a valid JsonPath. {0}", propertyName, path,
-            //             e.getMessage())));
-            // }
+            try
+            {
+                var r = ReferencePath.Parse(path);
+            }
+            catch (InvalidReferencePathException e)
+            {
+                ProblemReporter.Report(new Problem(this,
+                    $"{propertyName} with value '{path}' is not a valid ReferencePath. {e.Message}"));
+            }
         }
 
         /**

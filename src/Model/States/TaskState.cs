@@ -163,9 +163,9 @@ namespace StatesLanguage.Model.States
              * @param resultPath New path value.
              * @return This object for method chaining.
              */
-            public Builder ResultPath(string resultPath)
+            public Builder ResultPath(ReferencePath resultPath)
             {
-                _resultPath = resultPath;
+                _resultPath = resultPath.Path;
                 return this;
             }
 
@@ -220,7 +220,7 @@ namespace StatesLanguage.Model.States
                 return this;
             }
             
-            public Builder TimeoutSecondsPath(string timeoutSecondsPath)
+            public Builder TimeoutSecondsPath(ReferencePath timeoutSecondsPath)
             {
                 _timeoutSecondsPath = timeoutSecondsPath;
                 return this;
@@ -241,7 +241,7 @@ namespace StatesLanguage.Model.States
                 return this;
             }
             
-            public Builder HeartbeatSecondsPath(string heartbeatSecondsPath)
+            public Builder HeartbeatSecondsPath(ReferencePath heartbeatSecondsPath)
             {
                 _heartbeatSecondsPath = heartbeatSecondsPath;
                 return this;

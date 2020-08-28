@@ -159,9 +159,9 @@ namespace StatesLanguage.Model.States
              * @param resultPath New path value.
              * @return This object for method chaining.
              */
-            public Builder ResultPath(string resultPath)
+            public Builder ResultPath(ReferencePath resultPath)
             {
-                _resultPath = resultPath;
+                _resultPath = resultPath.Path;
                 return this;
             }
 
