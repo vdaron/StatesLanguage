@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using StatesLanguage.Model.Internal.Validation;
 using StatesLanguage.Model.ReferencePathTokens;
@@ -9,7 +10,7 @@ namespace StatesLanguage.Model
     {
         private int _currentIndex;
 
-        internal ReferencePath(string path)
+        private ReferencePath(string path)
         {
             Path = path;
             Parts = new List<PathToken>();
@@ -130,7 +131,7 @@ namespace StatesLanguage.Model
                         if (!char.IsDigit(currentCharacter))
                         {
                             throw new InvalidReferencePathException(
-                                "Unexpected character while parsing path indexer: " + currentCharacter);
+                                $"Unexpected character while parsing path indexer: {currentCharacter}");
                         }
 
                         builder.Append(currentCharacter);
@@ -149,19 +150,17 @@ namespace StatesLanguage.Model
 
             EnsureLength("Path ended with open indexer.");
 
-            if (Path[_currentIndex] == ']')
+            switch (Path[_currentIndex])
             {
-                _currentIndex++;
-                return CreatePathFilter(field);
+                case ']':
+                    _currentIndex++;
+                    return CreatePathFilter(field);
+                case ',':
+                    throw new InvalidReferencePathException("Operator ',' not permitted");
+                default:
+                    throw new InvalidReferencePathException(
+                        $"Unexpected character while parsing path indexer: {Path[_currentIndex]}");
             }
-
-            if (Path[_currentIndex] == ',')
-            {
-                throw new InvalidReferencePathException("Operator ',' not permitted");
-            }
-
-            throw new InvalidReferencePathException("Unexpected character while parsing path indexer: " +
-                                                    Path[_currentIndex]);
         }
 
         private string ReadQuotedString()
