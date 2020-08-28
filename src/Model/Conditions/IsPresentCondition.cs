@@ -33,7 +33,7 @@ namespace StatesLanguage.Model.Conditions
         }
 
         [JsonProperty(PropertyNames.IS_PRESENT)]
-        public bool IsPresent { get; protected set; }
+        public bool IsPresent { get; private set; }
         
         [JsonProperty(PropertyNames.VARIABLE)]
         public string Variable { get; set; }

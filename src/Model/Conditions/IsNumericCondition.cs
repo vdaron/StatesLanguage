@@ -33,7 +33,7 @@ namespace StatesLanguage.Model.Conditions
         }
 
         [JsonProperty(PropertyNames.IS_NUMERIC)]
-        public bool IsNumeric { get; protected set; }
+        public bool IsNumeric { get; private set; }
         
         [JsonProperty(PropertyNames.VARIABLE)]
         public string Variable { get; set; }
