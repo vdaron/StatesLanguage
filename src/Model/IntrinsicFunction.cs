@@ -16,38 +16,32 @@ namespace StatesLanguage.Model
 
     public class NumberIntrinsicParam : IntrinsicParam
     {
-        private readonly decimal _number;
-
         public NumberIntrinsicParam(decimal number)
         {
-            _number = number;
+            Number = number;
         }
 
-        public decimal Number => _number;
+        public decimal Number { get; }
     }
 
     public class PathIntrinsicParam : IntrinsicParam
     {
-        private readonly string _path;
-
         public PathIntrinsicParam(string path)
         {
-            _path = path;
+            Path = path;
         }
 
-        public string Path => _path;
+        public string Path { get; }
     }
 
     public class StringIntrinsicParam : IntrinsicParam
     {
-        private readonly string _value;
-
         public StringIntrinsicParam(string value)
         {
-            _value = value;
+            Value = value;
         }
         
-        public string Value => _value;
+        public string Value { get; }
     }
     
     public class IntrinsicFunction : IntrinsicParam
