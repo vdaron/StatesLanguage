@@ -136,6 +136,37 @@ namespace StatesLanguage.Tests.Model
             Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 10) })));
             Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 11) })));//NotEqual
         }
+        
+        [Fact]
+        public void TestGtPathOperator()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.StringGreaterThanPath("$.varstr", "$.a")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.NumericGreaterThanPath("$.varint", "$.a")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.TimestampGreaterThanPath("$.vardate", "$.a")))
+                                       .Build();
+
+            var choices = c.Choices.ToArray();
+
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { varstr = "vvalue", a = "value" })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { varstr = "notValue", a = "value" })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { varstr = "value", a = "value" }))); //NotEqual
+
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varint = 34, a = 33})));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { varint = 30, a = 33 })));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { varint = 33, a = 33 }))); //NotEqual
+
+            var d = new DateTime(2018, 10, 22, 22, 33, 11);
+            Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = d.AddDays(1), a = d })));
+            Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = d.AddDays(-1), a = d })));
+            Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = d, a = d })));//NotEqual
+        }
         [Fact]
         public void TestGteOperator()
         {
@@ -164,6 +195,38 @@ namespace StatesLanguage.Tests.Model
             Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 20) })));
             Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 10) })));
             Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 11) })));//Equal
+        }
+        
+        [Fact]
+        public void TestGtePathOperator()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.StringGreaterThanEqualsPath("$.varstr", "$.b")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.NumericGreaterThanEqualsPath("$.varint", "$.b")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.TimestampGreaterThanEqualsPath("$.vardate", "$.b")))
+                                       .Build();
+
+            var choices = c.Choices.ToArray();
+
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { varstr = "vvalue", b = "value" })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { varstr = "notValue", b = "value" })));
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { varstr = "value", b = "value" }))); //Equal
+
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varint = 34, b = 33 })));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { varint = 30 , b = 33})));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varint = 33 , b = 33}))); //Equal
+
+            var d = new DateTime(2018, 10, 22, 22, 33, 20);
+
+            Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = d.AddHours(-1), b = d })));
+            Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = d.AddHours(1), b = d })));
+            Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = d, b = d  })));//Equal
         }
         [Fact]
         public void TestLtOperator()
@@ -194,6 +257,39 @@ namespace StatesLanguage.Tests.Model
             Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 10) })));
             Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 11) })));//NotEqual
         }
+        
+        [Fact]
+        public void TestLtPathOperator()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.StringLessThanPath("$.varstr", "$.b")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.NumericLessThanPath("$.varint", "$.b")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.TimestampLessThanPath("$.vardate", "$.b")))
+                                       .Build();
+
+            var choices = c.Choices.ToArray();
+
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { varstr = "vvalue", b = "value" })));
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { varstr = "notValue", b = "value" })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { varstr = "value", b = "value" }))); //Equal
+
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { varint = 34, b = 33 })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varint = 30 , b = 33})));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { varint = 33 , b = 33}))); //Equal
+
+            var d = new DateTime(2018, 10, 22, 22, 33, 20);
+
+            Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = d.AddHours(1), b = d })));
+            Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = d.AddHours(-1), b = d })));
+            Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = d, b = d  })));//Equal
+        }
+
         [Fact]
         public void TestLteOperator()
         {
@@ -222,6 +318,74 @@ namespace StatesLanguage.Tests.Model
             Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 20) })));
             Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 10) })));
             Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = new DateTime(2018, 10, 22, 22, 33, 11) })));//Equal
+        }
+        
+        [Fact]
+        public void TestLtePathOperator()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.StringLessThanEqualsPath("$.varstr", "$.b")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.NumericLessThanEqualsPath("$.varint", "$.b")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.TimestampLessThanEqualsPath("$.vardate", "$.b")))
+                                       .Build();
+
+            var choices = c.Choices.ToArray();
+
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { varstr = "vvalue", b = "value" })));
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { varstr = "notValue", b = "value" })));
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { varstr = "value", b = "value" }))); //Equal
+
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { varint = 34, b = 33 })));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varint = 30 , b = 33})));
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { varint = 33 , b = 33}))); //Equal
+
+            var d = new DateTime(2018, 10, 22, 22, 33, 20);
+
+            Assert.False(choices[2].Condition.Match(JObject.FromObject(new { vardate = d.AddHours(1), b = d })));
+            Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = d.AddHours(-1), b = d })));
+            Assert.True(choices[2].Condition.Match(JObject.FromObject(new { vardate = d, b = d  })));//Equal
+        }
+
+        [Fact]
+        public void TestEqualPathOperator()
+        {
+            var c = StepFunctionBuilder.ChoiceState()
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.StringEqualsPath("$.a","$.b")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.NumericEqualsPath("$.a", "$.b")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.TimestampEqualsPath("$.a", "$.b")))
+                                       .Choice(StepFunctionBuilder.Choice()
+                                                                  .Transition(StepFunctionBuilder.Next("NextState"))
+                                                                  .Condition(StepFunctionBuilder.BooleanEqualsPath("$.a", "$.b")))
+                                       .Build();
+
+            var choices = c.Choices.ToArray();
+
+            Assert.True(choices[0].Condition.Match(JObject.FromObject(new { a = "value", b = "value" })));
+            Assert.False(choices[0].Condition.Match(JObject.FromObject(new { a = "value", b = "not-value" })));
+
+            Assert.True(choices[1].Condition.Match(JObject.FromObject(new { a = 33, b = 33 })));
+            Assert.False(choices[1].Condition.Match(JObject.FromObject(new { a = 33, b = 22 })));
+
+            var d = new DateTime(2018, 10, 22, 22, 33, 11);
+            
+            Assert.True(choices[2].Condition.Match(JObject.FromObject(new { a = d, b = d })));
+            Assert.False(choices[2].Condition.Match(JObject.FromObject(new { a = d, b = DateTime.Now })));
+
+            Assert.True(choices[3].Condition.Match(JObject.FromObject(new { a = true, b = true })));
+            Assert.True(choices[3].Condition.Match(JObject.FromObject(new { a = false, b = false })));
+            Assert.False(choices[3].Condition.Match(JObject.FromObject(new { a = false, b = true })));
         }
 
         [Fact]
