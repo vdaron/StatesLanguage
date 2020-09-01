@@ -18,20 +18,11 @@ using Newtonsoft.Json;
 
 namespace StatesLanguage.Model.States
 {
-    public class SucceedState : State
+    public class SucceedState : InputOutputState
     {
         private SucceedState()
         {
         }
-
-        [JsonProperty(PropertyNames.COMMENT)]
-        public string Comment { get; private set; }
-
-        [JsonProperty(PropertyNames.INPUT_PATH)]
-        public OptionalString InputPath { get; private set; }
-
-        [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        public OptionalString OutputPath { get; private set; }
 
         public override StateType Type => StateType.Succeed;
 

@@ -27,17 +27,8 @@ namespace StatesLanguage.Model.States
 
         public override StateType Type => StateType.Wait;
 
-        [JsonProperty(PropertyNames.COMMENT)]
-        public string Comment { get; private set; }
-
         [JsonIgnore]
         public IWaitFor WaitFor { get; private set; }
-
-        [JsonProperty(PropertyNames.INPUT_PATH)]
-        public OptionalString InputPath { get; private set; }
-
-        [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        public OptionalString OutputPath { get; private set; }
 
         /**
          * @return Builder instance to construct a {@link WaitState}.

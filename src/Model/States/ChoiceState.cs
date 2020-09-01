@@ -18,26 +18,19 @@ using System.Linq;
 using System.Net.Sockets;
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using StatesLanguage.Interfaces;
 
 namespace StatesLanguage.Model.States
 {
-    public class ChoiceState : State
+
+    public class ChoiceState : InputOutputState
     {
         private ChoiceState()
         {
         }
 
-        [JsonProperty(PropertyNames.COMMENT)]
-        public string Comment { get; set; }
-
         [JsonProperty(PropertyNames.DEFAULT_STATE)]
         public string DefaultStateName { get; set; }
-
-        [JsonProperty(PropertyNames.INPUT_PATH)]
-        public OptionalString InputPath { get; set; }
-
-        [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        public OptionalString OutputPath { get; set; }
 
         [JsonProperty(PropertyNames.CHOICES)]
         public List<Choice> Choices { get; set; }

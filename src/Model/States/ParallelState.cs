@@ -26,28 +26,6 @@ namespace StatesLanguage.Model.States
         {
         }
 
-        [JsonProperty(PropertyNames.COMMENT)]
-        public string Comment { get; private set; }
-
-        [JsonProperty(PropertyNames.INPUT_PATH)]
-        public OptionalString InputPath { get; private set; }
-
-        [JsonProperty(PropertyNames.RESULT_PATH)]
-        public OptionalString ResultPath { get; private set; }
-
-        [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        public OptionalString OutputPath { get; private set; }
-
-        [JsonProperty(PropertyNames.PARAMETERS)]
-        private JToken _parameters;
-
-        [JsonIgnore] public JObject Parameters => (JObject)_parameters;
-
-        [JsonProperty(PropertyNames.RESULT_SELECTOR)]
-        private JToken _resultSelector;
-
-        [JsonIgnore] public JObject ResultSelector => (JObject) _resultSelector;
-        
         [JsonIgnore]
         public List<SubStateMachine> Branches { get; private set; }
 
@@ -86,10 +64,10 @@ namespace StatesLanguage.Model.States
             private OptionalString _resultPath;
 
             [JsonProperty(PropertyNames.PARAMETERS)]
-            private JToken _parameters;
+            private JObject _parameters;
             
             [JsonProperty(PropertyNames.RESULT_SELECTOR)]
-            private JToken _resultSelector;
+            private JObject _resultSelector;
             
             private ITransitionBuilder<ITransition> _transition = NullTransitionBuilder<ITransition>.Instance;
 
@@ -216,8 +194,8 @@ namespace StatesLanguage.Model.States
                            InputPath = _inputPath,
                            ResultPath = _resultPath,
                            OutputPath = _outputPath,
-                           _parameters = _parameters,
-                           _resultSelector = _resultSelector,
+                           Parameters = _parameters,
+                           ResultSelector = _resultSelector,
                            Transition = _transition.Build(),
                            Retriers = BuildableUtils.Build(_retriers),
                            Catchers = BuildableUtils.Build(_catchers)

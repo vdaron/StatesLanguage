@@ -19,15 +19,19 @@ using System.Text;
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using StatesLanguage.Interfaces;
 
 namespace StatesLanguage.Model.States
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class State
+    public abstract class State : IState
     {
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty(PropertyNames.TYPE)]
         public abstract StateType Type { get; }
+        
+        [JsonProperty(PropertyNames.COMMENT)]
+        public string Comment { get; set; }
 
         [JsonIgnore]
         public abstract bool IsTerminalState { get; }

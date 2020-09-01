@@ -7,7 +7,7 @@
       "InputPath": "$.input",
       "OutputPath": "$.output",
       "ResultPath": "$.result",
-      "Parameters": "passParameters",
+      "Parameters": { "a":1 },
       "Next": "NextState",
       "Result": {
         "Foo": "Bar"

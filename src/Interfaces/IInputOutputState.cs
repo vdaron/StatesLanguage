@@ -1,8 +1,10 @@
+using StatesLanguage.Model.States;
+
 namespace StatesLanguage.Interfaces
 {
     public interface IInputOutputState : IState
     {
-        string InputPath { get; }
-        string OutputPath { get; }
+        OptionalString InputPath { get; }
+        OptionalString OutputPath { get; }
     }
 }

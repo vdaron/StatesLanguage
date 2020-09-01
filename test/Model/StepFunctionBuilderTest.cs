@@ -197,7 +197,7 @@ namespace StatesLanguage.Tests.Model
                     .InputPath("$.input")
                     .OutputPath("$.output")
                     .ResultPath("$.result")
-                    .Parameters(JValue.CreateString("passParameters"))
+                    .Parameters(JObject.Parse("{'a':1}"))
                     .Transition(StepFunctionBuilder.Next("NextState"))
                     .Result("{\"Foo\": \"Bar\"}"))
                 .State("NextState", StepFunctionBuilder.SucceedState())

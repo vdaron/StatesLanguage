@@ -4,6 +4,7 @@ namespace StatesLanguage.Interfaces
 {
     public interface IParametersState : IInputOutputState
     {
-        JToken Parameters { get; }
+        string ResultPath { get; }
+        JObject Parameters { get; }
     }
 }

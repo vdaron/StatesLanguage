@@ -27,23 +27,14 @@ namespace StatesLanguage.Model.States
         {
         }
 
-        [JsonProperty(PropertyNames.COMMENT)]
-        public string Comment { get; private set; }
-
-        [JsonProperty(PropertyNames.INPUT_PATH)]
-        public OptionalString InputPath { get; private set; }
-
         [JsonProperty(PropertyNames.RESULT)]
         public JToken Result { get; private set; }
-
-        [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        public OptionalString OutputPath { get; private set; }
 
         [JsonProperty(PropertyNames.RESULT_PATH)]
         public OptionalString ResultPath { get; private set; }
 
         [JsonProperty(PropertyNames.PARAMETERS)]
-        public JToken Parameters { get; private set; }
+        public JObject Parameters { get; private set; }
 
 
         public override StateType Type => StateType.Pass;
@@ -82,7 +73,7 @@ namespace StatesLanguage.Model.States
             private OptionalString _resultPath;
 
             [JsonProperty(PropertyNames.PARAMETERS)]
-            private JToken _parameters;
+            private JObject _parameters;
 
             private ITransitionBuilder<ITransition> _transition = NullTransitionBuilder<ITransition>.Instance;
 
@@ -185,7 +176,7 @@ namespace StatesLanguage.Model.States
                 return this;
             }
 
-            public Builder Parameters(JToken parameters)
+            public Builder Parameters(JObject parameters)
             {
                 _parameters = parameters;
                 return this;

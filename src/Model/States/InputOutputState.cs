@@ -7,10 +7,10 @@ namespace StatesLanguage.Model.States
     public abstract class InputOutputState : State
     {
         [JsonProperty(PropertyNames.INPUT_PATH)]
-        public OptionalString InputPath { get; private set; }
+        public OptionalString InputPath { get; protected set; }
 
         [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        public OptionalString OutputPath { get; private set; }
+        public OptionalString OutputPath { get; protected set; }
     }
 
     public abstract class InputOutputStateBuilder<T, B> : State.IBuilder<T> 

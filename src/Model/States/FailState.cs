@@ -15,6 +15,7 @@
  */
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using StatesLanguage.Interfaces;
 
 namespace StatesLanguage.Model.States
 {
@@ -23,9 +24,6 @@ namespace StatesLanguage.Model.States
         private FailState()
         {
         }
-
-        [JsonProperty(PropertyNames.COMMENT)]
-        public string Comment { get; set; }
 
         [JsonProperty(PropertyNames.ERROR)]
         public string Error { get; set; }

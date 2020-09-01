@@ -1,14 +1,21 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using StatesLanguage.Interfaces;
 using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
-    public abstract class RetryCatchState : TransitionState
+    public abstract class RetryCatchState : ParameterState, IResultState
     {
-        [JsonProperty(PropertyNames.RETRY)] public List<Retrier> Retriers { get; protected set; }
+        [JsonProperty(PropertyNames.RESULT_SELECTOR)]
+        public JObject ResultSelector { get; protected set; }
 
-        [JsonProperty(PropertyNames.CATCH)] public List<Catcher> Catchers { get; protected set; }
+        [JsonProperty(PropertyNames.RETRY)] 
+        public IList<Retrier> Retriers { get; protected set; }
+
+        [JsonProperty(PropertyNames.CATCH)]
+        public IList<Catcher> Catchers { get; protected set; }
     }
 
     public abstract class RetryCatchStateBuilder<T, B> : TransitionStateBuilder<T, B>

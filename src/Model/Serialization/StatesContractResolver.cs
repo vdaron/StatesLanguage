@@ -65,7 +65,7 @@ namespace StatesLanguage.Model.Serialization
                 return false;
             }
 
-            var count = (int) countProp.GetValue(value, null);
+            var count = value == null ? 0 :  (int) countProp.GetValue(value, null);
             return count == 0;
         }
     }
