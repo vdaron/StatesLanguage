@@ -18,13 +18,18 @@ namespace StatesLanguage.Model.States
         public IList<Catcher> Catchers { get; protected set; }
     }
 
-    public abstract class RetryCatchStateBuilder<T, B> : TransitionStateBuilder<T, B>
+    public abstract class RetryCatchStateBuilder<T, B> : ParameterStateBuilder<T, B>
         where T : State
         where B : RetryCatchStateBuilder<T, B>
     {
-        [JsonProperty(PropertyNames.CATCH)] protected List<Catcher.Builder> _catchers = new List<Catcher.Builder>();
+        [JsonProperty(PropertyNames.RESULT_SELECTOR)]
+        protected JObject _resultSelector;
+        
+        [JsonProperty(PropertyNames.CATCH)] 
+        protected List<Catcher.Builder> _catchers = new List<Catcher.Builder>();
 
-        [JsonProperty(PropertyNames.RETRY)] protected List<Retrier.Builder> _retriers = new List<Retrier.Builder>();
+        [JsonProperty(PropertyNames.RETRY)] 
+        protected List<Retrier.Builder> _retriers = new List<Retrier.Builder>();
 
         internal RetryCatchStateBuilder()
         {
@@ -91,6 +96,12 @@ namespace StatesLanguage.Model.States
         {
             _catchers.Add(catcherBuilder);
             return (B) this;
+        }
+        
+        public B ResultSelector(JObject resultSelector)
+        {
+            _resultSelector = resultSelector;
+            return (B)this;
         }
     }
 }

@@ -50,13 +50,10 @@ namespace StatesLanguage.Model.States
         /**
          * Builder for a {@link FailState}.
          */
-        public sealed class Builder : IBuilder<FailState>
+        public sealed class Builder : StateBuilder<FailState, Builder>
         {
             [JsonProperty(PropertyNames.CAUSE)]
             private string _cause;
-
-            [JsonProperty(PropertyNames.COMMENT)]
-            private string _comment;
 
             [JsonProperty(PropertyNames.ERROR)]
             private string _error;
@@ -68,7 +65,7 @@ namespace StatesLanguage.Model.States
             /**
              * @return An immutable {@link FailState} object.
              */
-            public FailState Build()
+            public override FailState Build()
             {
                 return new FailState
                        {
@@ -77,19 +74,7 @@ namespace StatesLanguage.Model.States
                            Cause = _cause
                        };
             }
-
-            /**
-             * OPTIONAL. Human readable description for the state.
-             *
-             * @param comment New comment.
-             * @return This object for method chaining.
-             */
-            public Builder Comment(string comment)
-            {
-                _comment = comment;
-                return this;
-            }
-
+            
             /**
              * REQUIRED. Error code that can be referenced in {@link Retrier}s or {@link Catcher}s and can also be used for
              * diagnostic

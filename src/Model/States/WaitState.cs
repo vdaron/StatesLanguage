@@ -48,35 +48,12 @@ namespace StatesLanguage.Model.States
          */
         public sealed class Builder : TransitionStateBuilder<WaitState, Builder>
         {
-            [JsonProperty(PropertyNames.COMMENT)]
-            private string _comment;
-
-            [JsonProperty(PropertyNames.INPUT_PATH)]
-            private OptionalString _inputPath;
-
-            [JsonProperty(PropertyNames.OUTPUT_PATH)]
-            private OptionalString _outputPath;
-            
-            private ITransitionBuilder<ITransition> _transition = NullTransitionBuilder<ITransition>.Instance;
-
             private IWaitForBuilder<IWaitFor> _waitFor = NullWaitForBuilder.Instance;
 
             internal Builder()
             {
             }
-
-            /**
-             * OPTIONAL. Human readable description for the state.
-             *
-             * @param comment New comment.
-             * @return This object for method chaining.
-             */
-            public Builder Comment(string comment)
-            {
-                _comment = comment;
-                return this;
-            }
-
+            
             /**
              * REQUIRED. Implementation of {@link WaitFor} that indicates how long the state should wait before proceeding.
              *
@@ -88,48 +65,7 @@ namespace StatesLanguage.Model.States
                 _waitFor = (IWaitForBuilder<IWaitFor>) waitFor;
                 return this;
             }
-
-            /**
-             * OPTIONAL. The value of “InputPath” MUST be a Path, which is applied to the previous State’s output to select some or
-             * all of it to form the input for this state. If not provided then the whole output from the previous state is used as
-             * input to this state.
-             *
-             * @param inputPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder InputPath(string inputPath)
-            {
-                _inputPath = inputPath;
-                return this;
-            }
-
-            /**
-             * OPTIONAL. The value of “OutputPath” MUST be a path, which is applied to the state’s output after the application of
-             * ResultPath, leading in the generation of the raw input for the next state. If not provided then the whole output is
-             * used.
-             *
-             * @param outputPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder OutputPath(string outputPath)
-            {
-                _outputPath = outputPath;
-                return this;
-            }
-
-            /**
-             * REQUIRED. Sets the transition that will occur when the wait is completed.
-             *
-             * @param transition New transition.
-             * @return This object for method chaining.
-             */
-
-            public override Builder Transition<T>(ITransitionBuilder<T> transition)
-            {
-                _transition = (ITransitionBuilder<ITransition>) transition;
-                return this;
-            }
-
+            
             /**
              * @return An immutable {@link WaitState} object.
              */

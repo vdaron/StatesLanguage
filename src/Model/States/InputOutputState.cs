@@ -13,15 +13,15 @@ namespace StatesLanguage.Model.States
         public OptionalString OutputPath { get; protected set; }
     }
 
-    public abstract class InputOutputStateBuilder<T, B> : State.IBuilder<T> 
+    public abstract class InputOutputStateBuilder<T, B> : StateBuilder<T,B> 
         where T : State
         where B : InputOutputStateBuilder<T, B>
     {
         [JsonProperty(PropertyNames.INPUT_PATH)]
-        private OptionalString _inputPath;
+        protected OptionalString _inputPath;
 
         [JsonProperty(PropertyNames.OUTPUT_PATH)]
-        private OptionalString _outputPath;
+        protected OptionalString _outputPath;
         
         internal InputOutputStateBuilder()
         {
@@ -54,8 +54,5 @@ namespace StatesLanguage.Model.States
             _outputPath = outputPath;
             return (B)this;
         }
-
-
-        public abstract T Build();
     }
 }

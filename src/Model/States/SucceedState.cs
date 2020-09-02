@@ -46,25 +46,17 @@ namespace StatesLanguage.Model.States
          * Builder for a {@link SucceedState}.
          */
         [JsonObject(MemberSerialization.OptIn)]
-        public sealed class Builder : IBuilder<SucceedState>
+        public sealed class Builder : InputOutputStateBuilder<SucceedState, Builder>
         {
-            [JsonProperty(PropertyNames.COMMENT)]
-            private string _comment;
-
-            [JsonProperty(PropertyNames.INPUT_PATH)]
-            private OptionalString _inputPath;
-
-            [JsonProperty(PropertyNames.OUTPUT_PATH)]
-            private OptionalString _outputPath;
-
             internal Builder()
             {
             }
 
-            /**
-             * @return An immutable {@link SucceedState} object.
-             */
-            public SucceedState Build()
+            /// <summary>
+            /// return An immutable {@link SucceedState} object
+            /// </summary>
+            /// <returns></returns>
+            public override SucceedState Build()
             {
                 return new SucceedState
                        {
@@ -72,47 +64,6 @@ namespace StatesLanguage.Model.States
                            InputPath = _inputPath,
                            OutputPath = _outputPath
                        };
-            }
-
-            /**
-             * OPTIONAL. Human readable description for the state.
-             *
-             * @param comment New comment.
-             * @return This object for method chaining.
-             */
-            public Builder Comment(string comment)
-            {
-                _comment = comment;
-                return this;
-            }
-
-            /**
-             * OPTIONAL. The value of “InputPath” MUST be a Path, which is applied to a State’s raw input to select some or all of
-             * it;
-             * that selection is used by the state. If not provided then the whole output from the previous state is used as input to
-             * this state.
-             *
-             * @param inputPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder InputPath(string inputPath)
-            {
-                _inputPath = inputPath;
-                return this;
-            }
-
-            /**
-             * OPTIONAL. The value of “OutputPath” MUST be a path, which is applied to the state’s output after the application of
-             * ResultPath, leading in the generation of the raw input for the next state. If not provided then the whole output is
-             * used.
-             *
-             * @param outputPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder OutputPath(string outputPath)
-            {
-                _outputPath = outputPath;
-                return this;
             }
         }
     }

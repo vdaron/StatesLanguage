@@ -55,22 +55,13 @@ namespace StatesLanguage.Model.States
         /**
          * Builder for a {@link ChoiceState}.
          */
-        public sealed class Builder : IBuilder<ChoiceState>
+        public sealed class Builder : InputOutputStateBuilder<ChoiceState,Builder>
         {
             [JsonProperty(PropertyNames.CHOICES)]
             private List<Choice.Builder> _choices = new List<Choice.Builder>();
 
-            [JsonProperty(PropertyNames.COMMENT)]
-            private string _comment;
-
             [JsonProperty(PropertyNames.DEFAULT_STATE)]
             private string _defaultStateName;
-
-            [JsonProperty(PropertyNames.INPUT_PATH)]
-            private OptionalString _inputPath;
-
-            [JsonProperty(PropertyNames.OUTPUT_PATH)]
-            private OptionalString _outputPath;
 
             internal Builder()
             {
@@ -79,7 +70,7 @@ namespace StatesLanguage.Model.States
             /**
              * @return An immutable {@link ChoiceState} object.
              */
-            public ChoiceState Build()
+            public override ChoiceState Build()
             {
                 return new ChoiceState
                        {
@@ -90,19 +81,7 @@ namespace StatesLanguage.Model.States
                            OutputPath = _outputPath
                        };
             }
-
-            /**
-             * OPTIONAL. Human readable description for the state.
-             *
-             * @param comment New comment.
-             * @return This object for method chaining.
-             */
-            public Builder Comment(string comment)
-            {
-                _comment = comment;
-                return this;
-            }
-
+            
             /**
              * OPTIONAL. Name of state to transition to if no {@link Choice} rules match. If a default state is not provided and no
              * choices match then a {@link ErrorCodes#NO_CHOICE_MATCHED} error is thrown.
@@ -143,35 +122,6 @@ namespace StatesLanguage.Model.States
             public Builder Choices(params Choice.Builder[] choiceBuilders)
             {
                 _choices.AddRange(choiceBuilders);
-                return this;
-            }
-
-            /**
-             * OPTIONAL. The value of “InputPath” MUST be a Path, which is applied to a State’s raw input to select some or all of
-             * it;
-             * that selection is used by the state. If not provided then the whole output from the previous state is used as input to
-             * this state.
-             *
-             * @param inputPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder InputPath(string inputPath)
-            {
-                _inputPath = inputPath;
-                return this;
-            }
-
-            /**
-             * OPTIONAL. The value of “OutputPath” MUST be a path, which is applied to the state’s output after the application of
-             * ResultPath, leading in the generation of the raw input for the next state. If not provided then the whole output is
-             * used.
-             *
-             * @param outputPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder OutputPath(string outputPath)
-            {
-                _outputPath = outputPath;
                 return this;
             }
         }

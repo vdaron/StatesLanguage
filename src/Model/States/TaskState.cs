@@ -65,41 +65,20 @@ namespace StatesLanguage.Model.States
      */
         public sealed class Builder : RetryCatchStateBuilder<TaskState, Builder>
         {
-            [JsonProperty(PropertyNames.COMMENT)]
-            private string _comment;
-
             [JsonProperty(PropertyNames.HEARTBEAT_SECONDS)]
             private int? _heartbeatSeconds;
             
             [JsonProperty(PropertyNames.HEARTBEAT_SECONDS_PATH)]
             private string _heartbeatSecondsPath;
 
-            [JsonProperty(PropertyNames.INPUT_PATH)]
-            private OptionalString _inputPath;
-
-            [JsonProperty(PropertyNames.OUTPUT_PATH)]
-            private OptionalString _outputPath;
-
-            [JsonProperty(PropertyNames.PARAMETERS)]
-            private JObject _parameters;
-            
-            [JsonProperty(PropertyNames.RESULT_SELECTOR)]
-            private JObject _resultSelector;
-
             [JsonProperty(PropertyNames.RESOURCE)]
             private string _resource;
-
-            [JsonProperty(PropertyNames.RESULT_PATH)]
-            private OptionalString _resultPath;
 
             [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
             private int? _timeoutSeconds;
             
             [JsonProperty(PropertyNames.TIMEOUT_SECONDS_PATH)]
             private string _timeoutSecondsPath;
-
-            [JsonIgnore]
-            private ITransitionBuilder<ITransition> _transition;
 
             internal Builder()
             {
@@ -118,73 +97,7 @@ namespace StatesLanguage.Model.States
                 _resource = resource;
                 return this;
             }
-
-            /**
-             * OPTIONAL. The value of “InputPath” MUST be a Path, which is applied to a State’s raw input to select some or all of
-             * it;
-             * that selection is used by the state. If not provided then the whole output from the previous state is used as input to
-             * this state.
-             *
-             * @param inputPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder InputPath(string inputPath)
-            {
-                _inputPath = inputPath;
-                return this;
-            }
-
-            /**
-             * OPTIONAL. The value of “ResultPath” MUST be a Reference Path, which specifies the combination with or replacement of
-             * the state’s result with its raw input. If not provided then the output completely replaces the input.
-             *
-             * @param resultPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder ResultPath(ReferencePath resultPath)
-            {
-                _resultPath = resultPath.Path;
-                return this;
-            }
-
-            /**
-             * OPTIONAL. The value of “OutputPath” MUST be a path, which is applied to the state’s output after the application of
-             * ResultPath, leading in the generation of the raw input for the next state. If not provided then the whole output is
-             * used.
-             *
-             * @param outputPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder OutputPath(string outputPath)
-            {
-                _outputPath = outputPath;
-                return this;
-            }
-
-            public Builder Parameters(JObject parameters)
-            {
-                _parameters = parameters;
-                return this;
-            }
             
-            public Builder ResultSelector(JObject resultSelector)
-            {
-                _resultSelector = resultSelector;
-                return this;
-            }
-
-            /**
-             * OPTIONAL. Human readable description for the state.
-             *
-             * @param comment New comment.
-             * @return This object for method chaining.
-             */
-            public Builder Comment(string comment)
-            {
-                _comment = comment;
-                return this;
-            }
-
             /**
              * OPTIONAL. Timeout, in seconds, that a task is allowed to run. If the task execution runs longer than this timeout the
              * execution fails with a {@link ErrorCodes#TIMEOUT} error.
@@ -222,18 +135,6 @@ namespace StatesLanguage.Model.States
             public Builder HeartbeatSecondsPath(ReferencePath heartbeatSecondsPath)
             {
                 _heartbeatSecondsPath = heartbeatSecondsPath;
-                return this;
-            }
-
-            /**
-             * REQUIRED. Sets the transition that will occur when the task completes successfully.
-             *
-             * @param transition New transition.
-             * @return This object for method chaining.
-             */
-            public override Builder Transition<T>(ITransitionBuilder<T> transition)
-            {
-                _transition = (ITransitionBuilder<ITransition>) transition;
                 return this;
             }
 

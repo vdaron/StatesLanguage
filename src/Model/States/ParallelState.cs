@@ -51,42 +51,10 @@ namespace StatesLanguage.Model.States
             [JsonProperty(PropertyNames.BRANCHES)]
             private List<SubStateMachine.Builder> _branches = new List<SubStateMachine.Builder>();
 
-            [JsonProperty(PropertyNames.COMMENT)]
-            private string _comment;
-
-            [JsonProperty(PropertyNames.INPUT_PATH)]
-            private OptionalString _inputPath;
-
-            [JsonProperty(PropertyNames.OUTPUT_PATH)]
-            private OptionalString _outputPath;
-
-            [JsonProperty(PropertyNames.RESULT_PATH)]
-            private OptionalString _resultPath;
-
-            [JsonProperty(PropertyNames.PARAMETERS)]
-            private JObject _parameters;
-            
-            [JsonProperty(PropertyNames.RESULT_SELECTOR)]
-            private JObject _resultSelector;
-            
-            private ITransitionBuilder<ITransition> _transition = NullTransitionBuilder<ITransition>.Instance;
-
             internal Builder()
             {
             }
-
-            /**
-             * OPTIONAL. Human readable description for the state.
-             *
-             * @param comment New comment.
-             * @return This object for method chaining.
-             */
-            public Builder Comment(string comment)
-            {
-                _comment = comment;
-                return this;
-            }
-
+            
             /**
              * REQUIRED. Adds a new branch of execution to this states branches. A parallel state must have at least one branch.
              *
@@ -114,74 +82,7 @@ namespace StatesLanguage.Model.States
                 _branches.AddRange(branchBuilders);
                 return this;
             }
-
-            /**
-             * OPTIONAL. The value of “InputPath” MUST be a Path, which is applied to a State’s raw input to select some or all of
-             * it;
-             * that selection is used by the state. If not provided then the whole output from the previous state is used as input to
-             * this state.
-             *
-             * @param inputPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder InputPath(string inputPath)
-            {
-                _inputPath = inputPath;
-                return this;
-            }
-
-            /**
-             * OPTIONAL. The value of “ResultPath” MUST be a Reference Path, which specifies the combination with or replacement of
-             * the state’s result with its raw input. If not provided then the output completely replaces the input.
-             *
-             * @param resultPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder ResultPath(ReferencePath resultPath)
-            {
-                _resultPath = resultPath.Path;
-                return this;
-            }
-
-            /**
-             * OPTIONAL. The value of “OutputPath” MUST be a path, which is applied to the state’s output after the application of
-             * ResultPath, leading in the generation of the raw input for the next state. If not provided then the whole output is
-             * used.
-             *
-             * @param outputPath New path value.
-             * @return This object for method chaining.
-             */
-            public Builder OutputPath(string outputPath)
-            {
-                _outputPath = outputPath;
-                return this;
-            }
-
-            public Builder Parameters(JObject parameters)
-            {
-                _parameters = parameters;
-                return this;
-            }
             
-            public Builder ResultSelector(JObject resultSelector)
-            {
-                _resultSelector = resultSelector;
-                return this;
-            }
-
-            /**
-             * REQUIRED. Sets the transition that will occur when all branches in this parallel
-             * state have executed successfully.
-             *
-             * @param transition New transition.
-             * @return This object for method chaining.
-             */
-            public override Builder Transition<U>(ITransitionBuilder<U> transition)
-            {
-                _transition = (ITransitionBuilder<ITransition>) transition;
-                return this;
-            }
-
             /**
              * @return An immutable {@link ParallelState} object.
              */

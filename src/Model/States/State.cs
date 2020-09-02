@@ -62,4 +62,29 @@ namespace StatesLanguage.Model.States
         {
         }
     }
+    
+    public abstract class StateBuilder<T, B> : State.IBuilder<T> 
+        where T : State
+        where B : StateBuilder<T, B>
+    {
+        [JsonProperty(PropertyNames.COMMENT)]
+        protected string _comment;
+
+        internal StateBuilder()
+        {
+        }
+
+        /// <summary>
+        /// OPTIONAL. Human readable description for the state.
+        /// </summary>
+        /// <param name="comment">New comment</param>
+        /// <returns>This object for method chaining.</returns>
+        public B Comment(string comment)
+        {
+            _comment = comment;
+            return (B)this;
+        }
+        
+        public abstract T Build();
+    }
 }

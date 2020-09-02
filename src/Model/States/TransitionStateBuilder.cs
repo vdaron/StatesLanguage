@@ -15,16 +15,52 @@
  */
 using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.States
 {
+    public abstract class ParameterStateBuilder<T, B> : TransitionStateBuilder<T,B>
+        where T : State
+        where B : ParameterStateBuilder<T, B>
+    {
+        [JsonProperty(PropertyNames.RESULT_PATH)]
+        protected OptionalString _resultPath;
+
+        [JsonProperty(PropertyNames.PARAMETERS)]
+        protected JObject _parameters;
+        
+        /**
+             * OPTIONAL. The value of “ResultPath” MUST be a Reference Path, which specifies the combination with or replacement of
+             * the state’s result with its raw input. If not provided then the output completely replaces the input.
+             *
+             * @param resultPath New path value.
+             * @return This object for method chaining.
+             */
+        public B ResultPath(ReferencePath resultPath)
+        {
+            _resultPath = resultPath.Path;
+            return (B) this;
+        }
+
+        public B Parameters(JObject parameters)
+        {
+            _parameters = parameters;
+            return (B) this;
+        }
+    }
+    
+    
     /**
      * Base class for states that allow transitions to either another state or
      * machine termination.
      */
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class TransitionStateBuilder<T, B> : State.IBuilder<T> where T : State
+    public abstract class TransitionStateBuilder<T, B> : InputOutputStateBuilder<T, B> 
+        where T : State
+        where B : TransitionStateBuilder<T, B>
     {
+        protected ITransitionBuilder<ITransition> _transition = NullTransitionBuilder<ITransition>.Instance;
+
         [JsonProperty(PropertyNames.END)]
         internal bool End
         {
@@ -43,7 +79,17 @@ namespace StatesLanguage.Model.States
             set => Transition(NextStateTransition.GetBuilder().NextStateName(value));
         }
 
-        public abstract T Build();
-        public abstract B Transition<U>(ITransitionBuilder<U> transition) where U : ITransition;
+        /**
+             * REQUIRED. Sets the transition that will occur when this state completes successfully.
+             *
+             * @param transition New transition.
+             * @return This object for method chaining.
+             */
+
+        public B Transition<U>(ITransitionBuilder<U> transition) where U : ITransition
+        {
+            _transition = (ITransitionBuilder<ITransition>) transition;
+            return (B) this;
+        }
     }
 }
