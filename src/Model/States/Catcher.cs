@@ -73,55 +73,49 @@ namespace StatesLanguage.Model.States
                 };
             }
 
-            /**
-             * Adds to the error codes that this catcher handles. If the catcher matches an error code then the state machine
-             * transitions to the state identified by {@link #nextStateName(String)}.
-             *
-             * @param errorEquals New error codes to add to this catchers handled errors.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// Adds to the error codes that this catcher handles. If the catcher matches an error code then the state machine
+            /// transitions to the state identified by {@link #nextStateName(String)}.
+            /// </summary>
+            /// <param name="errorEquals">New error codes to add to this catchers handled errors.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder ErrorEquals(params string[] errorEquals)
             {
                 _errorEquals.AddRange(errorEquals);
                 return this;
             }
-
-            /**
-             * Makes this catcher handle all errors. This method should not be used with {@link #errorEquals}.
-             *
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// Makes this catcher handle all errors. This method should not be used with {@link #errorEquals}.
+            /// </summary>
+            /// <returns>This object for method chaining.</returns>
             public Builder CatchAll()
             {
                 _errorEquals.Clear();
                 _errorEquals.Add(ErrorCodes.ALL);
                 return this;
             }
-
-            /**
-             * @param resultPath JSON Path expression that can be used to combine the error output with the input to the state. If
-             * not
-             * specified the result will solely consist of the error output. See
-             * <a
-             *     href="https://states-language.net/spec.html#filters">
-             *     https://states-language.net/spec.html#filters
-             * </a>
-             * for more information.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// JSON Path expression that can be used to combine the error output with the input to the state. If
+            /// not specified the result will solely consist of the error output. See <a href="https://states-language.net/spec.html#filters">
+            ///     https://states-language.net/spec.html#filters
+            /// </a>
+            /// for more information.
+            /// </summary>
+            /// <param name="resultPath"></param>
+            /// <returns>This object for method chaining.</returns>
             public Builder ResultPath(string resultPath)
             {
                 _resultPath = resultPath;
                 return this;
             }
 
-            /**
-             * Sets the transition that will occur if this catcher is evaluated. Currently only supports transitioning to another
-             * state.
-             *
-             * @param transition New transition.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// Sets the transition that will occur if this catcher is evaluated. Currently only supports transitioning to another state.
+            /// </summary>
+            /// <param name="transition">New transition.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Transition(NextStateTransition.Builder transition)
             {
                 _transition = transition;
