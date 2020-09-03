@@ -26,8 +26,14 @@ namespace StatesLanguage.Model.Conditions
 {
     public enum Operator
     {
-        Eq,Gt,Gte,Lt,Lte,Match
+        Eq,
+        Gt,
+        Gte,
+        Lt,
+        Lte,
+        Match
     }
+
     public interface IBinaryCondition : ICondition
     {
         string Variable { get; }
@@ -58,14 +64,14 @@ namespace StatesLanguage.Model.Conditions
                     return false;
                 }
 
-                var tmp = string.IsNullOrEmpty(Variable) ? token : ((JObject)token).SelectToken(Variable);
-                if (tmp == null || (tmp.Type != JTokenType.Boolean
-                                 && tmp.Type != JTokenType.Date
-                                 && tmp.Type != JTokenType.Integer
-                                 && tmp.Type != JTokenType.Float
-                                 && tmp.Type != JTokenType.String
-                                 && tmp.Type != JTokenType.Guid
-                                 && tmp.Type != JTokenType.Uri))
+                var tmp = string.IsNullOrEmpty(Variable) ? token : ((JObject) token).SelectToken(Variable);
+                if (tmp == null || tmp.Type != JTokenType.Boolean
+                    && tmp.Type != JTokenType.Date
+                    && tmp.Type != JTokenType.Integer
+                    && tmp.Type != JTokenType.Float
+                    && tmp.Type != JTokenType.String
+                    && tmp.Type != JTokenType.Guid
+                    && tmp.Type != JTokenType.Uri)
                 {
                     return false;
                 }
@@ -89,23 +95,23 @@ namespace StatesLanguage.Model.Conditions
             catch (FormatException)
             {
             }
-            return false;
 
+            return false;
         }
 
         private static bool IsMatch(string s, string pattern)
         {
             return new Regex(WildcardToRegex(pattern)).IsMatch(s);
         }
-        
-        private static string WildcardToRegex(String wildcard)
+
+        private static string WildcardToRegex(string wildcard)
         {
             var s = new StringBuilder();
             s.Append('^');
-            bool skipNext = false;
+            var skipNext = false;
             for (int i = 0, isa = wildcard.Length; i < isa; i++)
             {
-                char c = wildcard[i];
+                var c = wildcard[i];
 
                 if (skipNext)
                 {
@@ -113,7 +119,7 @@ namespace StatesLanguage.Model.Conditions
                     skipNext = false;
                     continue;
                 }
-                
+
                 switch (c)
                 {
                     case '*':
@@ -148,7 +154,6 @@ namespace StatesLanguage.Model.Conditions
             s.Append('$');
             return s.ToString();
         }
-
     }
 
     public abstract class BinaryConditionPath : IBinaryCondition
@@ -162,11 +167,11 @@ namespace StatesLanguage.Model.Conditions
             _validTokenTypes = validTokenTypes;
         }
 
+        public abstract string ExpectedValuePath { get; protected set; }
+
         [JsonProperty(PropertyNames.VARIABLE)]
         public string Variable { get; protected set; }
-        
-        public abstract string ExpectedValuePath { get; protected set; }
-        
+
         public bool Match(JToken token)
         {
             try
@@ -176,14 +181,20 @@ namespace StatesLanguage.Model.Conditions
                     return false;
                 }
 
-                var val = string.IsNullOrEmpty(ExpectedValuePath) ? token : ((JObject)token).SelectToken(ExpectedValuePath);
-                var tmp = string.IsNullOrEmpty(Variable) ? token : ((JObject)token).SelectToken(Variable);
+                var val = string.IsNullOrEmpty(ExpectedValuePath)
+                    ? token
+                    : ((JObject) token).SelectToken(ExpectedValuePath);
+                var tmp = string.IsNullOrEmpty(Variable) ? token : ((JObject) token).SelectToken(Variable);
 
                 if (val.Type != tmp.Type)
+                {
                     return false;
+                }
 
                 if (!_validTokenTypes.Contains(val.Type))
+                {
                     return false;
+                }
 
                 switch (val.Type)
                 {
@@ -215,6 +226,7 @@ namespace StatesLanguage.Model.Conditions
             catch (FormatException)
             {
             }
+
             return false;
         }
 
@@ -234,7 +246,9 @@ namespace StatesLanguage.Model.Conditions
                     return val1?.CompareTo(val2) <= 0;
                 default:
                     return false; // not supported
-            } ;
+            }
+
+            ;
         }
     }
 }

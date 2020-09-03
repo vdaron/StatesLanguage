@@ -13,11 +13,10 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
+using Newtonsoft.Json;
 using StatesLanguage.Model.Conditions;
 using StatesLanguage.Model.Internal;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
 
 namespace StatesLanguage.Model.States
 {
@@ -28,13 +27,13 @@ namespace StatesLanguage.Model.States
         }
 
         /// <summary>
-        /// Name of the state that the state machine will transition to if the condition evaluates to true
+        ///     Name of the state that the state machine will transition to if the condition evaluates to true
         /// </summary>
         [JsonIgnore]
         public ICondition Condition { get; set; }
 
         /// <summary>
-        /// The transition for this choice rule.
+        ///     The transition for this choice rule.
         /// </summary>
         [JsonIgnore]
         public ITransition Transition { get; set; }
@@ -48,14 +47,15 @@ namespace StatesLanguage.Model.States
         {
             private IBuildable<ICondition> _condition = NullConditionBuilder.Instance;
 
-            private ITransitionBuilder<NextStateTransition> _transition = NullTransitionBuilder<NextStateTransition>.Instance;
+            private ITransitionBuilder<NextStateTransition> _transition =
+                NullTransitionBuilder<NextStateTransition>.Instance;
 
             internal Builder()
             {
             }
-            
+
             /// <summary>
-            /// Sets the name of the state that the state machine will transition to if the condition evaluates to true
+            ///     Sets the name of the state that the state machine will transition to if the condition evaluates to true
             /// </summary>
             [JsonProperty(PropertyNames.NEXT)]
             private string NextStateName
@@ -64,23 +64,25 @@ namespace StatesLanguage.Model.States
             }
 
             /// <summary>
-            /// Build the <see cref="Choice"/>
+            ///     Build the <see cref="Choice" />
             /// </summary>
             /// <returns></returns>
             public Choice Build()
             {
                 return new Choice
-                       {
-                           Condition = _condition.Build(),
-                           Transition = _transition.Build()
-                       };
+                {
+                    Condition = _condition.Build(),
+                    Transition = _transition.Build()
+                };
             }
-            
+
             /// <summary>
-            /// REQUIRED. Sets the condition for this choice rule.
+            ///     REQUIRED. Sets the condition for this choice rule.
             /// </summary>
-            /// <param name="conditionBuilder">Instance of {@link Builder}. Note that the <see cref="State"/> object is not built until the
-            ///  <see cref="Choice"/> is built so any modifications on the state model will be reflected in this object.</param>
+            /// <param name="conditionBuilder">
+            ///     Instance of {@link Builder}. Note that the <see cref="State" /> object is not built until the
+            ///     <see cref="Choice" /> is built so any modifications on the state model will be reflected in this object.
+            /// </param>
             /// <typeparam name="T"></typeparam>
             /// <returns>This object for method chaining.</returns>
             public Builder Condition<T>(IConditionBuilder<T> conditionBuilder) where T : ICondition
@@ -90,7 +92,7 @@ namespace StatesLanguage.Model.States
             }
 
             /// <summary>
-            /// Sets the transition for this choice rule.
+            ///     Sets the transition for this choice rule.
             /// </summary>
             /// <param name="transition">Transition that occurs if the choice rule condition evaluates to true.</param>
             /// <returns>This object for method chaining.</returns>

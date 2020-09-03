@@ -13,25 +13,26 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using System;
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for Numeric equality comparison. Supports both integral and floating point numeric types.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class TimestampGreaterThanOrEqualPathCondition : BinaryConditionPath
     {
-        private TimestampGreaterThanOrEqualPathCondition():base(Operator.Gte, JTokenType.Date, JTokenType.TimeSpan)
+        private TimestampGreaterThanOrEqualPathCondition() : base(Operator.Gte, JTokenType.Date, JTokenType.TimeSpan)
         {
         }
-        
+
         [JsonProperty(PropertyNames.TIMESTAMP_GREATER_THAN_EQUALS_PATH)]
         public override string ExpectedValuePath { get; protected set; }
 
@@ -75,10 +76,10 @@ namespace StatesLanguage.Model.Conditions
             public TimestampGreaterThanOrEqualPathCondition Build()
             {
                 return new TimestampGreaterThanOrEqualPathCondition
-                       {
-                           Variable = _variable,
-                           ExpectedValuePath = _expectedValuePath
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValuePath = _expectedValuePath
+                };
             }
 
             /**

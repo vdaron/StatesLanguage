@@ -14,11 +14,9 @@
  * permissions and limitations under the License.
  */
 
-using System;
+using Newtonsoft.Json;
 using StatesLanguage.Model.Internal;
 using StatesLanguage.Model.States;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -28,7 +26,7 @@ namespace StatesLanguage.Model.Conditions
     /// </summary>
     public sealed class BooleanEqualsCondition : BinaryCondition<bool>
     {
-        private BooleanEqualsCondition():base(Operator.Eq)
+        private BooleanEqualsCondition() : base(Operator.Eq)
         {
         }
 
@@ -71,10 +69,10 @@ namespace StatesLanguage.Model.Conditions
             public BooleanEqualsCondition Build()
             {
                 return new BooleanEqualsCondition
-                       {
-                           Variable = _variable,
-                           ExpectedValue = _expectedValue
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValue = _expectedValue
+                };
             }
 
             /// <summary>

@@ -13,21 +13,22 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for String greater than comparison.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class StringGreaterThanCondition : BinaryCondition<string>
     {
-        private StringGreaterThanCondition():base(Operator.Gt)
+        private StringGreaterThanCondition() : base(Operator.Gt)
         {
         }
 
@@ -48,7 +49,7 @@ namespace StatesLanguage.Model.Conditions
         public sealed class Builder : IBinaryConditionBuilder<Builder, StringGreaterThanCondition, string>
         {
             private string _expectedValue;
-            
+
             private string _variable;
 
             public string Type => PropertyNames.STRING_GREATER_THAN;
@@ -71,10 +72,10 @@ namespace StatesLanguage.Model.Conditions
             public StringGreaterThanCondition Build()
             {
                 return new StringGreaterThanCondition
-                       {
-                           Variable = _variable,
-                           ExpectedValue = _expectedValue
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValue = _expectedValue
+                };
             }
 
             /**
@@ -83,7 +84,6 @@ namespace StatesLanguage.Model.Conditions
              * @param variable Reference path.
              * @return This object for method chaining.
              */
-
             public Builder Variable(string variable)
             {
                 _variable = variable;

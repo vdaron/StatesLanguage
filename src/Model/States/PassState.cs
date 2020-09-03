@@ -13,11 +13,12 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
 using System.IO;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
@@ -28,11 +29,11 @@ namespace StatesLanguage.Model.States
         }
 
         /// <summary>
-        /// "virtual" result of the pass state.
+        ///     "virtual" result of the pass state.
         /// </summary>
         [JsonProperty(PropertyNames.RESULT)]
         public JToken Result { get; private set; }
-        
+
         public override StateType Type => StateType.Pass;
 
         /**
@@ -53,15 +54,14 @@ namespace StatesLanguage.Model.States
          */
         public sealed class Builder : ParameterStateBuilder<PassState, Builder>
         {
-            [JsonProperty(PropertyNames.RESULT)]
-            private JToken _result;
+            [JsonProperty(PropertyNames.RESULT)] private JToken _result;
 
             internal Builder()
             {
             }
-            
+
             /// <summary>
-            /// Sets the "virtual" result of the pass state. Must be a POJO that can be serialized into JSON.
+            ///     Sets the "virtual" result of the pass state. Must be a POJO that can be serialized into JSON.
             /// </summary>
             /// <param name="result">Object that will be serialized into the JSON document representing this states result.</param>
             /// <returns>This object for method chaining.</returns>
@@ -72,7 +72,7 @@ namespace StatesLanguage.Model.States
             }
 
             /// <summary>
-            /// Sets the "virtual" result of the pass state. Must be a POJO that can be serialized into JSON.
+            ///     Sets the "virtual" result of the pass state. Must be a POJO that can be serialized into JSON.
             /// </summary>
             /// <param name="result">Object that will be serialized into the JSON document representing this states result.</param>
             /// <param name="serializerSettings">Json Serialization Settings</param>
@@ -82,9 +82,9 @@ namespace StatesLanguage.Model.States
                 _result = JToken.FromObject(result, JsonSerializer.Create(serializerSettings));
                 return this;
             }
-            
+
             /// <summary>
-            /// Sets the "virtual" result of the pass state. Must be a valid JSON document.
+            ///     Sets the "virtual" result of the pass state. Must be a valid JSON document.
             /// </summary>
             /// <param name="result">JSON result represented as a string.</param>
             /// <returns>This object for method chaining.</returns>
@@ -103,9 +103,9 @@ namespace StatesLanguage.Model.States
 
                 return this;
             }
-            
+
             /// <summary>
-            /// Sets the "virtual" result of the pass state.
+            ///     Sets the "virtual" result of the pass state.
             /// </summary>
             /// <param name="result">JSON result.</param>
             /// <returns>This object for method chaining.</returns>
@@ -114,22 +114,22 @@ namespace StatesLanguage.Model.States
                 _result = result;
                 return this;
             }
-            
+
             /**
              * @return An immutable {@link PassState} object.
              */
             public override PassState Build()
             {
                 return new PassState
-                       {
-                           Comment = _comment,
-                           Result = _result,
-                           InputPath = _inputPath,
-                           OutputPath = _outputPath,
-                           ResultPath = _resultPath,
-                           Parameters = _parameters,
-                           Transition = _transition.Build()
-                       };
+                {
+                    Comment = _comment,
+                    Result = _result,
+                    InputPath = _inputPath,
+                    OutputPath = _outputPath,
+                    ResultPath = _resultPath,
+                    Parameters = _parameters,
+                    Transition = _transition.Build()
+                };
             }
         }
     }

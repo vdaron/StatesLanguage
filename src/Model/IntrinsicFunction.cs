@@ -8,11 +8,11 @@ namespace StatesLanguage.Model
 {
     public abstract class IntrinsicParam
     {
-        
     }
-    
+
     public class NullIntrinsicParam : IntrinsicParam
-    {}
+    {
+    }
 
     public class NumberIntrinsicParam : IntrinsicParam
     {
@@ -40,10 +40,10 @@ namespace StatesLanguage.Model
         {
             Value = value;
         }
-        
+
         public string Value { get; }
     }
-    
+
     public class IntrinsicFunction : IntrinsicParam
     {
         public string Name { get; set; }
@@ -57,8 +57,8 @@ namespace StatesLanguage.Model
 
     internal class IntrinsicFunctionParser
     {
-        private int _currentIndex;
         private readonly string _intrinsicFunction;
+        private int _currentIndex;
 
         private IntrinsicFunctionParser(string intrinsicFunction)
         {
@@ -71,15 +71,17 @@ namespace StatesLanguage.Model
 
             var f = parser.ReadUnquotedParam();
             if (f is IntrinsicFunction fun)
+            {
                 return fun;
-            
+            }
+
             throw new InvalidIntrinsicFunctionException("Invalid Intrinsic Function");
         }
-        
+
         private IEnumerable<IntrinsicParam> ParseParameters()
         {
-            bool forbiddenComma = true;
-            bool end = false;
+            var forbiddenComma = true;
+            var end = false;
 
             while (_currentIndex < _intrinsicFunction.Length && !end)
             {
@@ -94,8 +96,11 @@ namespace StatesLanguage.Model
                         _currentIndex++;
                         break;
                     case ',':
-                        if(forbiddenComma)
+                        if (forbiddenComma)
+                        {
                             throw new InvalidIntrinsicFunctionException("Parameter Excepted");
+                        }
+
                         forbiddenComma = true;
                         _currentIndex++;
                         break;
@@ -109,11 +114,13 @@ namespace StatesLanguage.Model
                         break;
                 }
             }
-            
-            if(!end)
+
+            if (!end)
+            {
                 throw new InvalidIntrinsicFunctionException("Missing ')' while parsing function");
+            }
         }
-        
+
         private IntrinsicParam ReadUnquotedParam()
         {
             var sb = new StringBuilder();
@@ -144,7 +151,6 @@ namespace StatesLanguage.Model
                         _currentIndex++;
                         break;
                 }
-
             }
 
             if (!end)
@@ -153,35 +159,40 @@ namespace StatesLanguage.Model
             }
 
             var p = sb.ToString();
-            
+
             if (isIntrinsicFunction)
             {
                 return new IntrinsicFunction
                 {
-                    Name = p, 
+                    Name = p,
                     Parameters = ParseParameters().ToArray()
                 };
             }
-            
-            if(p == "null")
+
+            if (p == "null")
+            {
                 return new NullIntrinsicParam();
-            if(p.StartsWith("$"))
+            }
+
+            if (p.StartsWith("$"))
+            {
                 return new PathIntrinsicParam(p);
+            }
 
             decimal i;
-            if (decimal.TryParse(p, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,out i))
+            if (decimal.TryParse(p, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out i))
             {
                 return new NumberIntrinsicParam(i);
             }
-            
+
             throw new InvalidIntrinsicFunctionException("Invalid parameter");
         }
-        
+
         private StringIntrinsicParam ReadQuotedString()
         {
             var sb = new StringBuilder();
             var end = false;
-            
+
             // Skip ' 
             _currentIndex++;
             while (_currentIndex < _intrinsicFunction.Length && !end)
@@ -199,6 +210,7 @@ namespace StatesLanguage.Model
                         sb.Append(currentChar);
                         break;
                 }
+
                 _currentIndex++;
             }
 
@@ -209,7 +221,7 @@ namespace StatesLanguage.Model
 
             return new StringIntrinsicParam(sb.ToString());
         }
-        
+
         private char ReadEscapedChar()
         {
             _currentIndex++;
@@ -217,6 +229,7 @@ namespace StatesLanguage.Model
             {
                 throw new InvalidIntrinsicFunctionException("Missing Escaped char");
             }
+
             return _intrinsicFunction[_currentIndex];
         }
     }

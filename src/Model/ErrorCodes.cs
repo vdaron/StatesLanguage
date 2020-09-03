@@ -13,6 +13,7 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 namespace StatesLanguage.Model
 {
     public static class ErrorCodes
@@ -42,7 +43,7 @@ namespace StatesLanguage.Model
         //A Task State’s “ResultPath” field cannot be applied to the input the state received.
         //
         public const string RESULT_PATH_MATCH_FAILURE = "States.ResultPathMatchFailure";
-        
+
         public const string PARAMETER_PATH_FAILURE = "States.ParameterPathFailure";
 
         //

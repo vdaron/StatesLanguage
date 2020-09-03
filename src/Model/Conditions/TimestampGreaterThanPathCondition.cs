@@ -13,26 +13,26 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using System;
-using System.IO;
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for Numeric equality comparison. Supports both integral and floating point numeric types.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class TimestampGreaterThanPathCondition : BinaryConditionPath
     {
-        private TimestampGreaterThanPathCondition():base(Operator.Gt, JTokenType.Date, JTokenType.TimeSpan)
+        private TimestampGreaterThanPathCondition() : base(Operator.Gt, JTokenType.Date, JTokenType.TimeSpan)
         {
         }
-        
+
         [JsonProperty(PropertyNames.TIMESTAMP_GREATER_THAN_PATH)]
         public override string ExpectedValuePath { get; protected set; }
 
@@ -50,7 +50,7 @@ namespace StatesLanguage.Model.Conditions
         public sealed class Builder : IBinaryConditionPathBuilder<Builder, TimestampGreaterThanPathCondition>
         {
             private string _expectedValuePath;
-            
+
             private string _variable;
 
             internal Builder()
@@ -77,10 +77,10 @@ namespace StatesLanguage.Model.Conditions
             public TimestampGreaterThanPathCondition Build()
             {
                 return new TimestampGreaterThanPathCondition
-                       {
-                           Variable = _variable,
-                           ExpectedValuePath = _expectedValuePath
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValuePath = _expectedValuePath
+                };
             }
 
             /**

@@ -66,49 +66,49 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ChoiceStateWithClosedCycle_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                                                   AssertCycle(StepFunctionBuilder.StateMachine()
-                                                                                  .StartAt("Initial")
-                                                                                  .State("Initial", StepFunctionBuilder.PassState()
-                                                                                                                       .Transition(StepFunctionBuilder.Next("Choice")))
-                                                                                  .State("Choice", StepFunctionBuilder.ChoiceState()
-                                                                                                                      .DefaultStateName("Terminal")
-                                                                                                                      .Choice(StepFunctionBuilder.Choice()
-                                                                                                                                                 .Transition(StepFunctionBuilder.Next("Terminal"))
-                                                                                                                                                 .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar")))
-                                                                                                                      .Choice(StepFunctionBuilder.Choice()
-                                                                                                                                                 .Transition(StepFunctionBuilder.Next("NonTerminal"))
-                                                                                                                                                 .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
-                                                                                  .State("Terminal", StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.End()))
-                                                                                  .State("NonTerminal",
-                                                                                         StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("Cyclic")))
-                                                                                  .State("Cyclic",
-                                                                                         StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("NonTerminal")))));
+                AssertCycle(StepFunctionBuilder.StateMachine()
+                    .StartAt("Initial")
+                    .State("Initial", StepFunctionBuilder.PassState()
+                        .Transition(StepFunctionBuilder.Next("Choice")))
+                    .State("Choice", StepFunctionBuilder.ChoiceState()
+                        .DefaultStateName("Terminal")
+                        .Choice(StepFunctionBuilder.Choice()
+                            .Transition(StepFunctionBuilder.Next("Terminal"))
+                            .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar")))
+                        .Choice(StepFunctionBuilder.Choice()
+                            .Transition(StepFunctionBuilder.Next("NonTerminal"))
+                            .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
+                    .State("Terminal", StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.End()))
+                    .State("NonTerminal",
+                        StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("Cyclic")))
+                    .State("Cyclic",
+                        StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("NonTerminal")))));
         }
 
         [Fact]
         public void ChoiceStateWithOnlyCycles_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                                                   AssertDoesNotHaveTerminalPath(StepFunctionBuilder.StateMachine()
-                                                                                                    .StartAt("Initial")
-                                                                                                    .State("Initial", StepFunctionBuilder.PassState()
-                                                                                                                                         .Transition(StepFunctionBuilder.Next("Choice")))
-                                                                                                    .State("Choice", StepFunctionBuilder.ChoiceState()
-                                                                                                                                        .DefaultStateName("Default")
-                                                                                                                                        .Choice(StepFunctionBuilder.Choice()
-                                                                                                                                                                   .Transition(StepFunctionBuilder
-                                                                                                                                                                                   .Next("Initial"))
-                                                                                                                                                                   .Condition(StepFunctionBuilder
-                                                                                                                                                                                  .StringEquals("$.foo",
-                                                                                                                                                                                      "bar")))
-                                                                                                                                        .Choice(StepFunctionBuilder.Choice()
-                                                                                                                                                                   .Transition(StepFunctionBuilder
-                                                                                                                                                                                   .Next("Default"))
-                                                                                                                                                                   .Condition(StepFunctionBuilder
-                                                                                                                                                                                  .StringEquals("$.foo",
-                                                                                                                                                                                      "bar"))))
-                                                                                                    .State("Default",
-                                                                                                           StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("Choice")))));
+                AssertDoesNotHaveTerminalPath(StepFunctionBuilder.StateMachine()
+                    .StartAt("Initial")
+                    .State("Initial", StepFunctionBuilder.PassState()
+                        .Transition(StepFunctionBuilder.Next("Choice")))
+                    .State("Choice", StepFunctionBuilder.ChoiceState()
+                        .DefaultStateName("Default")
+                        .Choice(StepFunctionBuilder.Choice()
+                            .Transition(StepFunctionBuilder
+                                .Next("Initial"))
+                            .Condition(StepFunctionBuilder
+                                .StringEquals("$.foo",
+                                    "bar")))
+                        .Choice(StepFunctionBuilder.Choice()
+                            .Transition(StepFunctionBuilder
+                                .Next("Default"))
+                            .Condition(StepFunctionBuilder
+                                .StringEquals("$.foo",
+                                    "bar"))))
+                    .State("Default",
+                        StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("Choice")))));
         }
 
         /**
@@ -120,196 +120,196 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ChoiceStateWithPathOut_IsValid()
         {
             AssertNoCycle(
-                          StepFunctionBuilder.StateMachine()
-                                             .StartAt("Initial")
-                                             .State("Initial", StepFunctionBuilder.PassState()
-                                                                                  .Transition(StepFunctionBuilder.Next("ChoiceOne")))
-                                             .State("ChoiceOne", StepFunctionBuilder.ChoiceState()
-                                                                                    .DefaultStateName("DefaultOne")
-                                                                                    .Choice(StepFunctionBuilder.Choice()
-                                                                                                               .Transition(StepFunctionBuilder.Next("ChoiceTwo"))
-                                                                                                               .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
-                                             .State("DefaultOne", StepFunctionBuilder.SucceedState())
-                                             .State("ChoiceTwo", StepFunctionBuilder.ChoiceState()
-                                                                                    .DefaultStateName("DefaultTwo")
-                                                                                    .Choice(StepFunctionBuilder.Choice()
-                                                                                                               .Transition(StepFunctionBuilder.Next("ChoiceOne"))
-                                                                                                               .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
-                                             .State("DefaultTwo",
-                                                    StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("ChoiceTwo"))));
+                StepFunctionBuilder.StateMachine()
+                    .StartAt("Initial")
+                    .State("Initial", StepFunctionBuilder.PassState()
+                        .Transition(StepFunctionBuilder.Next("ChoiceOne")))
+                    .State("ChoiceOne", StepFunctionBuilder.ChoiceState()
+                        .DefaultStateName("DefaultOne")
+                        .Choice(StepFunctionBuilder.Choice()
+                            .Transition(StepFunctionBuilder.Next("ChoiceTwo"))
+                            .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
+                    .State("DefaultOne", StepFunctionBuilder.SucceedState())
+                    .State("ChoiceTwo", StepFunctionBuilder.ChoiceState()
+                        .DefaultStateName("DefaultTwo")
+                        .Choice(StepFunctionBuilder.Choice()
+                            .Transition(StepFunctionBuilder.Next("ChoiceOne"))
+                            .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
+                    .State("DefaultTwo",
+                        StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("ChoiceTwo"))));
         }
 
         [Fact]
         public void ChoiceStateWithPathToTerminal_IsValid()
         {
             AssertHasPathToTerminal(StepFunctionBuilder.StateMachine()
-                                                       .StartAt("Initial")
-                                                       .State("Initial", StepFunctionBuilder.PassState()
-                                                                                            .Transition(StepFunctionBuilder.Next("Choice")))
-                                                       .State("Choice", StepFunctionBuilder.ChoiceState()
-                                                                                           .DefaultStateName("Default")
-                                                                                           .Choice(StepFunctionBuilder.Choice()
-                                                                                                                      .Transition(StepFunctionBuilder.Next("Initial"))
-                                                                                                                      .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar")))
-                                                                                           .Choice(StepFunctionBuilder.Choice()
-                                                                                                                      .Transition(StepFunctionBuilder.Next("Default"))
-                                                                                                                      .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
-                                                       .State("Default", StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.End())));
+                .StartAt("Initial")
+                .State("Initial", StepFunctionBuilder.PassState()
+                    .Transition(StepFunctionBuilder.Next("Choice")))
+                .State("Choice", StepFunctionBuilder.ChoiceState()
+                    .DefaultStateName("Default")
+                    .Choice(StepFunctionBuilder.Choice()
+                        .Transition(StepFunctionBuilder.Next("Initial"))
+                        .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar")))
+                    .Choice(StepFunctionBuilder.Choice()
+                        .Transition(StepFunctionBuilder.Next("Default"))
+                        .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
+                .State("Default", StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.End())));
         }
 
         [Fact(Skip = "skip for now")]
         public void ParallelState_BranchContainsChoiceStateWithClosedCycle_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                                                   AssertCycle(
-                                                               StepFunctionBuilder.StateMachine()
-                                                                                  .StartAt("Initial")
-                                                                                  .State("Initial", StepFunctionBuilder.PassState()
-                                                                                                                       .Transition(StepFunctionBuilder.Next("Choice")))
-                                                                                  .State("Choice", StepFunctionBuilder.ChoiceState()
-                                                                                                                      .DefaultStateName("Terminal")
-                                                                                                                      .Choice(StepFunctionBuilder.Choice()
-                                                                                                                                                 .Transition(StepFunctionBuilder.Next("Terminal"))
-                                                                                                                                                 .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar")))
-                                                                                                                      .Choice(StepFunctionBuilder.Choice()
-                                                                                                                                                 .Transition(StepFunctionBuilder.Next("NonTerminal"))
-                                                                                                                                                 .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
-                                                                                  .State("Terminal", StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.End()))
-                                                                                  .State("NonTerminal",
-                                                                                         StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("Cyclic")))
-                                                                                  .State("Cyclic",
-                                                                                         StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("NonTerminal")))));
+                AssertCycle(
+                    StepFunctionBuilder.StateMachine()
+                        .StartAt("Initial")
+                        .State("Initial", StepFunctionBuilder.PassState()
+                            .Transition(StepFunctionBuilder.Next("Choice")))
+                        .State("Choice", StepFunctionBuilder.ChoiceState()
+                            .DefaultStateName("Terminal")
+                            .Choice(StepFunctionBuilder.Choice()
+                                .Transition(StepFunctionBuilder.Next("Terminal"))
+                                .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar")))
+                            .Choice(StepFunctionBuilder.Choice()
+                                .Transition(StepFunctionBuilder.Next("NonTerminal"))
+                                .Condition(StepFunctionBuilder.StringEquals("$.foo", "bar"))))
+                        .State("Terminal", StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.End()))
+                        .State("NonTerminal",
+                            StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("Cyclic")))
+                        .State("Cyclic",
+                            StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.Next("NonTerminal")))));
         }
 
         [Fact]
         public void ParallelState_ChoiceStateWithTerminalPath_IsValid()
         {
             AssertHasPathToTerminal(
-                                    StepFunctionBuilder.StateMachine()
-                                                       .StartAt("Parallel")
-                                                       .State("Parallel", StepFunctionBuilder.ParallelState()
-                                                                                             .Transition(StepFunctionBuilder.End())
-                                                                                             .Branch(StepFunctionBuilder.SubStateMachine()
-                                                                                                                        .StartAt("Initial")
-                                                                                                                        .State("Initial", StepFunctionBuilder.PassState()
-                                                                                                                                                             .Transition(StepFunctionBuilder
-                                                                                                                                                                             .Next("Choice")))
-                                                                                                                        .State("Choice", StepFunctionBuilder.ChoiceState()
-                                                                                                                                                            .DefaultStateName("Default")
-                                                                                                                                                            .Choice(StepFunctionBuilder.Choice()
-                                                                                                                                                                                       .Transition(StepFunctionBuilder
-                                                                                                                                                                                                       .Next("Initial"))
-                                                                                                                                                                                       .Condition(StepFunctionBuilder
-                                                                                                                                                                                                      .StringEquals("$.foo",
-                                                                                                                                                                                                          "bar")))
-                                                                                                                                                            .Choice(StepFunctionBuilder.Choice()
-                                                                                                                                                                                       .Transition(StepFunctionBuilder
-                                                                                                                                                                                                       .Next("Default"))
-                                                                                                                                                                                       .Condition(StepFunctionBuilder
-                                                                                                                                                                                                      .StringEquals("$.foo",
-                                                                                                                                                                                                          "bar"))))
-                                                                                                                        .State("Default",
-                                                                                                                               StepFunctionBuilder
-                                                                                                                                   .PassState().Transition(StepFunctionBuilder.End())))));
+                StepFunctionBuilder.StateMachine()
+                    .StartAt("Parallel")
+                    .State("Parallel", StepFunctionBuilder.ParallelState()
+                        .Transition(StepFunctionBuilder.End())
+                        .Branch(StepFunctionBuilder.SubStateMachine()
+                            .StartAt("Initial")
+                            .State("Initial", StepFunctionBuilder.PassState()
+                                .Transition(StepFunctionBuilder
+                                    .Next("Choice")))
+                            .State("Choice", StepFunctionBuilder.ChoiceState()
+                                .DefaultStateName("Default")
+                                .Choice(StepFunctionBuilder.Choice()
+                                    .Transition(StepFunctionBuilder
+                                        .Next("Initial"))
+                                    .Condition(StepFunctionBuilder
+                                        .StringEquals("$.foo",
+                                            "bar")))
+                                .Choice(StepFunctionBuilder.Choice()
+                                    .Transition(StepFunctionBuilder
+                                        .Next("Default"))
+                                    .Condition(StepFunctionBuilder
+                                        .StringEquals("$.foo",
+                                            "bar"))))
+                            .State("Default",
+                                StepFunctionBuilder
+                                    .PassState().Transition(StepFunctionBuilder.End())))));
         }
 
         [Fact]
         public void ParallelState_NoCycles()
         {
             AssertNoCycle(StepFunctionBuilder.StateMachine()
-                                             .StartAt("Initial")
-                                             .State("Initial", StepFunctionBuilder.ParallelState()
-                                                                                  .Branch(StepFunctionBuilder.SubStateMachine()
-                                                                                                             .StartAt("BranchOneStart")
-                                                                                                             .State("BranchOneStart", StepFunctionBuilder.SucceedState()))
-                                                                                  .Branch(StepFunctionBuilder.SubStateMachine()
-                                                                                                             .StartAt("BranchTwoStart")
-                                                                                                             .State("BranchTwoStart", StepFunctionBuilder.PassState()
-                                                                                                                                                         .Transition(StepFunctionBuilder
-                                                                                                                                                                         .Next("NextState")))
-                                                                                                             .State("NextState", StepFunctionBuilder.SucceedState()))
-                                                                                  .Transition(StepFunctionBuilder.End())));
+                .StartAt("Initial")
+                .State("Initial", StepFunctionBuilder.ParallelState()
+                    .Branch(StepFunctionBuilder.SubStateMachine()
+                        .StartAt("BranchOneStart")
+                        .State("BranchOneStart", StepFunctionBuilder.SucceedState()))
+                    .Branch(StepFunctionBuilder.SubStateMachine()
+                        .StartAt("BranchTwoStart")
+                        .State("BranchTwoStart", StepFunctionBuilder.PassState()
+                            .Transition(StepFunctionBuilder
+                                .Next("NextState")))
+                        .State("NextState", StepFunctionBuilder.SucceedState()))
+                    .Transition(StepFunctionBuilder.End())));
         }
 
         [Fact]
         public void ParallelState_WithChoiceThatHasNoTerminalPath_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                                                   AssertDoesNotHaveTerminalPath(
-                                                                                 StepFunctionBuilder.StateMachine()
-                                                                                                    .StartAt("Parallel")
-                                                                                                    .State("Parallel", StepFunctionBuilder.ParallelState()
-                                                                                                                                          .Transition(StepFunctionBuilder.End())
-                                                                                                                                          .Branch(StepFunctionBuilder.SubStateMachine()
-                                                                                                                                                                     .StartAt("Initial")
-                                                                                                                                                                     .State("Initial",
-                                                                                                                                                                            StepFunctionBuilder
-                                                                                                                                                                                .PassState()
-                                                                                                                                                                                .Transition(StepFunctionBuilder
-                                                                                                                                                                                                .Next("Choice")))
-                                                                                                                                                                     .State("Choice",
-                                                                                                                                                                            StepFunctionBuilder
-                                                                                                                                                                                .ChoiceState()
-                                                                                                                                                                                .DefaultStateName("Default")
-                                                                                                                                                                                .Choice(StepFunctionBuilder
-                                                                                                                                                                                        .Choice()
-                                                                                                                                                                                        .Transition(StepFunctionBuilder
-                                                                                                                                                                                                        .Next("Initial"))
-                                                                                                                                                                                        .Condition(StepFunctionBuilder
-                                                                                                                                                                                                       .StringEquals("$.foo",
-                                                                                                                                                                                                           "bar")))
-                                                                                                                                                                                .Choice(StepFunctionBuilder
-                                                                                                                                                                                        .Choice()
-                                                                                                                                                                                        .Transition(StepFunctionBuilder
-                                                                                                                                                                                                        .Next("Default"))
-                                                                                                                                                                                        .Condition(StepFunctionBuilder
-                                                                                                                                                                                                       .StringEquals("$.foo",
-                                                                                                                                                                                                           "bar"))))
-                                                                                                                                                                     .State("Default",
-                                                                                                                                                                            StepFunctionBuilder
-                                                                                                                                                                                .PassState()
-                                                                                                                                                                                .Transition(StepFunctionBuilder
-                                                                                                                                                                                                .Next("Choice")))))));
+                AssertDoesNotHaveTerminalPath(
+                    StepFunctionBuilder.StateMachine()
+                        .StartAt("Parallel")
+                        .State("Parallel", StepFunctionBuilder.ParallelState()
+                            .Transition(StepFunctionBuilder.End())
+                            .Branch(StepFunctionBuilder.SubStateMachine()
+                                .StartAt("Initial")
+                                .State("Initial",
+                                    StepFunctionBuilder
+                                        .PassState()
+                                        .Transition(StepFunctionBuilder
+                                            .Next("Choice")))
+                                .State("Choice",
+                                    StepFunctionBuilder
+                                        .ChoiceState()
+                                        .DefaultStateName("Default")
+                                        .Choice(StepFunctionBuilder
+                                            .Choice()
+                                            .Transition(StepFunctionBuilder
+                                                .Next("Initial"))
+                                            .Condition(StepFunctionBuilder
+                                                .StringEquals("$.foo",
+                                                    "bar")))
+                                        .Choice(StepFunctionBuilder
+                                            .Choice()
+                                            .Transition(StepFunctionBuilder
+                                                .Next("Default"))
+                                            .Condition(StepFunctionBuilder
+                                                .StringEquals("$.foo",
+                                                    "bar"))))
+                                .State("Default",
+                                    StepFunctionBuilder
+                                        .PassState()
+                                        .Transition(StepFunctionBuilder
+                                            .Next("Choice")))))));
         }
 
         [Fact]
         public void ParallelState_WithCycles_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                                                   AssertCycle(StepFunctionBuilder.StateMachine()
-                                                                                  .StartAt("Parallel")
-                                                                                  .State("Parallel", StepFunctionBuilder.ParallelState()
-                                                                                                                        .Branch(StepFunctionBuilder.SubStateMachine()
-                                                                                                                                                   .StartAt("BranchOneInitial")
-                                                                                                                                                   .State("BranchOneInitial", StepFunctionBuilder
-                                                                                                                                                                              .PassState()
-                                                                                                                                                                              .Transition(StepFunctionBuilder
-                                                                                                                                                                                              .Next("CyclicState")))
-                                                                                                                                                   .State("CyclicState", StepFunctionBuilder
-                                                                                                                                                                         .PassState()
-                                                                                                                                                                         .Transition(StepFunctionBuilder
-                                                                                                                                                                                         .Next("BranchOneInitial"))))
-                                                                                                                        .Transition(StepFunctionBuilder.End()))));
+                AssertCycle(StepFunctionBuilder.StateMachine()
+                    .StartAt("Parallel")
+                    .State("Parallel", StepFunctionBuilder.ParallelState()
+                        .Branch(StepFunctionBuilder.SubStateMachine()
+                            .StartAt("BranchOneInitial")
+                            .State("BranchOneInitial", StepFunctionBuilder
+                                .PassState()
+                                .Transition(StepFunctionBuilder
+                                    .Next("CyclicState")))
+                            .State("CyclicState", StepFunctionBuilder
+                                .PassState()
+                                .Transition(StepFunctionBuilder
+                                    .Next("BranchOneInitial"))))
+                        .Transition(StepFunctionBuilder.End()))));
         }
 
         [Fact]
         public void SimpleStateMachine_WithCycle_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                                                   AssertCycle(StepFunctionBuilder.StateMachine()
-                                                                                  .StartAt("Initial")
-                                                                                  .State("Initial", StepFunctionBuilder.PassState()
-                                                                                                                       .Transition(StepFunctionBuilder.Next("Next")))
-                                                                                  .State("Next", StepFunctionBuilder.PassState()
-                                                                                                                    .Transition(StepFunctionBuilder.Next("Initial")))));
+                AssertCycle(StepFunctionBuilder.StateMachine()
+                    .StartAt("Initial")
+                    .State("Initial", StepFunctionBuilder.PassState()
+                        .Transition(StepFunctionBuilder.Next("Next")))
+                    .State("Next", StepFunctionBuilder.PassState()
+                        .Transition(StepFunctionBuilder.Next("Initial")))));
         }
 
         [Fact]
         public void SingleTerminalState_HasNoCycle_IsValid()
         {
             AssertNoCycle(StepFunctionBuilder.StateMachine()
-                                             .StartAt("Initial")
-                                             .State("Initial", StepFunctionBuilder.SucceedState()));
+                .StartAt("Initial")
+                .State("Initial", StepFunctionBuilder.SucceedState()));
         }
     }
 }

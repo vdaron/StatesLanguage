@@ -14,23 +14,22 @@
  * permissions and limitations under the License.
  */
 
-using System;
-using System.Globalization;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for Numeric equality comparison. Supports both integral and floating point numeric types.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class NumericEqualsPathCondition : BinaryConditionPath
     {
-        private NumericEqualsPathCondition():base(Operator.Eq, JTokenType.Float, JTokenType.Integer)
+        private NumericEqualsPathCondition() : base(Operator.Eq, JTokenType.Float, JTokenType.Integer)
         {
         }
 
@@ -77,10 +76,10 @@ namespace StatesLanguage.Model.Conditions
             public NumericEqualsPathCondition Build()
             {
                 return new NumericEqualsPathCondition
-                       {
-                           Variable = _variable,
-                           ExpectedValuePath = _expectedValuePath
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValuePath = _expectedValuePath
+                };
             }
 
             /**
@@ -89,7 +88,6 @@ namespace StatesLanguage.Model.Conditions
              * @param variable Reference path.
              * @return This object for method chaining.
              */
-            
             public Builder Variable(string variable)
             {
                 _variable = variable;

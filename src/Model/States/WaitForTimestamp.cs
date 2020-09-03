@@ -13,15 +13,16 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
     /// <summary>
-    ///     <see cref="IWaitFor"/> implementation that can be used in a <see cref="WaitState"/>.
-    ///     Corresponds to the <see cref="PropertyNames.TIMESTAMP"/> field in the JSON document.
+    ///     <see cref="IWaitFor" /> implementation that can be used in a <see cref="WaitState" />.
+    ///     Corresponds to the <see cref="PropertyNames.TIMESTAMP" /> field in the JSON document.
     /// </summary>
     public class WaitForTimestamp : IWaitFor
     {
@@ -30,15 +31,15 @@ namespace StatesLanguage.Model.States
         }
 
         /// <summary>
-        /// Date that this state should wait until before proceeding.
+        ///     Date that this state should wait until before proceeding.
         /// </summary>
         public DateTime Timestamp { get; private set; }
-        
+
         public static Builder GetBuilder()
         {
             return new Builder();
         }
-        
+
         public sealed class Builder : IWaitForBuilder<WaitForTimestamp>
         {
             [JsonProperty(PropertyNames.TIMESTAMP)]
@@ -47,17 +48,17 @@ namespace StatesLanguage.Model.States
             internal Builder()
             {
             }
-            
+
             public WaitForTimestamp Build()
             {
                 return new WaitForTimestamp
-                       {
-                           Timestamp = _timestamp
-                       };
+                {
+                    Timestamp = _timestamp
+                };
             }
-            
+
             /// <summary>
-            /// REQUIRED. Sets the date that this state should wait until before proceeding.
+            ///     REQUIRED. Sets the date that this state should wait until before proceeding.
             /// </summary>
             /// <param name="timestamp">Date to wait until.</param>
             /// <returns> This object for method chaining.</returns>

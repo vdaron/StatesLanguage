@@ -13,16 +13,14 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
-using StatesLanguage.Interfaces;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
-
     public class ChoiceState : InputOutputState
     {
         private ChoiceState()
@@ -55,10 +53,9 @@ namespace StatesLanguage.Model.States
         /**
          * Builder for a {@link ChoiceState}.
          */
-        public sealed class Builder : InputOutputStateBuilder<ChoiceState,Builder>
+        public sealed class Builder : InputOutputStateBuilder<ChoiceState, Builder>
         {
-            [JsonProperty(PropertyNames.CHOICES)]
-            private List<Choice.Builder> _choices = new List<Choice.Builder>();
+            [JsonProperty(PropertyNames.CHOICES)] private List<Choice.Builder> _choices = new List<Choice.Builder>();
 
             [JsonProperty(PropertyNames.DEFAULT_STATE)]
             private string _defaultStateName;
@@ -73,18 +70,19 @@ namespace StatesLanguage.Model.States
             public override ChoiceState Build()
             {
                 return new ChoiceState
-                       {
-                           Comment = _comment,
-                           DefaultStateName = _defaultStateName,
-                           Choices = BuildableUtils.Build(_choices).ToList(),
-                           InputPath = _inputPath,
-                           OutputPath = _outputPath
-                       };
+                {
+                    Comment = _comment,
+                    DefaultStateName = _defaultStateName,
+                    Choices = BuildableUtils.Build(_choices).ToList(),
+                    InputPath = _inputPath,
+                    OutputPath = _outputPath
+                };
             }
-            
+
             /// <summary>
-            /// OPTIONAL. Name of state to transition to if no {@link Choice} rules match. If a default state is not provided and no
-            /// choices match then a  <see cref="ErrorCodes.NO_CHOICE_MATCHED"/> error is thrown.
+            ///     OPTIONAL. Name of state to transition to if no {@link Choice} rules match. If a default state is not provided and
+            ///     no
+            ///     choices match then a  <see cref="ErrorCodes.NO_CHOICE_MATCHED" /> error is thrown.
             /// </summary>
             /// <param name="defaultStateName">Name of default state.</param>
             /// <returns>This object for method chaining.</returns>
@@ -93,14 +91,17 @@ namespace StatesLanguage.Model.States
                 _defaultStateName = defaultStateName;
                 return this;
             }
-            
+
             /// <summary>
-            /// REQUIRED. Adds a new {@link Choice} rule to the <see cref="ChoiceState"/>. A <see cref="ChoiceState"/> must contain at least one
-            /// choice rule.
+            ///     REQUIRED. Adds a new {@link Choice} rule to the <see cref="ChoiceState" />. A <see cref="ChoiceState" /> must
+            ///     contain at least one
+            ///     choice rule.
             /// </summary>
-            /// <param name="choiceBuilder">Instance of <see cref="Choice.Builder"/>. Note that the <see cref="Choice"/>
-            /// object is not built until the <see cref="ChoiceState"/> is built so any modifications on the
-            ///  state model will be reflected in this object.</param>
+            /// <param name="choiceBuilder">
+            ///     Instance of <see cref="Choice.Builder" />. Note that the <see cref="Choice" />
+            ///     object is not built until the <see cref="ChoiceState" /> is built so any modifications on the
+            ///     state model will be reflected in this object.
+            /// </param>
             /// <returns>This object for method chaining.</returns>
             public Builder Choice(Choice.Builder choiceBuilder)
             {
@@ -109,12 +110,15 @@ namespace StatesLanguage.Model.States
             }
 
             /// <summary>
-            /// Adds the <see cref="Choice"/> rules to the <see cref="ChoiceState"/>. A <see cref="ChoiceState"/> must contain at least one
-            /// choice rule.
+            ///     Adds the <see cref="Choice" /> rules to the <see cref="ChoiceState" />. A <see cref="ChoiceState" /> must contain
+            ///     at least one
+            ///     choice rule.
             /// </summary>
-            /// <param name="choiceBuilders">Instances of <see cref="Choice.Builder"/>. Note that the <see cref="Choice"/>
-            /// object is not built until the <see cref="ChoiceState"/> is built so any modifications on the
-            ///  state model will be reflected in this object.</param>
+            /// <param name="choiceBuilders">
+            ///     Instances of <see cref="Choice.Builder" />. Note that the <see cref="Choice" />
+            ///     object is not built until the <see cref="ChoiceState" /> is built so any modifications on the
+            ///     state model will be reflected in this object.
+            /// </param>
             /// <returns>This object for method chaining.</returns>
             public Builder Choices(params Choice.Builder[] choiceBuilders)
             {

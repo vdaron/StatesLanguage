@@ -14,11 +14,10 @@
  * permissions and limitations under the License.
  */
 
-using System;
-using StatesLanguage.Model.Internal;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
+using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -28,7 +27,7 @@ namespace StatesLanguage.Model.Conditions
     /// </summary>
     public sealed class BooleanEqualsPathCondition : BinaryConditionPath
     {
-        private BooleanEqualsPathCondition():base(Operator.Eq, JTokenType.Boolean)
+        private BooleanEqualsPathCondition() : base(Operator.Eq, JTokenType.Boolean)
         {
         }
 
@@ -70,11 +69,11 @@ namespace StatesLanguage.Model.Conditions
             /// <returns>An immutable <see cref="BooleanEqualsCondition" /> object.</returns>
             public BooleanEqualsPathCondition Build()
             {
-                return new BooleanEqualsPathCondition()
-                       {
-                           Variable = _variable,
-                           ExpectedValuePath = _expectedValuePath
-                       };
+                return new BooleanEqualsPathCondition
+                {
+                    Variable = _variable,
+                    ExpectedValuePath = _expectedValuePath
+                };
             }
 
             /// <summary>

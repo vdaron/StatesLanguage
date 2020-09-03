@@ -29,21 +29,21 @@ namespace StatesLanguage.Model.Serialization
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var state = JObject.FromObject(value, new JsonSerializer
-                                                  {
-                                                      Formatting = serializer.Formatting,
-                                                      NullValueHandling = NullValueHandling.Ignore,
-                                                      DefaultValueHandling = DefaultValueHandling.Ignore,
-                                                      ContractResolver = StatesContractResolver.Instance,
-                                                      Converters = {new CatcherDeserializer()}
-                                                  });
-            JArray bra = new JArray();
+            {
+                Formatting = serializer.Formatting,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                ContractResolver = StatesContractResolver.Instance,
+                Converters = {new CatcherDeserializer()}
+            });
+            var bra = new JArray();
             var branches = ((ParallelState) value).Branches;
             foreach (var branch in branches)
             {
                 bra.Add(JObject.FromObject(branch, serializer));
             }
 
-            state.Add(PropertyNames.BRANCHES,bra);
+            state.Add(PropertyNames.BRANCHES, bra);
 
             var transition = ((TransitionState) value).Transition;
 
@@ -58,7 +58,7 @@ namespace StatesLanguage.Model.Serialization
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
-                                        JsonSerializer serializer)
+            JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }

@@ -107,7 +107,7 @@ namespace StatesLanguage.Model.Internal.Validation
             if (!collection.GetEnumerator().MoveNext())
             {
                 ProblemReporter.Report(new Problem(this,
-                                                   $"{propertyName} requires one or more items"));
+                    $"{propertyName} requires one or more items"));
             }
         }
 
@@ -122,7 +122,7 @@ namespace StatesLanguage.Model.Internal.Validation
             if (map == null || map.Count == 0)
             {
                 ProblemReporter.Report(new Problem(this,
-                                                   $"{propertyName} requires one or more entries"));
+                    $"{propertyName} requires one or more entries"));
             }
         }
 
@@ -183,7 +183,7 @@ namespace StatesLanguage.Model.Internal.Validation
         {
             AssertIsValidReferencePath(path, PropertyNames.RESULT_PATH);
         }
-        
+
         public void AssertIsValidItemPath(string path)
         {
             AssertIsValidReferencePath(path, PropertyNames.ITEMS_PATH);
@@ -206,9 +206,9 @@ namespace StatesLanguage.Model.Internal.Validation
             {
                 ProblemReporter.Report(new Problem(this, $"{propertyName} cannot be empty"));
             }
-            
+
             // Newtonsoft.Json seems to allow JsonPath to not start with $
-            if(path[0] != '$')
+            if (path[0] != '$')
             {
                 ProblemReporter.Report(new Problem(this,
                     $"{propertyName} with value '{path}' is not a valid JsonPath. Must Start with '$'"));
@@ -216,7 +216,6 @@ namespace StatesLanguage.Model.Internal.Validation
 
             try
             {
-                
                 var token = JToken.Parse("{}").SelectTokens(path);
             }
             catch (Exception e)
@@ -262,9 +261,9 @@ namespace StatesLanguage.Model.Internal.Validation
         public ValidationContext State(string stateName)
         {
             return NewChildContext()
-                   .Identifier(stateName)
-                   .Location(Location.State)
-                   .Build();
+                .Identifier(stateName)
+                .Location(Location.State)
+                .Build();
         }
 
         /**
@@ -274,9 +273,9 @@ namespace StatesLanguage.Model.Internal.Validation
         public ValidationContext Retrier(int index)
         {
             return NewChildContext()
-                   .Identifier(index.ToString())
-                   .Location(Location.Retrier)
-                   .Build();
+                .Identifier(index.ToString())
+                .Location(Location.Retrier)
+                .Build();
         }
 
         /**
@@ -286,11 +285,11 @@ namespace StatesLanguage.Model.Internal.Validation
         public ValidationContext Branch(int index)
         {
             return NewChildContext()
-                   .Identifier(index.ToString())
-                   .Location(Location.Branch)
-                   .Build();
+                .Identifier(index.ToString())
+                .Location(Location.Branch)
+                .Build();
         }
-        
+
         public ValidationContext Iterator()
         {
             return NewChildContext()
@@ -305,9 +304,9 @@ namespace StatesLanguage.Model.Internal.Validation
         public ValidationContext Choice(int index)
         {
             return NewChildContext()
-                   .Identifier(index.ToString())
-                   .Location(Location.Choice)
-                   .Build();
+                .Identifier(index.ToString())
+                .Location(Location.Choice)
+                .Build();
         }
 
         /**
@@ -317,20 +316,20 @@ namespace StatesLanguage.Model.Internal.Validation
         public ValidationContext Catcher(int index)
         {
             return NewChildContext()
-                   .Identifier(index.ToString())
-                   .Location(Location.Catcher)
-                   .Build();
+                .Identifier(index.ToString())
+                .Location(Location.Catcher)
+                .Build();
         }
 
         /**
          * @return Sub-context with this context as the parent and the
-         *     same problem reporter.
+         * same problem reporter.
          */
         private Builder NewChildContext()
         {
             return GetBuilder()
-                   .ParentContext(this)
-                   .ProblemReporter(ProblemReporter);
+                .ParentContext(this)
+                .ProblemReporter(ProblemReporter);
         }
 
         /**
@@ -398,12 +397,12 @@ namespace StatesLanguage.Model.Internal.Validation
             public ValidationContext Build()
             {
                 return new ValidationContext
-                       {
-                           ParentContext = _parentContext,
-                           Location = _location,
-                           Identifier = _identifier,
-                           ProblemReporter = _problemReporter
-                       };
+                {
+                    ParentContext = _parentContext,
+                    Location = _location,
+                    Identifier = _identifier,
+                    ProblemReporter = _problemReporter
+                };
             }
         }
     }

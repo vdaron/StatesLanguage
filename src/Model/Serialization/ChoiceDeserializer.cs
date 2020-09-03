@@ -27,12 +27,12 @@ namespace StatesLanguage.Model.Serialization
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var state = JObject.FromObject(value, new JsonSerializer
-                                                  {
-                                                      Formatting = serializer.Formatting,
-                                                      NullValueHandling = NullValueHandling.Ignore,
-                                                      DefaultValueHandling = DefaultValueHandling.Ignore,
-                                                      ContractResolver = StatesContractResolver.Instance
-                                                  });
+            {
+                Formatting = serializer.Formatting,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                ContractResolver = StatesContractResolver.Instance
+            });
 
             var transition = ((Choice) value).Transition;
 
@@ -55,14 +55,15 @@ namespace StatesLanguage.Model.Serialization
             state.WriteTo(writer);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            JsonSerializer serializer)
         {
             var ee = new ConditionDeserializer();
             var obj = JObject.Load(reader);
             return Choice.GetBuilder().Transition(NextStateTransition.GetBuilder()
-                                                                     .NextStateName(obj[PropertyNames.NEXT]
-                                                                                        .Value<string>()))
-                         .Condition(ee.DeserializeCondition(obj));
+                    .NextStateName(obj[PropertyNames.NEXT]
+                        .Value<string>()))
+                .Condition(ee.DeserializeCondition(obj));
         }
 
         public override bool CanConvert(Type objectType)

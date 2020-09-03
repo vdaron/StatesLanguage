@@ -13,7 +13,7 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
 
 namespace StatesLanguage.Model.States
@@ -53,17 +53,17 @@ namespace StatesLanguage.Model.States
             }
 
             /// <summary>
-            /// return An immutable {@link SucceedState} object
+            ///     return An immutable {@link SucceedState} object
             /// </summary>
             /// <returns></returns>
             public override SucceedState Build()
             {
                 return new SucceedState
-                       {
-                           Comment = _comment,
-                           InputPath = _inputPath,
-                           OutputPath = _outputPath
-                       };
+                {
+                    Comment = _comment,
+                    InputPath = _inputPath,
+                    OutputPath = _outputPath
+                };
             }
         }
     }

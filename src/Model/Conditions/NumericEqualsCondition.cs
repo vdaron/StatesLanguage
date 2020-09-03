@@ -15,23 +15,22 @@
  */
 
 using System;
-using System.Globalization;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for Numeric equality comparison. Supports both integral and floating point numeric types.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class NumericEqualsCondition<T> : BinaryCondition<T>
         where T : IComparable<T>
     {
-        private NumericEqualsCondition():base(Operator.Eq)
+        private NumericEqualsCondition() : base(Operator.Eq)
         {
         }
 
@@ -70,7 +69,6 @@ namespace StatesLanguage.Model.Conditions
             {
                 _expectedValue = expectedValue;
                 return this;
-
             }
 
 
@@ -80,10 +78,10 @@ namespace StatesLanguage.Model.Conditions
             public NumericEqualsCondition<T> Build()
             {
                 return new NumericEqualsCondition<T>
-                       {
-                           Variable = _variable,
-                           ExpectedValue = _expectedValue
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValue = _expectedValue
+                };
             }
 
             /**

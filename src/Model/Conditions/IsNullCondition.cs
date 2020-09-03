@@ -14,11 +14,10 @@
  * permissions and limitations under the License.
  */
 
-using System;
-using StatesLanguage.Model.Internal;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
+using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -34,7 +33,7 @@ namespace StatesLanguage.Model.Conditions
 
         [JsonProperty(PropertyNames.IS_NULL)]
         public bool IsNull { get; private set; }
-        
+
         [JsonProperty(PropertyNames.VARIABLE)]
         public string Variable { get; set; }
 
@@ -80,10 +79,10 @@ namespace StatesLanguage.Model.Conditions
             public IsNullCondition Build()
             {
                 return new IsNullCondition
-                       {
-                           Variable = _variable,
-                           IsNull = _expectedValue
-                       };
+                {
+                    Variable = _variable,
+                    IsNull = _expectedValue
+                };
             }
 
             /// <summary>

@@ -13,6 +13,7 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
 using System.Collections.Generic;
 using StatesLanguage.Model.Conditions;
@@ -33,11 +34,11 @@ namespace StatesLanguage.Model.Internal.Validation
         public StateMachine Validate()
         {
             var context = ValidationContext.GetBuilder()
-                                           .ProblemReporter(_problemReporter)
-                                           .ParentContext(null)
-                                           .Identifier("Root")
-                                           .Location(Location.StateMachine)
-                                           .Build();
+                .ProblemReporter(_problemReporter)
+                .ParentContext(null)
+                .Identifier("Root")
+                .Location(Location.StateMachine)
+                .Build();
             context.AssertStringNotEmpty(_stateMachine.StartAt, PropertyNames.START_AT);
             context.AssertIsPositiveIfPresent(_stateMachine.TimeoutSeconds, PropertyNames.TIMEOUT_SECONDS);
             context.AssertNotEmpty(_stateMachine.States, PropertyNames.STATES);
@@ -88,16 +89,16 @@ namespace StatesLanguage.Model.Internal.Validation
             private readonly Dictionary<string, State> _visited = new Dictionary<string, State>();
 
             internal GraphValidator(ValidationContext context, StateMachine stateMachine) : this(context,
-                                                                                                 new Dictionary<string, State>(),
-                                                                                                 stateMachine.StartAt,
-                                                                                                 stateMachine.States)
+                new Dictionary<string, State>(),
+                stateMachine.StartAt,
+                stateMachine.States)
             {
             }
 
             private GraphValidator(ValidationContext context,
-                                   IDictionary<string, State> parentVisited,
-                                   string initialState,
-                                   IDictionary<string, State> states)
+                IDictionary<string, State> parentVisited,
+                string initialState,
+                IDictionary<string, State> states)
             {
                 _currentContext = context;
                 _parentVisited = parentVisited;
@@ -110,7 +111,8 @@ namespace StatesLanguage.Model.Internal.Validation
                 var pathToTerminal = Visit(_initialState);
                 if (_parentVisited.Count == 0 && !pathToTerminal)
                 {
-                    _currentContext.ProblemReporter.Report(new Problem(_currentContext, "No path to a terminal state exists."));
+                    _currentContext.ProblemReporter.Report(new Problem(_currentContext,
+                        "No path to a terminal state exists."));
                 }
 
                 return pathToTerminal;
@@ -161,9 +163,9 @@ namespace StatesLanguage.Model.Internal.Validation
                 foreach (var branch in state.Branches)
                 {
                     new GraphValidator(stateContext.Branch(index),
-                                       new Dictionary<string, State>(),
-                                       branch.StartAt,
-                                       branch.States).Validate();
+                        new Dictionary<string, State>(),
+                        branch.StartAt,
+                        branch.States).Validate();
                     index++;
                 }
             }
@@ -172,10 +174,12 @@ namespace StatesLanguage.Model.Internal.Validation
             {
                 var merged = MergeParentVisited();
                 var hasPathToTerminal = false;
-                if(!string.IsNullOrEmpty(choiceState.DefaultStateName))
+                if (!string.IsNullOrEmpty(choiceState.DefaultStateName))
                 {
-                    hasPathToTerminal = new GraphValidator(stateContext, merged, choiceState.DefaultStateName, _states).Validate();
+                    hasPathToTerminal = new GraphValidator(stateContext, merged, choiceState.DefaultStateName, _states)
+                        .Validate();
                 }
+
                 var index = 0;
                 foreach (var choice in choiceState.Choices)
                 {
@@ -264,14 +268,14 @@ namespace StatesLanguage.Model.Internal.Validation
                 ValidateBranches(parallelState);
                 return 0;
             }
-            
+
             public override int Visit(MapState mapState)
             {
                 _currentContext.AssertIsValidInputPath(mapState.InputPath);
                 _currentContext.AssertIsValidOutputPath(mapState.OutputPath);
                 _currentContext.AssertIsValidResultPath(mapState.ResultPath);
                 _currentContext.AssertIsValidItemPath(mapState.ItemsPath);
-                _currentContext.AssertIsNotNegativeIfPresent(mapState.MaxConcurrency,PropertyNames.MAX_CONCURENCY);
+                _currentContext.AssertIsNotNegativeIfPresent(mapState.MaxConcurrency, PropertyNames.MAX_CONCURENCY);
                 ValidateTransition(mapState.Transition);
                 ValidateRetriers(mapState.Retriers);
                 ValidateCatchers(mapState.Catchers);
@@ -302,25 +306,28 @@ namespace StatesLanguage.Model.Internal.Validation
                 _currentContext.AssertIsValidResultPath(taskState.ResultPath);
                 _currentContext.AssertIsPositiveIfPresent(taskState.TimeoutSeconds, PropertyNames.TIMEOUT_SECONDS);
                 _currentContext.AssertIsPositiveIfPresent(taskState.HeartbeatSeconds, PropertyNames.HEARTBEAT_SECONDS);
-                
+
                 if (taskState.HeartbeatSeconds != null)
                 {
                     if (taskState.HeartbeatSeconds >= taskState.TimeoutSeconds)
                     {
-                        _problemReporter.Report(new Problem(_currentContext, $"{PropertyNames.HEARTBEAT_SECONDS} must be smaller than {PropertyNames.TIMEOUT_SECONDS}"));
+                        _problemReporter.Report(new Problem(_currentContext,
+                            $"{PropertyNames.HEARTBEAT_SECONDS} must be smaller than {PropertyNames.TIMEOUT_SECONDS}"));
                     }
                 }
 
                 if (taskState.HeartbeatSeconds.HasValue && !string.IsNullOrEmpty(taskState.HeartbeatSecondsPath))
                 {
-                    _problemReporter.Report(new Problem(_currentContext, $"TaskState cannot contain HeartbeatSecondsPath and HeartbeatSecond property"));
+                    _problemReporter.Report(new Problem(_currentContext,
+                        "TaskState cannot contain HeartbeatSecondsPath and HeartbeatSecond property"));
                 }
-                
+
                 if (taskState.TimeoutSeconds.HasValue && !string.IsNullOrEmpty(taskState.TimeoutSecondPath))
                 {
-                    _problemReporter.Report(new Problem(_currentContext, $"TaskState cannot contain TimeoutSecondPath and TimeoutSeconds property"));
+                    _problemReporter.Report(new Problem(_currentContext,
+                        "TaskState cannot contain TimeoutSecondPath and TimeoutSeconds property"));
                 }
-                
+
                 _currentContext.AssertStringNotEmpty(taskState.Resource, PropertyNames.RESOURCE);
                 ValidateRetriers(taskState.Retriers);
                 ValidateCatchers(taskState.Catchers);
@@ -386,7 +393,8 @@ namespace StatesLanguage.Model.Internal.Validation
                 context.AssertIsValidJsonPath(condition.Variable, PropertyNames.VARIABLE);
             }
 
-            private void ValidateBinaryCondition<T>(ValidationContext context, BinaryCondition<T> condition) where T : IComparable<T>
+            private void ValidateBinaryCondition<T>(ValidationContext context, BinaryCondition<T> condition)
+                where T : IComparable<T>
             {
                 context.AssertStringNotEmpty(condition.Variable, PropertyNames.VARIABLE);
                 context.AssertIsValidJsonPath(condition.Variable, PropertyNames.VARIABLE);
@@ -422,7 +430,8 @@ namespace StatesLanguage.Model.Internal.Validation
                     _currentContext.AssertStringNotEmpty(branch.StartAt, PropertyNames.START_AT);
                     if (!branch.States.ContainsKey(branch.StartAt))
                     {
-                        _problemReporter.Report(new Problem(branchContext, $"{PropertyNames.START_AT} references a non existent state."));
+                        _problemReporter.Report(new Problem(branchContext,
+                            $"{PropertyNames.START_AT} references a non existent state."));
                     }
 
                     index++;
@@ -439,8 +448,8 @@ namespace StatesLanguage.Model.Internal.Validation
                     if (hasRetryAll)
                     {
                         _problemReporter.Report(
-                                                new Problem(retrierContext,
-                                                            $"When {ErrorCodes.ALL} is used in must be in the last Retrier"));
+                            new Problem(retrierContext,
+                                $"When {ErrorCodes.ALL} is used in must be in the last Retrier"));
                     }
 
                     // MaxAttempts may be zero
@@ -449,7 +458,7 @@ namespace StatesLanguage.Model.Internal.Validation
                     if (retrier.BackoffRate < 1.0)
                     {
                         _problemReporter.Report(new Problem(retrierContext,
-                                                            $"{PropertyNames.BACKOFF_RATE} must be greater than or equal to 1.0"));
+                            $"{PropertyNames.BACKOFF_RATE} must be greater than or equal to 1.0"));
                     }
 
                     hasRetryAll = ValidateErrorEquals(retrierContext, retrier.ErrorEquals);
@@ -468,8 +477,8 @@ namespace StatesLanguage.Model.Internal.Validation
                     if (hasCatchAll)
                     {
                         _problemReporter.Report(
-                                                new Problem(catcherContext,
-                                                            $"When {ErrorCodes.ALL} is used in must be in the last Catcher"));
+                            new Problem(catcherContext,
+                                $"When {ErrorCodes.ALL} is used in must be in the last Catcher"));
                     }
 
                     ValidateTransition(catcherContext, catcher.Transition);
@@ -486,7 +495,7 @@ namespace StatesLanguage.Model.Internal.Validation
                     if (errorEquals.Count != 1)
                     {
                         _problemReporter.Report(new Problem(currentContext,
-                                                            $"When {ErrorCodes.ALL} is used in {PropertyNames.ERROR_EQUALS}, it must be the only error code in the array"));
+                            $"When {ErrorCodes.ALL} is used in {PropertyNames.ERROR_EQUALS}, it must be the only error code in the array"));
                     }
 
                     return true;
@@ -501,7 +510,7 @@ namespace StatesLanguage.Model.Internal.Validation
                 if (waitFor is WaitForSeconds waitForSeconds)
                 {
                     _currentContext.AssertIsPositiveIfPresent(waitForSeconds.Seconds,
-                                                              PropertyNames.SECONDS);
+                        PropertyNames.SECONDS);
                 }
                 else if (waitFor is WaitForSecondsPath waitForSecondsPath)
                 {
@@ -556,7 +565,7 @@ namespace StatesLanguage.Model.Internal.Validation
                 if (!_states.ContainsKey(nextStateName))
                 {
                     _problemReporter.Report(new Problem(context,
-                                                        $"{nextStateName} is not a valid state"));
+                        $"{nextStateName} is not a valid state"));
                 }
             }
         }

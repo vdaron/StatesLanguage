@@ -16,40 +16,40 @@
 
 using System.IO;
 using System.Text;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using StatesLanguage.Interfaces;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
     [JsonObject(MemberSerialization.OptIn)]
     public abstract class State : IState
     {
+        [JsonIgnore]
+        public abstract bool IsTerminalState { get; }
+
         /// <summary>
-        /// State Type
+        ///     State Type
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty(PropertyNames.TYPE)]
         public abstract StateType Type { get; }
-        
+
         /// <summary>
-        /// Human readable description for the state.
+        ///     Human readable description for the state.
         /// </summary>
         [JsonProperty(PropertyNames.COMMENT)]
         public string Comment { get; set; }
-
-        [JsonIgnore]
-        public abstract bool IsTerminalState { get; }
 
         public abstract T Accept<T>(StateVisitor<T> visitor);
 
         public string ToJson()
         {
-            StringBuilder result = new StringBuilder();
-            using (StringWriter writer = new StringWriter(result))
+            var result = new StringBuilder();
+            using (var writer = new StringWriter(result))
             {
-                StateMachine.GetJsonSerializer().Serialize(writer,this);
+                StateMachine.GetJsonSerializer().Serialize(writer, this);
             }
 
             return result.ToString();
@@ -68,29 +68,28 @@ namespace StatesLanguage.Model.States
         {
         }
     }
-    
-    public abstract class StateBuilder<T, B> : State.IBuilder<T> 
+
+    public abstract class StateBuilder<T, B> : State.IBuilder<T>
         where T : State
         where B : StateBuilder<T, B>
     {
-        [JsonProperty(PropertyNames.COMMENT)]
-        protected string _comment;
+        [JsonProperty(PropertyNames.COMMENT)] protected string _comment;
 
         internal StateBuilder()
         {
         }
 
+        public abstract T Build();
+
         /// <summary>
-        /// OPTIONAL. Human readable description for the state.
+        ///     OPTIONAL. Human readable description for the state.
         /// </summary>
         /// <param name="comment">New comment</param>
         /// <returns>This object for method chaining.</returns>
         public B Comment(string comment)
         {
             _comment = comment;
-            return (B)this;
+            return (B) this;
         }
-        
-        public abstract T Build();
     }
 }

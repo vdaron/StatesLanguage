@@ -13,12 +13,13 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using Newtonsoft.Json;
 
 namespace StatesLanguage.Model.States
 {
     /// <summary>
-    /// Terminal Transition ending the Execution
+    ///     Terminal Transition ending the Execution
     /// </summary>
     public class EndTransition : ITransition
     {
@@ -35,13 +36,13 @@ namespace StatesLanguage.Model.States
         {
             return new Builder();
         }
-        
+
         public sealed class Builder : ITransitionBuilder<EndTransition>
         {
             internal Builder()
             {
             }
-            
+
             public EndTransition Build()
             {
                 return new EndTransition();

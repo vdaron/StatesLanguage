@@ -13,9 +13,10 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
@@ -29,7 +30,7 @@ namespace StatesLanguage.Model.States
 
         [JsonIgnore]
         public IWaitFor WaitFor { get; private set; }
-        
+
         public static Builder GetBuilder()
         {
             return new Builder();
@@ -47,11 +48,12 @@ namespace StatesLanguage.Model.States
             internal Builder()
             {
             }
-            
+
             /// <summary>
-            /// REQUIRED. Implementation of <see cref="IWaitFor"/> that indicates how long the state should wait before proceeding.
+            ///     REQUIRED. Implementation of <see cref="IWaitFor" /> that indicates how long the state should wait before
+            ///     proceeding.
             /// </summary>
-            /// <param name="waitFor">Implementation of <see cref="IWaitFor"/></param>
+            /// <param name="waitFor">Implementation of <see cref="IWaitFor" /></param>
             /// <typeparam name="T"></typeparam>
             /// <returns>This object for method chaining.</returns>
             public Builder WaitFor<T>(IWaitForBuilder<T> waitFor) where T : IWaitFor
@@ -59,17 +61,17 @@ namespace StatesLanguage.Model.States
                 _waitFor = (IWaitForBuilder<IWaitFor>) waitFor;
                 return this;
             }
-            
+
             public override WaitState Build()
             {
                 return new WaitState
-                       {
-                           Comment = _comment,
-                           WaitFor = _waitFor.Build(),
-                           InputPath = _inputPath,
-                           OutputPath = _outputPath,
-                           Transition = _transition.Build()
-                       };
+                {
+                    Comment = _comment,
+                    WaitFor = _waitFor.Build(),
+                    InputPath = _inputPath,
+                    OutputPath = _outputPath,
+                    Transition = _transition.Build()
+                };
             }
 
 #pragma warning disable S2376 // Write-only properties should not be used

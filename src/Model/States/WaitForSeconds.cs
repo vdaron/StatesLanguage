@@ -13,14 +13,15 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
     /// <summary>
-    ///     <see cref="IWaitFor"/> implementation that can be used in a <see cref="WaitState"/>.
-    ///     Corresponds to the <see cref="PropertyNames.SECONDS"/> field in the JSON document.
+    ///     <see cref="IWaitFor" /> implementation that can be used in a <see cref="WaitState" />.
+    ///     Corresponds to the <see cref="PropertyNames.SECONDS" /> field in the JSON document.
     /// </summary>
     public class WaitForSeconds : IWaitFor
     {
@@ -29,7 +30,7 @@ namespace StatesLanguage.Model.States
         }
 
         /// <summary>
-        /// number of seconds the <see cref="WaitState"/> will wait for.
+        ///     number of seconds the <see cref="WaitState" /> will wait for.
         /// </summary>
         public int Seconds { get; private set; }
 
@@ -40,8 +41,7 @@ namespace StatesLanguage.Model.States
 
         public sealed class Builder : IWaitForBuilder<WaitForSeconds>
         {
-            [JsonProperty(PropertyNames.SECONDS)]
-            private int _seconds;
+            [JsonProperty(PropertyNames.SECONDS)] private int _seconds;
 
             internal Builder()
             {
@@ -50,13 +50,13 @@ namespace StatesLanguage.Model.States
             public WaitForSeconds Build()
             {
                 return new WaitForSeconds
-                       {
-                           Seconds = _seconds
-                       };
+                {
+                    Seconds = _seconds
+                };
             }
 
             /// <summary>
-            /// REQUIRED. Sets the number of seconds the <see cref="WaitState"/> will wait for.
+            ///     REQUIRED. Sets the number of seconds the <see cref="WaitState" /> will wait for.
             /// </summary>
             /// <param name="seconds">Number of seconds. Must be positive.</param>
             /// <returns>This object for method chaining.</returns>

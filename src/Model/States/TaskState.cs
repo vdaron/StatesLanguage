@@ -13,10 +13,9 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using System.Collections.Generic;
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
@@ -27,31 +26,31 @@ namespace StatesLanguage.Model.States
         }
 
         /// <summary>
-        /// The resource to be executed by this task.
+        ///     The resource to be executed by this task.
         /// </summary>
         [JsonProperty(PropertyNames.RESOURCE)]
         public string Resource { get; private set; }
-        
+
         /// <summary>
-        /// Json Reference Path of the Timeout, in seconds
+        ///     Json Reference Path of the Timeout, in seconds
         /// </summary>
         [JsonProperty(PropertyNames.TIMEOUT_SECONDS_PATH)]
         public string TimeoutSecondPath { get; private set; }
 
         /// <summary>
-        /// Timeout, in seconds
+        ///     Timeout, in seconds
         /// </summary>
         [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
         public int? TimeoutSeconds { get; private set; }
-        
+
         /// <summary>
-        /// Allowed time between "Heartbeats"
+        ///     Allowed time between "Heartbeats"
         /// </summary>
         [JsonProperty(PropertyNames.HEARTBEAT_SECONDS)]
         public int? HeartbeatSeconds { get; private set; }
-        
+
         /// <summary>
-        /// Json Reference Path of the Heartbeat, in seconds
+        ///     Json Reference Path of the Heartbeat, in seconds
         /// </summary>
         [JsonProperty(PropertyNames.HEARTBEAT_SECONDS_PATH)]
         public string HeartbeatSecondsPath { get; private set; }
@@ -61,7 +60,7 @@ namespace StatesLanguage.Model.States
 
         [JsonIgnore]
         public override bool IsTerminalState => Transition.IsTerminal;
-        
+
         public static Builder GetBuilder()
         {
             return new Builder();
@@ -71,21 +70,20 @@ namespace StatesLanguage.Model.States
         {
             return visitor.Visit(this);
         }
-        
+
         public sealed class Builder : RetryCatchStateBuilder<TaskState, Builder>
         {
             [JsonProperty(PropertyNames.HEARTBEAT_SECONDS)]
             private int? _heartbeatSeconds;
-            
+
             [JsonProperty(PropertyNames.HEARTBEAT_SECONDS_PATH)]
             private string _heartbeatSecondsPath;
 
-            [JsonProperty(PropertyNames.RESOURCE)]
-            private string _resource;
+            [JsonProperty(PropertyNames.RESOURCE)] private string _resource;
 
             [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
             private int? _timeoutSeconds;
-            
+
             [JsonProperty(PropertyNames.TIMEOUT_SECONDS_PATH)]
             private string _timeoutSecondsPath;
 
@@ -93,10 +91,11 @@ namespace StatesLanguage.Model.States
             {
                 _transition = NullTransitionBuilder<ITransition>.Instance;
             }
-            
+
             /// <summary>
-            /// REQUIRED. Sets the resource to be executed by this task. Must be a URI that uniquely identifies the specific task to
-            /// execute. This may be the ARN of a Lambda function or a States Activity.
+            ///     REQUIRED. Sets the resource to be executed by this task. Must be a URI that uniquely identifies the specific task
+            ///     to
+            ///     execute. This may be the ARN of a Lambda function or a States Activity.
             /// </summary>
             /// <param name="resource">URI of resource</param>
             /// <returns>This object for method chaining.</returns>
@@ -105,10 +104,11 @@ namespace StatesLanguage.Model.States
                 _resource = resource;
                 return this;
             }
-            
+
             /// <summary>
-            /// OPTIONAL. Timeout, in seconds, that a task is allowed to run. If the task execution runs longer than this timeout the
-            /// execution fails with a <see cref="ErrorCodes.TIMEOUT"/> error.
+            ///     OPTIONAL. Timeout, in seconds, that a task is allowed to run. If the task execution runs longer than this timeout
+            ///     the
+            ///     execution fails with a <see cref="ErrorCodes.TIMEOUT" /> error.
             /// </summary>
             /// <param name="timeoutSeconds">Timeout value</param>
             /// <returns>This object for method chaining.</returns>
@@ -117,10 +117,11 @@ namespace StatesLanguage.Model.States
                 _timeoutSeconds = timeoutSeconds;
                 return this;
             }
-            
+
             /// <summary>
-            /// OPTIONAL. Json Reference Path of the Timeout, in seconds, that a task is allowed to run. If the task execution runs longer than this timeout the
-            /// execution fails with a <see cref="ErrorCodes.TIMEOUT"/> error.
+            ///     OPTIONAL. Json Reference Path of the Timeout, in seconds, that a task is allowed to run. If the task execution runs
+            ///     longer than this timeout the
+            ///     execution fails with a <see cref="ErrorCodes.TIMEOUT" /> error.
             /// </summary>
             /// <param name="timeoutSecondsPath">Json Reference Path value</param>
             /// <returns>This object for method chaining.</returns>
@@ -129,11 +130,13 @@ namespace StatesLanguage.Model.States
                 _timeoutSecondsPath = timeoutSecondsPath;
                 return this;
             }
-            
+
             /// <summary>
-            /// OPTIONAL. Allowed time between "Heartbeats". If the task does not send "Heartbeats" within the timeout then execution
-            /// fails with a <see cref="ErrorCodes.TIMEOUT"/>. If not set then no heartbeats are required. Heartbeats are a more granular way
-            /// for a task to report it's progress to the state machine.
+            ///     OPTIONAL. Allowed time between "Heartbeats". If the task does not send "Heartbeats" within the timeout then
+            ///     execution
+            ///     fails with a <see cref="ErrorCodes.TIMEOUT" />. If not set then no heartbeats are required. Heartbeats are a more
+            ///     granular way
+            ///     for a task to report it's progress to the state machine.
             /// </summary>
             /// <param name="heartbeatSeconds">Heartbeat value.</param>
             /// <returns>This object for method chaining.</returns>
@@ -142,11 +145,13 @@ namespace StatesLanguage.Model.States
                 _heartbeatSeconds = heartbeatSeconds;
                 return this;
             }
-            
+
             /// <summary>
-            /// OPTIONAL. Json Reference Path of the Allowed time between "Heartbeats". If the task does not send "Heartbeats" within the timeout then execution
-            /// fails with a <see cref="ErrorCodes.TIMEOUT"/>. If not set then no heartbeats are required. Heartbeats are a more granular way
-            /// for a task to report it's progress to the state machine.
+            ///     OPTIONAL. Json Reference Path of the Allowed time between "Heartbeats". If the task does not send "Heartbeats"
+            ///     within the timeout then execution
+            ///     fails with a <see cref="ErrorCodes.TIMEOUT" />. If not set then no heartbeats are required. Heartbeats are a more
+            ///     granular way
+            ///     for a task to report it's progress to the state machine.
             /// </summary>
             /// <param name="heartbeatSeconds">Heartbeat value.</param>
             /// <returns>This object for method chaining.</returns>
@@ -162,22 +167,22 @@ namespace StatesLanguage.Model.States
             public override TaskState Build()
             {
                 return new TaskState
-                       {
-                           Resource = _resource,
-                           InputPath = _inputPath,
-                           ResultPath = _resultPath,
-                           OutputPath = _outputPath,
-                           Parameters = _parameters,
-                           ResultSelector = _resultSelector,
-                           Comment = _comment,
-                           TimeoutSeconds = _timeoutSeconds,
-                           HeartbeatSeconds = _heartbeatSeconds,
-                           HeartbeatSecondsPath = _heartbeatSecondsPath,
-                           TimeoutSecondPath = _timeoutSecondsPath,
-                           Transition = _transition.Build(),
-                           Retriers = BuildableUtils.Build(_retriers),
-                           Catchers = BuildableUtils.Build(_catchers)
-                       };
+                {
+                    Resource = _resource,
+                    InputPath = _inputPath,
+                    ResultPath = _resultPath,
+                    OutputPath = _outputPath,
+                    Parameters = _parameters,
+                    ResultSelector = _resultSelector,
+                    Comment = _comment,
+                    TimeoutSeconds = _timeoutSeconds,
+                    HeartbeatSeconds = _heartbeatSeconds,
+                    HeartbeatSecondsPath = _heartbeatSecondsPath,
+                    TimeoutSecondPath = _timeoutSecondsPath,
+                    Transition = _transition.Build(),
+                    Retriers = BuildableUtils.Build(_retriers),
+                    Catchers = BuildableUtils.Build(_catchers)
+                };
             }
         }
     }

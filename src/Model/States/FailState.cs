@@ -13,9 +13,9 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
-using StatesLanguage.Interfaces;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
@@ -26,14 +26,14 @@ namespace StatesLanguage.Model.States
         }
 
         /// <summary>
-        /// Error code that can be referenced in <see cref="Retrier"/>s or <see cref="Catcher"/>s and can also be used for
-        /// diagnostic purposes.
+        ///     Error code that can be referenced in <see cref="Retrier" />s or <see cref="Catcher" />s and can also be used for
+        ///     diagnostic purposes.
         /// </summary>
         [JsonProperty(PropertyNames.ERROR)]
         public string Error { get; protected set; }
 
         /// <summary>
-        /// Human readable message describing the failure. Used for diagnostic purposes only.
+        ///     Human readable message describing the failure. Used for diagnostic purposes only.
         /// </summary>
         [JsonProperty(PropertyNames.CAUSE)]
         public string Cause { get; protected set; }
@@ -59,11 +59,9 @@ namespace StatesLanguage.Model.States
          */
         public sealed class Builder : StateBuilder<FailState, Builder>
         {
-            [JsonProperty(PropertyNames.CAUSE)]
-            private string _cause;
+            [JsonProperty(PropertyNames.CAUSE)] private string _cause;
 
-            [JsonProperty(PropertyNames.ERROR)]
-            private string _error;
+            [JsonProperty(PropertyNames.ERROR)] private string _error;
 
             internal Builder()
             {
@@ -72,16 +70,17 @@ namespace StatesLanguage.Model.States
             public override FailState Build()
             {
                 return new FailState
-                       {
-                           Comment = _comment,
-                           Error = _error,
-                           Cause = _cause
-                       };
+                {
+                    Comment = _comment,
+                    Error = _error,
+                    Cause = _cause
+                };
             }
-            
+
             /// <summary>
-            /// REQUIRED. Error code that can be referenced in <see cref="Retrier"/>s or <see cref="Catcher"/>s and can also be used for
-            /// diagnostic purposes.
+            ///     REQUIRED. Error code that can be referenced in <see cref="Retrier" />s or <see cref="Catcher" />s and can also be
+            ///     used for
+            ///     diagnostic purposes.
             /// </summary>
             /// <param name="error">Error code value</param>
             /// <returns>This object for method chaining.</returns>
@@ -92,7 +91,7 @@ namespace StatesLanguage.Model.States
             }
 
             /// <summary>
-            /// REQUIRED. Human readable message describing the failure. Used for diagnostic purposes only.
+            ///     REQUIRED. Human readable message describing the failure. Used for diagnostic purposes only.
             /// </summary>
             /// <param name="cause">Cause description.</param>
             /// <returns>This object for method chaining.</returns>

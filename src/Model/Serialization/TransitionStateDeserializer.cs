@@ -28,13 +28,13 @@ namespace StatesLanguage.Model.Serialization
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var state = JObject.FromObject(value, new JsonSerializer
-                                                  {
-                                                      Formatting = serializer.Formatting,
-                                                      NullValueHandling = NullValueHandling.Ignore,
-                                                      DefaultValueHandling = DefaultValueHandling.Ignore,
-                                                      ContractResolver = StatesContractResolver.Instance,
-                                                      Converters = {new CatcherDeserializer()}
-                                                  });
+            {
+                Formatting = serializer.Formatting,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                ContractResolver = StatesContractResolver.Instance,
+                Converters = {new CatcherDeserializer()}
+            });
 
             var transition = ((TransitionState) value).Transition;
 
@@ -49,16 +49,16 @@ namespace StatesLanguage.Model.Serialization
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
-                                        JsonSerializer serializer)
+            JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(TransitionState).IsAssignableFrom(objectType) && 
-                   objectType != typeof(WaitState) && 
-                   objectType != typeof(ParallelState) && 
+            return typeof(TransitionState).IsAssignableFrom(objectType) &&
+                   objectType != typeof(WaitState) &&
+                   objectType != typeof(ParallelState) &&
                    objectType != typeof(MapState);
         }
     }

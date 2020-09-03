@@ -30,7 +30,8 @@ namespace StatesLanguage.Model.Serialization
             throw new NotImplementedException();
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            JsonSerializer serializer)
         {
             var obj = JObject.Load(reader);
             var type = obj["Type"].Value<string>();

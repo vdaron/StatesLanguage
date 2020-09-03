@@ -1,5 +1,4 @@
 using System;
-using System.Data;
 using Newtonsoft.Json;
 using StatesLanguage.Model.States;
 
@@ -23,13 +22,13 @@ namespace StatesLanguage.Model.Serialization
         }
 
         public override OptionalString ReadJson(
-            JsonReader reader, 
-            Type objectType, 
-            OptionalString existingValue, 
+            JsonReader reader,
+            Type objectType,
+            OptionalString existingValue,
             bool hasExistingValue,
             JsonSerializer serializer)
         {
-            string s = (string)reader.Value;
+            var s = (string) reader.Value;
             return new OptionalString(s);
         }
     }

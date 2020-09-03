@@ -13,9 +13,10 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System.Collections.Generic;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
@@ -50,8 +51,8 @@ namespace StatesLanguage.Model.States
             [JsonProperty(PropertyNames.RESULT_PATH)]
             private string _resultPath;
 
-            [JsonIgnore]
-            private ITransitionBuilder<NextStateTransition> _transition = NullTransitionBuilder<NextStateTransition>.Instance;
+            [JsonIgnore] private ITransitionBuilder<NextStateTransition> _transition =
+                NullTransitionBuilder<NextStateTransition>.Instance;
 
             [JsonProperty(PropertyNames.NEXT)]
             private string NextStateName
@@ -65,11 +66,11 @@ namespace StatesLanguage.Model.States
             public Catcher Build()
             {
                 return new Catcher
-                       {
-                           ErrorEquals = new List<string>(_errorEquals),
-                           ResultPath = _resultPath,
-                           Transition = _transition.Build()
-                       };
+                {
+                    ErrorEquals = new List<string>(_errorEquals),
+                    ResultPath = _resultPath,
+                    Transition = _transition.Build()
+                };
             }
 
             /**
@@ -99,10 +100,13 @@ namespace StatesLanguage.Model.States
 
             /**
              * @param resultPath JSON Path expression that can be used to combine the error output with the input to the state. If
-             *                   not
-             *                   specified the result will solely consist of the error output. See <a
-             *                   href="https://states-language.net/spec.html#filters">https://states-language.net/spec.html#filters</a>
-             *                   for more information.
+             * not
+             * specified the result will solely consist of the error output. See
+             * <a
+             *     href="https://states-language.net/spec.html#filters">
+             *     https://states-language.net/spec.html#filters
+             * </a>
+             * for more information.
              * @return This object for method chaining.
              */
             public Builder ResultPath(string resultPath)

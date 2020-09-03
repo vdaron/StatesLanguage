@@ -10,7 +10,8 @@ namespace StatesLanguage.Model
 {
     internal static class StandardIntrinsicFunctions
     {
-        public static JToken Array(IntrinsicFunction function, JToken input, JObject context, IntrinsicFunctionRegistry registry)
+        public static JToken Array(IntrinsicFunction function, JToken input, JObject context,
+            IntrinsicFunctionRegistry registry)
         {
             Ensure.IsNotNull<ArgumentNullException>(function);
             Ensure.IsNotNull<ArgumentNullException>(registry);
@@ -23,32 +24,40 @@ namespace StatesLanguage.Model
                     NullIntrinsicParam _ => null,
                     StringIntrinsicParam s => s.Value,
                     NumberIntrinsicParam n => n.Number,
-                    PathIntrinsicParam pa => GetPathValue(pa,input,context),
-                    IntrinsicFunction func => registry.CallFunction(func,input,context),
+                    PathIntrinsicParam pa => GetPathValue(pa, input, context),
+                    IntrinsicFunction func => registry.CallFunction(func, input, context),
                     _ => throw new InvalidIntrinsicFunctionException("Invalid Parameter type")
                 });
             }
 
             return result;
         }
-        public static JToken JsonToString(IntrinsicFunction function, JToken input, JObject context, IntrinsicFunctionRegistry registry)
+
+        public static JToken JsonToString(IntrinsicFunction function, JToken input, JObject context,
+            IntrinsicFunctionRegistry registry)
         {
             Ensure.IsNotNull<ArgumentNullException>(function);
             Ensure.IsNotNull<ArgumentNullException>(registry);
-            
-            if(function.Parameters.Length != 1 || !(function.Parameters[0] is PathIntrinsicParam pathParam))
+
+            if (function.Parameters.Length != 1 || !(function.Parameters[0] is PathIntrinsicParam pathParam))
+            {
                 throw new InvalidIntrinsicFunctionException("Requires a single path parameter");
+            }
 
             return GetPathValue(pathParam, input, context).ToString(Formatting.None);
         }
-        public static JToken StringToJson(IntrinsicFunction function, JToken input, JObject context, IntrinsicFunctionRegistry registry)
+
+        public static JToken StringToJson(IntrinsicFunction function, JToken input, JObject context,
+            IntrinsicFunctionRegistry registry)
         {
             Ensure.IsNotNull<ArgumentNullException>(function);
             Ensure.IsNotNull<ArgumentNullException>(registry);
-            
-            if(function.Parameters.Length != 1)
+
+            if (function.Parameters.Length != 1)
+            {
                 throw new InvalidIntrinsicFunctionException("Requires a single parameter");
-            
+            }
+
             switch (function.Parameters[0])
             {
                 case StringIntrinsicParam str:
@@ -69,28 +78,35 @@ namespace StatesLanguage.Model
                     {
                         return JToken.Parse(fv.Value<string>());
                     }
+
                     break;
             }
 
             throw new InvalidIntrinsicFunctionException("Parameter must be a string");
         }
-        public static JToken Format(IntrinsicFunction function, JToken input, JObject context, IntrinsicFunctionRegistry registry)
+
+        public static JToken Format(IntrinsicFunction function, JToken input, JObject context,
+            IntrinsicFunctionRegistry registry)
         {
             Ensure.IsNotNull<ArgumentNullException>(function);
             Ensure.IsNotNull<ArgumentNullException>(registry);
-            
-            if(function.Parameters.Length == 0)
+
+            if (function.Parameters.Length == 0)
+            {
                 throw new InvalidIntrinsicFunctionException("States.Format requires at least one argument");
+            }
 
             var format = function.Parameters[0] as StringIntrinsicParam;
-            if(format == null)
+            if (format == null)
+            {
                 throw new InvalidIntrinsicFunctionException("States.Format requires a first parameter of type string");
+            }
 
-            StringBuilder result = new StringBuilder();
+            var result = new StringBuilder();
 
-            List<IntrinsicParam> parameters = new List<IntrinsicParam>(function.Parameters);
+            var parameters = new List<IntrinsicParam>(function.Parameters);
             parameters.RemoveAt(0); // remove format
-            
+
             var currentIndex = 0;
 
             var i = format.Value.IndexOf("{}", currentIndex, StringComparison.Ordinal);
@@ -98,23 +114,28 @@ namespace StatesLanguage.Model
             {
                 result.Append(format.Value.Substring(currentIndex, i - currentIndex));
                 result.Append(GetParamStringValue(parameters[0], input, context, registry));
-                currentIndex = i +2;
+                currentIndex = i + 2;
                 i = format.Value.IndexOf("{}", currentIndex, StringComparison.Ordinal);
                 parameters.RemoveAt(0);
             }
 
-            if(i >= 0)
+            if (i >= 0)
+            {
                 throw new InvalidIntrinsicFunctionException("States.Format too few parameters");
-            if(parameters.Count > 0)
+            }
+
+            if (parameters.Count > 0)
+            {
                 throw new InvalidIntrinsicFunctionException("States.Format too much parameters");
-            
+            }
+
             result.Append(format.Value.Substring(currentIndex));
 
-            return result.Replace("\\{","{").Replace("\\}","}").ToString();
+            return result.Replace("\\{", "{").Replace("\\}", "}").ToString();
         }
 
         private static string GetParamStringValue(
-            IntrinsicParam functionParameter, 
+            IntrinsicParam functionParameter,
             JToken input,
             JObject context,
             IntrinsicFunctionRegistry intrinsicFunctionRegistry)
@@ -130,19 +151,23 @@ namespace StatesLanguage.Model
                 case PathIntrinsicParam path:
                     var result = GetPathValue(path, input, context);
 
-                    if(result is JContainer)
+                    if (result is JContainer)
+                    {
                         throw new InvalidIntrinsicFunctionException("Result cannot be an Object nor an Array");
+                    }
 
                     return result.ToString();
-                    
+
                 case IntrinsicFunction func:
                     var funcResult = intrinsicFunctionRegistry.CallFunction(func, input, context);
-                    if(funcResult is JContainer)
+                    if (funcResult is JContainer)
+                    {
                         throw new InvalidIntrinsicFunctionException("Result cannot be an Object nor an Array");
+                    }
 
                     return funcResult.ToString();
             }
-            
+
             throw new InvalidIntrinsicFunctionException("Invalid parameter type");
         }
 

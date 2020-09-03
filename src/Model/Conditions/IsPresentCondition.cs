@@ -14,11 +14,10 @@
  * permissions and limitations under the License.
  */
 
-using System;
-using StatesLanguage.Model.Internal;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
+using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -34,14 +33,14 @@ namespace StatesLanguage.Model.Conditions
 
         [JsonProperty(PropertyNames.IS_PRESENT)]
         public bool IsPresent { get; private set; }
-        
+
         [JsonProperty(PropertyNames.VARIABLE)]
         public string Variable { get; set; }
 
         public bool Match(JToken token)
         {
             var t = token.SelectToken(Variable)?.Type ?? JTokenType.Undefined;
-            
+
             return IsPresent ? t != JTokenType.Undefined : t == JTokenType.Undefined;
         }
 
@@ -80,11 +79,11 @@ namespace StatesLanguage.Model.Conditions
             /// <returns>An immutable <see cref="BooleanEqualsCondition" /> object.</returns>
             public IsPresentCondition Build()
             {
-                return new IsPresentCondition()
-                       {
-                           Variable = _variable,
-                           IsPresent = _expectedValue
-                       };
+                return new IsPresentCondition
+                {
+                    Variable = _variable,
+                    IsPresent = _expectedValue
+                };
             }
 
             /// <summary>

@@ -13,10 +13,10 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System.Collections.Generic;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
@@ -54,13 +54,15 @@ namespace StatesLanguage.Model.States
             internal Builder()
             {
             }
-            
+
             /// <summary>
-            /// REQUIRED. Adds a new branch of execution to this states branches. A parallel state must have at least one branch.
+            ///     REQUIRED. Adds a new branch of execution to this states branches. A parallel state must have at least one branch.
             /// </summary>
-            /// <param name="branchBuilder">Instance of <see cref="Branch.Builder"/>. Note that the <see cref="Branch"/> object is not
-            /// built until the {@link ParallelState} is built so any modifications on the  state model will be reflected in this
-            /// object.</param>
+            /// <param name="branchBuilder">
+            ///     Instance of <see cref="Branch.Builder" />. Note that the <see cref="Branch" /> object is not
+            ///     built until the {@link ParallelState} is built so any modifications on the  state model will be reflected in this
+            ///     object.
+            /// </param>
             /// <returns>This object for method chaining.</returns>
             public Builder Branch(SubStateMachine.Builder branchBuilder)
             {
@@ -69,11 +71,13 @@ namespace StatesLanguage.Model.States
             }
 
             /// <summary>
-            /// REQUIRED. Adds the branches of execution to this states branches. A parallel state must have at least one branch.
+            ///     REQUIRED. Adds the branches of execution to this states branches. A parallel state must have at least one branch.
             /// </summary>
-            /// <param name="branchBuilders">Instances of <see cref="Branch.Builder"/>. Note that the <see cref="Branch"/> object is not
-            /// built until the {@link ParallelState} is built so any modifications on the  state model will be reflected in this
-            /// object.</param>
+            /// <param name="branchBuilders">
+            ///     Instances of <see cref="Branch.Builder" />. Note that the <see cref="Branch" /> object is not
+            ///     built until the {@link ParallelState} is built so any modifications on the  state model will be reflected in this
+            ///     object.
+            /// </param>
             /// <returns>This object for method chaining.</returns>
             public Builder Branches(params SubStateMachine.Builder[] branchBuilders)
             {
@@ -83,19 +87,19 @@ namespace StatesLanguage.Model.States
 
             public override ParallelState Build()
             {
-                return new ParallelState()
-                       {
-                           Comment = _comment,
-                           Branches = BuildableUtils.Build(_branches),
-                           InputPath = _inputPath,
-                           ResultPath = _resultPath,
-                           OutputPath = _outputPath,
-                           Parameters = _parameters,
-                           ResultSelector = _resultSelector,
-                           Transition = _transition.Build(),
-                           Retriers = BuildableUtils.Build(_retriers),
-                           Catchers = BuildableUtils.Build(_catchers)
-                       };
+                return new ParallelState
+                {
+                    Comment = _comment,
+                    Branches = BuildableUtils.Build(_branches),
+                    InputPath = _inputPath,
+                    ResultPath = _resultPath,
+                    OutputPath = _outputPath,
+                    Parameters = _parameters,
+                    ResultSelector = _resultSelector,
+                    Transition = _transition.Build(),
+                    Retriers = BuildableUtils.Build(_retriers),
+                    Catchers = BuildableUtils.Build(_catchers)
+                };
             }
         }
     }

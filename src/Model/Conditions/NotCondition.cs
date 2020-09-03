@@ -13,10 +13,11 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using StatesLanguage.Model.Internal;
-using StatesLanguage.Model.States;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
+using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -31,6 +32,11 @@ namespace StatesLanguage.Model.Conditions
 
         [JsonProperty(PropertyNames.NOT)]
         public ICondition Condition { get; private set; }
+
+        public bool Match(JToken token)
+        {
+            return !Condition.Match(token);
+        }
 
 
         /// <returns>Builder instance to construct a  <see cref="NotCondition" />.</returns>
@@ -52,9 +58,9 @@ namespace StatesLanguage.Model.Conditions
             public NotCondition Build()
             {
                 return new NotCondition
-                       {
-                           Condition = _condition.Build()
-                       };
+                {
+                    Condition = _condition.Build()
+                };
             }
 
             /// <summary>
@@ -70,11 +76,6 @@ namespace StatesLanguage.Model.Conditions
                 _condition = (IBuildable<ICondition>) conditionBuilder;
                 return this;
             }
-        }
-
-        public bool Match(JToken token)
-        {
-            return !Condition.Match(token);
         }
     }
 }

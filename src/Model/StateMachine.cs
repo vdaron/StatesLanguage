@@ -13,28 +13,28 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using StatesLanguage.Model.Internal;
-using StatesLanguage.Model.Internal.Validation;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
+using StatesLanguage.Model.Internal.Validation;
 using StatesLanguage.Model.Serialization;
+using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model
 {
     /// <summary>
     ///     Represents a StepFunctions state machine. A state machine must have at least one state.
-    ///     <a href="https://states-language.net/spec.html#toplevelfields" >See spec</a>
+    ///     <a href="https://states-language.net/spec.html#toplevelfields">See spec</a>
     /// </summary>
     public class StateMachine
     {
         private StateMachine()
         {
-
         }
 
         [JsonProperty(PropertyNames.COMMENT)]
@@ -127,7 +127,7 @@ namespace StatesLanguage.Model
 
         internal static JsonSerializer GetJsonSerializer(Formatting formatting = Formatting.None)
         {
-            JsonSerializer jsonSerializer = new JsonSerializer();
+            var jsonSerializer = new JsonSerializer();
 
             jsonSerializer.Converters.Add(new StateConverter());
             jsonSerializer.Converters.Add(new ChoiceDeserializer());
@@ -145,11 +145,9 @@ namespace StatesLanguage.Model
         [JsonObject(MemberSerialization.Fields)]
         public sealed class Builder
         {
-            [JsonProperty(PropertyNames.COMMENT)]
-            private string _comment;
+            [JsonProperty(PropertyNames.COMMENT)] private string _comment;
 
-            [JsonProperty(PropertyNames.START_AT)]
-            private string _startAt;
+            [JsonProperty(PropertyNames.START_AT)] private string _startAt;
 
             [JsonProperty(PropertyNames.STATES)]
             private Dictionary<string, State.IBuilder<State>> _states = new Dictionary<string, State.IBuilder<State>>();
@@ -191,11 +189,11 @@ namespace StatesLanguage.Model
 
             /**
              * REQUIRED. Adds a new state to the state machine. A state machine MUST have at least one state.
-             *
+             * 
              * @param stateName    Name of the state
              * @param stateBuilder Instance of {@link State.Builder}. Note that the {@link State}
-             *                     object is not built until the {@link StateMachine} is built so any modifications on the state
-             *                     model will be reflected in this object.
+             * object is not built until the {@link StateMachine} is built so any modifications on the state
+             * model will be reflected in this object.
              * @return This object for method chaining.
              */
             public Builder State<T>(string stateName, State.IBuilder<T> stateBuilder) where T : State
@@ -217,8 +215,6 @@ namespace StatesLanguage.Model
                     States = BuildableUtils.Build(_states)
                 }).Validate();
             }
-
-
         }
     }
 }

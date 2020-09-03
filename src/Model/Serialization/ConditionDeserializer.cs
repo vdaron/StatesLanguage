@@ -33,7 +33,7 @@ namespace StatesLanguage.Model.Serialization
                 {
                     return DeserializeBinaryCondition(StringEqualsCondition.GetBuilder(), node);
                 }
-                
+
                 if (node.Property(PropertyNames.STRING_EQUALS_PATH) != null)
                 {
                     return DeserializeBinaryPathCondition(StringEqualsPathCondition.GetBuilder(), node);
@@ -87,41 +87,51 @@ namespace StatesLanguage.Model.Serialization
                 if (node.Property(PropertyNames.NUMERIC_EQUALS) != null)
                 {
                     if (node.Property(PropertyNames.NUMERIC_EQUALS).Value.Type == JTokenType.Integer)
+                    {
                         return DeserializeBinaryCondition(NumericEqualsCondition<long>.GetBuilder(), node);
-                    else
-                        return DeserializeBinaryCondition(NumericEqualsCondition<decimal>.GetBuilder(), node);
+                    }
+
+                    return DeserializeBinaryCondition(NumericEqualsCondition<decimal>.GetBuilder(), node);
                 }
 
                 if (node.Property(PropertyNames.NUMERIC_GREATER_THAN) != null)
                 {
                     if (node.Property(PropertyNames.NUMERIC_GREATER_THAN).Value.Type == JTokenType.Integer)
+                    {
                         return DeserializeBinaryCondition(NumericGreaterThanCondition<long>.GetBuilder(), node);
-                    else
-                        return DeserializeBinaryCondition(NumericGreaterThanCondition<decimal>.GetBuilder(), node);
+                    }
+
+                    return DeserializeBinaryCondition(NumericGreaterThanCondition<decimal>.GetBuilder(), node);
                 }
 
                 if (node.Property(PropertyNames.NUMERIC_GREATER_THAN_EQUALS) != null)
                 {
                     if (node.Property(PropertyNames.NUMERIC_GREATER_THAN_EQUALS).Value.Type == JTokenType.Integer)
+                    {
                         return DeserializeBinaryCondition(NumericGreaterThanOrEqualCondition<long>.GetBuilder(), node);
-                    else
-                        return DeserializeBinaryCondition(NumericGreaterThanOrEqualCondition<decimal>.GetBuilder(), node);
+                    }
+
+                    return DeserializeBinaryCondition(NumericGreaterThanOrEqualCondition<decimal>.GetBuilder(), node);
                 }
 
                 if (node.Property(PropertyNames.NUMERIC_LESS_THAN) != null)
                 {
                     if (node.Property(PropertyNames.NUMERIC_LESS_THAN).Value.Type == JTokenType.Integer)
+                    {
                         return DeserializeBinaryCondition(NumericLessThanCondition<long>.GetBuilder(), node);
-                    else
-                        return DeserializeBinaryCondition(NumericLessThanCondition<decimal>.GetBuilder(), node);
+                    }
+
+                    return DeserializeBinaryCondition(NumericLessThanCondition<decimal>.GetBuilder(), node);
                 }
 
                 if (node.Property(PropertyNames.NUMERIC_LESS_THAN_EQUALS) != null)
                 {
                     if (node.Property(PropertyNames.NUMERIC_LESS_THAN_EQUALS).Value.Type == JTokenType.Integer)
+                    {
                         return DeserializeBinaryCondition(NumericLessThanOrEqualCondition<long>.GetBuilder(), node);
-                    else
-                        return DeserializeBinaryCondition(NumericLessThanOrEqualCondition<decimal>.GetBuilder(), node);
+                    }
+
+                    return DeserializeBinaryCondition(NumericLessThanOrEqualCondition<decimal>.GetBuilder(), node);
                 }
 
                 if (node.Property(PropertyNames.BOOLEAN_EQUALS) != null)
@@ -158,16 +168,18 @@ namespace StatesLanguage.Model.Serialization
             throw new StatesLanguageException("Condition must be provided");
         }
 
-        private TBuilder DeserializeBinaryCondition<TBuilder, TValue>(IBinaryConditionBuilder<TBuilder, ICondition, TValue> builder,
-                                                                      JObject node)
-        where TBuilder : IBinaryConditionBuilder<TBuilder, ICondition, TValue>
+        private TBuilder DeserializeBinaryCondition<TBuilder, TValue>(
+            IBinaryConditionBuilder<TBuilder, ICondition, TValue> builder,
+            JObject node)
+            where TBuilder : IBinaryConditionBuilder<TBuilder, ICondition, TValue>
         {
             return builder
                 .Variable(node.Property(PropertyNames.VARIABLE).Value.Value<string>())
                 .ExpectedValue(node.Property(builder.Type).Value.Value<TValue>());
         }
-        
-        private TBuilder DeserializeBinaryPathCondition<TBuilder>(IBinaryConditionPathBuilder<TBuilder, ICondition> builder,
+
+        private TBuilder DeserializeBinaryPathCondition<TBuilder>(
+            IBinaryConditionPathBuilder<TBuilder, ICondition> builder,
             JObject node)
             where TBuilder : IBinaryConditionPathBuilder<TBuilder, ICondition>
         {

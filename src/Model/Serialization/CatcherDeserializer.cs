@@ -21,19 +21,19 @@ using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Serialization
 {
-    internal class  CatcherDeserializer : JsonConverter
+    internal class CatcherDeserializer : JsonConverter
     {
         public override bool CanRead => false;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var state = JObject.FromObject(value, new JsonSerializer
-                                                  {
-                                                      Formatting = serializer.Formatting,
-                                                      NullValueHandling = NullValueHandling.Ignore,
-                                                      DefaultValueHandling = DefaultValueHandling.Ignore,
-                                                      ContractResolver = StatesContractResolver.Instance
-                                                  });
+            {
+                Formatting = serializer.Formatting,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                ContractResolver = StatesContractResolver.Instance
+            });
 
             var transition = ((Catcher) value).Transition;
 
@@ -47,7 +47,8 @@ namespace StatesLanguage.Model.Serialization
             state.WriteTo(writer);
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }

@@ -13,12 +13,12 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
 using System.IO;
-using System.Linq;
-using StatesLanguage.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model;
 using StatesLanguage.Model.States;
 using test.Model;
 using Xunit;
@@ -32,11 +32,11 @@ namespace StatesLanguage.Tests.Model
             Assert.True(JToken.DeepEquals(expected, value));
         }
 
-        private void AssertStateMachine(StateMachine stateMachine, String resourcePath)
+        private void AssertStateMachine(StateMachine stateMachine, string resourcePath)
         {
-            JObject expected = LoadExpected(resourcePath);
+            var expected = LoadExpected(resourcePath);
 
-            Equal(expected,stateMachine.ToJObject());
+            Equal(expected, stateMachine.ToJObject());
             Equal(expected, roundTripStateMachine(stateMachine).ToJObject());
         }
 
@@ -48,7 +48,7 @@ namespace StatesLanguage.Tests.Model
 
         private JObject LoadExpected(string resourcePath)
         {
-            using (Stream stream = GetType().Assembly
+            using (var stream = GetType().Assembly
                 .GetManifestResourceStream("StatesLanguage.Tests.Resources.StateMachines." + resourcePath))
             using (var streamReader = new StreamReader(stream))
             using (var jsonReader = new JsonTextReader(streamReader))
@@ -60,7 +60,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void CanSerializeStatesToJson()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .TimeoutSeconds(30)
                 .Comment("My Simple State Machine")
@@ -70,16 +70,16 @@ namespace StatesLanguage.Tests.Model
                     .OutputPath("$.output"))
                 .Build();
 
-            string value = stateMachine.States["InitialState"].ToJson();
+            var value = stateMachine.States["InitialState"].ToJson();
 
-            State s = State.FromJson(value);
+            var s = State.FromJson(value);
             Assert.True(s.Type == StateType.Succeed);
         }
 
         [Fact]
         public void SingleSucceedState()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .TimeoutSeconds(30)
                 .Comment("My Simple State Machine")
@@ -94,7 +94,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SingleTaskState()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.TaskState()
                     .Comment("Initial State")
@@ -116,7 +116,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void TaskStateWithEnd()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.TaskState()
                     .Resource("resource-arn")
@@ -129,13 +129,13 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void TaskStateWithParametersAndEnd()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
-                                                           .StartAt("InitialState")
-                                                           .State("InitialState", StepFunctionBuilder.TaskState()
-                                                                                                     .Resource("resource-arn")
-                                                                                                     .Parameters(JObject.FromObject(new {value = "param"}))
-                                                                                                     .Transition(StepFunctionBuilder.End()))
-                                                           .Build();
+            var stateMachine = StepFunctionBuilder.StateMachine()
+                .StartAt("InitialState")
+                .State("InitialState", StepFunctionBuilder.TaskState()
+                    .Resource("resource-arn")
+                    .Parameters(JObject.FromObject(new {value = "param"}))
+                    .Transition(StepFunctionBuilder.End()))
+                .Build();
 
             AssertStateMachine(stateMachine, "TaskStateWithParametersAndEnd.json");
         }
@@ -143,7 +143,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SingleTaskStateWithRetries()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.TaskState()
                     .Transition(StepFunctionBuilder.Next("NextState"))
@@ -167,7 +167,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SingleTaskStateWithCatchers()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.TaskState()
                     .Transition(StepFunctionBuilder.Next("NextState"))
@@ -190,7 +190,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SinglePassStateWithJsonResult()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.PassState()
                     .Comment("Pass through state")
@@ -209,7 +209,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SinglePassStateWithObjectResult()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.PassState()
                     .Transition(StepFunctionBuilder.End())
@@ -222,7 +222,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SingleWaitState_WaitForSeconds()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.WaitState()
                     .Comment("My wait state")
@@ -239,7 +239,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SingleWaitState_WaitUntilSecondsPath()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.WaitState()
                     .WaitFor(StepFunctionBuilder.SecondsPath("$.seconds"))
@@ -252,7 +252,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SingleWaitState_WaitUntilTimestamp()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.WaitState()
                     .WaitFor(StepFunctionBuilder.Timestamp(DateTime.Parse("2016-03-14T01:59:00Z").ToUniversalTime()))
@@ -266,7 +266,7 @@ namespace StatesLanguage.Tests.Model
         public void SingleWaitState_WaitUntilTimestampWithMillisecond()
         {
             var millis = DateTime.Parse("2016-03-14T01:59:00.123Z").ToUniversalTime();
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.WaitState()
                     .WaitFor(StepFunctionBuilder.Timestamp(millis))
@@ -280,7 +280,7 @@ namespace StatesLanguage.Tests.Model
         public void SingleWaitState_WaitUntilTimestampWithTimezone()
         {
             var epochMilli = DateTime.Parse("2016-03-14T01:59:00.123-08:00").ToUniversalTime();
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.WaitState()
                     .WaitFor(StepFunctionBuilder.Timestamp(epochMilli))
@@ -293,7 +293,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SingleWaitState_WaitUntilTimestampWithPath()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.WaitState()
                     .WaitFor(StepFunctionBuilder.TimestampPath("$.timestamp"))
@@ -306,7 +306,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SingleFailState()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.FailState()
                     .Comment("My fail state")
@@ -320,7 +320,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SimpleChoiceState()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.ChoiceState()
                     .Comment("My choice state")
@@ -339,7 +339,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void ChoiceStateWithMultipleChoices()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.ChoiceState()
                     .DefaultStateName("DefaultState")
@@ -359,7 +359,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void ChoiceStateWithAndCondition()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.ChoiceState()
                     .DefaultStateName("DefaultState")
@@ -378,7 +378,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void ChoiceStateWithOrCondition()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.ChoiceState()
                     .DefaultStateName("DefaultState")
@@ -397,17 +397,17 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void ChoiceStateWithoutDefaultState()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
-                                                           .StartAt("InitialState")
-                                                           .State("InitialState", StepFunctionBuilder.ChoiceState()
-                                                                                                     .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
-                                                                                                                                .Condition(
-                                                                                                                                           StepFunctionBuilder.Or(StepFunctionBuilder.StringGreaterThan("$.var", "value"),
-                                                                                                                                                                  StepFunctionBuilder.NumericLessThanEquals("$.other-var", 10)
-                                                                                                                                                                 ))))
-                                                           .State("NextState", StepFunctionBuilder.SucceedState())
-                                                           .State("DefaultState", StepFunctionBuilder.SucceedState())
-                                                           .Build();
+            var stateMachine = StepFunctionBuilder.StateMachine()
+                .StartAt("InitialState")
+                .State("InitialState", StepFunctionBuilder.ChoiceState()
+                    .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
+                        .Condition(
+                            StepFunctionBuilder.Or(StepFunctionBuilder.StringGreaterThan("$.var", "value"),
+                                StepFunctionBuilder.NumericLessThanEquals("$.other-var", 10)
+                            ))))
+                .State("NextState", StepFunctionBuilder.SucceedState())
+                .State("DefaultState", StepFunctionBuilder.SucceedState())
+                .Build();
 
             AssertStateMachine(stateMachine, "ChoiceStateWithoutDefault.json");
         }
@@ -415,12 +415,13 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void ChoiceStateWithNotCondition()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.ChoiceState()
                     .DefaultStateName("DefaultState")
                     .Choice(StepFunctionBuilder.Choice().Transition(StepFunctionBuilder.Next("NextState"))
-                        .Condition(StepFunctionBuilder.Not(StepFunctionBuilder.StringGreaterThanEquals("$.var", "value")))))
+                        .Condition(StepFunctionBuilder.Not(
+                            StepFunctionBuilder.StringGreaterThanEquals("$.var", "value")))))
                 .State("NextState", StepFunctionBuilder.SucceedState())
                 .State("DefaultState", StepFunctionBuilder.SucceedState())
                 .Build();
@@ -431,7 +432,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void ChoiceStateWithComplexCondition()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.ChoiceState()
                     .DefaultStateName("DefaultState")
@@ -454,8 +455,8 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void ChoiceStateWithAllPrimitiveConditions()
         {
-            DateTime date = DateTime.Parse("2016-03-14T01:59:00.000Z").ToUniversalTime();
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var date = DateTime.Parse("2016-03-14T01:59:00.000Z").ToUniversalTime();
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.ChoiceState()
                     .DefaultStateName("DefaultState")
@@ -494,7 +495,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SimpleParallelState()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.ParallelState()
                     .Comment("My parallel state")
@@ -523,17 +524,19 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SimpleParallelStateWithTasks()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("para")
                 .State("para", StepFunctionBuilder.ParallelState()
                     .Transition(StepFunctionBuilder.End())
                     .Branches(
                         StepFunctionBuilder.SubStateMachine()
                             .StartAt("t")
-                            .State("t", StepFunctionBuilder.TaskState().Resource("t").Transition(StepFunctionBuilder.End())),
+                            .State("t",
+                                StepFunctionBuilder.TaskState().Resource("t").Transition(StepFunctionBuilder.End())),
                         StepFunctionBuilder.SubStateMachine()
                             .StartAt("u")
-                            .State("u", StepFunctionBuilder.TaskState().Resource("u").Transition(StepFunctionBuilder.End()))
+                            .State("u",
+                                StepFunctionBuilder.TaskState().Resource("u").Transition(StepFunctionBuilder.End()))
                     ))
                 .Build();
 
@@ -543,7 +546,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void ParallelStateWithRetriers()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.ParallelState()
                     .Transition(StepFunctionBuilder.End())
@@ -576,7 +579,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void ParallelStateWithCatchers()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StepFunctionBuilder.ParallelState()
                     .Transition(StepFunctionBuilder.End())
@@ -609,7 +612,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SimpleMapState()
         {
-            StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+            var stateMachine = StepFunctionBuilder.StateMachine()
                 .StartAt("Validate-All")
                 .State("Validate-All", StepFunctionBuilder.MapState()
                     .InputPath("$.detail")
@@ -624,7 +627,7 @@ namespace StatesLanguage.Tests.Model
                         .State("Validate", StepFunctionBuilder.TaskState()
                             .Resource("arn:aws:lambda:us-east-1:123456789012:function:ship-val")
                             .Transition(StepFunctionBuilder.End()))))
-                    .Build();
+                .Build();
 
             AssertStateMachine(stateMachine, "SimpleMapState.json");
         }

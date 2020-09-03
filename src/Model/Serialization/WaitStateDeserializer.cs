@@ -28,12 +28,12 @@ namespace StatesLanguage.Model.Serialization
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var state = JObject.FromObject(value, new JsonSerializer
-                                                  {
-                                                      Formatting = serializer.Formatting,
-                                                      NullValueHandling = NullValueHandling.Ignore,
-                                                      DefaultValueHandling = DefaultValueHandling.Ignore,
-                                                      ContractResolver = StatesContractResolver.Instance
-                                                  });
+            {
+                Formatting = serializer.Formatting,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                ContractResolver = StatesContractResolver.Instance
+            });
 
             var wiatFor = ((WaitState) value).WaitFor;
 
@@ -57,7 +57,7 @@ namespace StatesLanguage.Model.Serialization
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
-                                        JsonSerializer serializer)
+            JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }

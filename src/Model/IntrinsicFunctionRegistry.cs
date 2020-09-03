@@ -4,19 +4,20 @@ using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model
 {
-    public delegate JToken IntrinsicFunctionFunc(IntrinsicFunction function, JToken input, JObject context, IntrinsicFunctionRegistry registry);
+    public delegate JToken IntrinsicFunctionFunc(IntrinsicFunction function, JToken input, JObject context,
+        IntrinsicFunctionRegistry registry);
 
     public class IntrinsicFunctionRegistry
     {
-        private readonly Dictionary<string,IntrinsicFunctionFunc> _intrinsicFunctions = 
+        private readonly Dictionary<string, IntrinsicFunctionFunc> _intrinsicFunctions =
             new Dictionary<string, IntrinsicFunctionFunc>();
 
         public IntrinsicFunctionRegistry()
         {
-            Register("States.Format",StandardIntrinsicFunctions.Format);
-            Register("States.StringToJson",StandardIntrinsicFunctions.StringToJson);
-            Register("States.JsonToString",StandardIntrinsicFunctions.JsonToString);
-            Register("States.Array",StandardIntrinsicFunctions.Array);
+            Register("States.Format", StandardIntrinsicFunctions.Format);
+            Register("States.StringToJson", StandardIntrinsicFunctions.StringToJson);
+            Register("States.JsonToString", StandardIntrinsicFunctions.JsonToString);
+            Register("States.Array", StandardIntrinsicFunctions.Array);
         }
 
         public void Register(string name, IntrinsicFunctionFunc func)
@@ -27,7 +28,7 @@ namespace StatesLanguage.Model
             }
             else
             {
-                _intrinsicFunctions.Add(name,func);
+                _intrinsicFunctions.Add(name, func);
             }
         }
 
@@ -37,7 +38,7 @@ namespace StatesLanguage.Model
             {
                 return _intrinsicFunctions[function.Name](function, input, context, this);
             }
-            
+
             throw new Exception("Invalid Intrinsic function name");
         }
     }

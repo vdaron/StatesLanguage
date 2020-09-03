@@ -13,9 +13,10 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System.Collections.Generic;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
@@ -40,14 +41,12 @@ namespace StatesLanguage.Model.States
 
         public sealed class Builder : IBuildable<SubStateMachine>
         {
-            [JsonProperty(PropertyNames.COMMENT)]
-            private string _comment;
+            [JsonProperty(PropertyNames.COMMENT)] private string _comment;
 
-            [JsonProperty(PropertyNames.START_AT)]
-            private string _startAt;
+            [JsonProperty(PropertyNames.START_AT)] private string _startAt;
 
-            [JsonProperty(PropertyNames.STATES)]
-            private Dictionary<string, State.IBuilder<State>> _stateBuilders = new Dictionary<string, State.IBuilder<State>>();
+            [JsonProperty(PropertyNames.STATES)] private Dictionary<string, State.IBuilder<State>> _stateBuilders =
+                new Dictionary<string, State.IBuilder<State>>();
 
             internal Builder()
             {
@@ -60,11 +59,11 @@ namespace StatesLanguage.Model.States
             public SubStateMachine Build()
             {
                 return new SubStateMachine
-                       {
-                           StartAt = _startAt,
-                           Comment = _comment,
-                           States = BuildableUtils.Build(_stateBuilders)
-                       };
+                {
+                    StartAt = _startAt,
+                    Comment = _comment,
+                    States = BuildableUtils.Build(_stateBuilders)
+                };
             }
 
             /// <summary>

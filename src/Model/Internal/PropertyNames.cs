@@ -13,6 +13,7 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 namespace StatesLanguage.Model.Internal
 {
     public static class PropertyNames
@@ -65,7 +66,7 @@ namespace StatesLanguage.Model.Internal
         public const string TIMESTAMP = "Timestamp";
         public const string TIMESTAMP_PATH = "TimestampPath";
         public const string SECONDS_PATH = "SecondsPath";
-        
+
         // MapState property names
         public const string MAX_CONCURENCY = "MaxConcurrency";
         public const string ITERATOR = "Iterator";
@@ -105,7 +106,7 @@ namespace StatesLanguage.Model.Internal
         public const string TIMESTAMP_EQUALS = "TimestampEquals";
         public const string TIMESTAMP_EQUALS_PATH = "TimestampEqualsPath";
         public const string TIMESTAMP_LESS_THAN = "TimestampLessThan";
-        public const string TIMESTAMP_LESS_THAN_PATH = "TimestampLessThanPath";        
+        public const string TIMESTAMP_LESS_THAN_PATH = "TimestampLessThanPath";
         public const string TIMESTAMP_LESS_THAN_EQUALS = "TimestampLessThanEquals";
         public const string TIMESTAMP_LESS_THAN_EQUALS_PATH = "TimestampLessThanEqualsPath";
         public const string TIMESTAMP_GREATER_THAN = "TimestampGreaterThan";
@@ -117,8 +118,8 @@ namespace StatesLanguage.Model.Internal
         // Binary boolean condition property names
         public const string BOOLEAN_EQUALS = "BooleanEquals";
         public const string BOOLEAN_EQUALS_PATH = "BooleanEqualsPath";
-        
-        
+
+
         public const string IS_NULL = "IsNull";
         public const string IS_PRESENT = "IsPresent";
         public const string IS_NUMERIC = "IsNumeric";

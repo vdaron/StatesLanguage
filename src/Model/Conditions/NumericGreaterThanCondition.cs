@@ -15,23 +15,22 @@
  */
 
 using System;
-using System.Globalization;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for Numeric greather than comparison. Supports both integral and floating point numeric types.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class NumericGreaterThanCondition<T> : BinaryCondition<T>
         where T : IComparable<T>
     {
-        private NumericGreaterThanCondition():base (Operator.Gt)
+        private NumericGreaterThanCondition() : base(Operator.Gt)
         {
         }
 
@@ -91,10 +90,10 @@ namespace StatesLanguage.Model.Conditions
             public NumericGreaterThanCondition<T> Build()
             {
                 return new NumericGreaterThanCondition<T>
-                       {
-                           Variable = _variable,
-                           ExpectedValue = _expectedValue
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValue = _expectedValue
+                };
             }
         }
     }

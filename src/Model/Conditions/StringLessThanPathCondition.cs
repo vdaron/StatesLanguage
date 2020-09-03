@@ -13,21 +13,23 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for SE:\StatesLanguage\src\Model\Conditions\StringLessThanCondition.cstring greater than comparison.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class StringLessThanPathCondition : BinaryConditionPath
     {
-        private StringLessThanPathCondition():base(Operator.Lt, JTokenType.String, JTokenType.Guid, JTokenType.Uri)
+        private StringLessThanPathCondition() : base(Operator.Lt, JTokenType.String, JTokenType.Guid, JTokenType.Uri)
         {
         }
 
@@ -45,7 +47,7 @@ namespace StatesLanguage.Model.Conditions
         /**
          * Builder for a {@link StringGreaterThanCondition}.
          */
-        public sealed class Builder : IBinaryConditionPathBuilder<Builder,StringLessThanPathCondition>
+        public sealed class Builder : IBinaryConditionPathBuilder<Builder, StringLessThanPathCondition>
         {
             private string _expectedValuePath;
             private string _variable;
@@ -70,10 +72,10 @@ namespace StatesLanguage.Model.Conditions
             public StringLessThanPathCondition Build()
             {
                 return new StringLessThanPathCondition
-                       {
-                           Variable = _variable,
-                           ExpectedValuePath = _expectedValuePath
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValuePath = _expectedValuePath
+                };
             }
 
             /**
@@ -82,7 +84,6 @@ namespace StatesLanguage.Model.Conditions
              * @param variable Reference path.
              * @return This object for method chaining.
              */
-
             public Builder Variable(string variable)
             {
                 _variable = variable;

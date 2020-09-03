@@ -15,23 +15,22 @@
  */
 
 using System;
-using System.Globalization;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for Numeric greather than comparison. Supports both integral and floating point numeric types.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class NumericLessThanOrEqualCondition<T> : BinaryCondition<T>
         where T : IComparable<T>
     {
-        private NumericLessThanOrEqualCondition():base(Operator.Lte)
+        private NumericLessThanOrEqualCondition() : base(Operator.Lte)
         {
         }
 
@@ -49,7 +48,7 @@ namespace StatesLanguage.Model.Conditions
         /**
          * Builder for a {@link NumericEqualsCondition}.
          */
-        public sealed class Builder : IBinaryConditionBuilder<Builder, NumericLessThanOrEqualCondition<T>,T>
+        public sealed class Builder : IBinaryConditionBuilder<Builder, NumericLessThanOrEqualCondition<T>, T>
         {
             private T _expectedValue;
             private string _variable;
@@ -79,10 +78,10 @@ namespace StatesLanguage.Model.Conditions
             public NumericLessThanOrEqualCondition<T> Build()
             {
                 return new NumericLessThanOrEqualCondition<T>
-                       {
-                           Variable = _variable,
-                           ExpectedValue = _expectedValue
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValue = _expectedValue
+                };
             }
 
             /**

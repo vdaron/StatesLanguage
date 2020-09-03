@@ -14,23 +14,22 @@
  * permissions and limitations under the License.
  */
 
-using System;
-using System.Globalization;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for Numeric greather than comparison. Supports both integral and floating point numeric types.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class NumericLessThanOrEqualPathCondition : BinaryConditionPath
     {
-        private NumericLessThanOrEqualPathCondition():base(Operator.Lte,JTokenType.Float, JTokenType.Integer)
+        private NumericLessThanOrEqualPathCondition() : base(Operator.Lte, JTokenType.Float, JTokenType.Integer)
         {
         }
 
@@ -78,10 +77,10 @@ namespace StatesLanguage.Model.Conditions
             public NumericLessThanOrEqualPathCondition Build()
             {
                 return new NumericLessThanOrEqualPathCondition
-                       {
-                           Variable = _variable,
-                           ExpectedValuePath = _expectedValuePath
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValuePath = _expectedValuePath
+                };
             }
 
             /**

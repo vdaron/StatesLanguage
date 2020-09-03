@@ -23,7 +23,7 @@ using StatesLanguage.Model.States;
 namespace StatesLanguage.Model.Serialization
 {
     /// <summary>
-    /// Do not serialize empty collections nor UnSet OptionalString 
+    ///     Do not serialize empty collections nor UnSet OptionalString
     /// </summary>
     public class StatesContractResolver : DefaultContractResolver
     {
@@ -34,7 +34,9 @@ namespace StatesLanguage.Model.Serialization
             var property = base.CreateProperty(member, memberSerialization);
 
             var shouldSerialize = property.ShouldSerialize;
-            property.ShouldSerialize = obj => (shouldSerialize == null || shouldSerialize(obj)) && !IsEmptyCollection(property, obj) && IsSet(property,obj);
+            property.ShouldSerialize = obj =>
+                (shouldSerialize == null || shouldSerialize(obj)) && !IsEmptyCollection(property, obj) &&
+                IsSet(property, obj);
             return property;
         }
 
@@ -42,7 +44,10 @@ namespace StatesLanguage.Model.Serialization
         {
             var val = property.ValueProvider.GetValue(o);
             if (val is OptionalString ostring)
+            {
                 return ostring.IsSet;
+            }
+
             return true;
         }
 
@@ -65,7 +70,7 @@ namespace StatesLanguage.Model.Serialization
                 return false;
             }
 
-            var count = value == null ? 0 :  (int) countProp.GetValue(value, null);
+            var count = value == null ? 0 : (int) countProp.GetValue(value, null);
             return count == 0;
         }
     }

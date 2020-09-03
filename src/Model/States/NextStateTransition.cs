@@ -13,8 +13,9 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
@@ -37,11 +38,10 @@ namespace StatesLanguage.Model.States
         {
             return new Builder();
         }
-        
+
         public sealed class Builder : ITransitionBuilder<NextStateTransition>
         {
-            [JsonProperty(PropertyNames.NEXT)]
-            private string _nextStateName;
+            [JsonProperty(PropertyNames.NEXT)] private string _nextStateName;
 
             internal Builder()
             {
@@ -56,7 +56,7 @@ namespace StatesLanguage.Model.States
             }
 
             /// <summary>
-            /// REQUIRED. Sets the name of the state to transition to. Must be a valid state in the state machine.
+            ///     REQUIRED. Sets the name of the state to transition to. Must be a valid state in the state machine.
             /// </summary>
             /// <param name="nextStateName">State name</param>
             /// <returns>This object for method chaining.</returns>

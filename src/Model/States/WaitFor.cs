@@ -13,12 +13,13 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
     /// <summary>
-    ///     Interface for different waiting strategies used by <see cref="WaitState"/>
+    ///     Interface for different waiting strategies used by <see cref="WaitState" />
     /// </summary>
     public interface IWaitFor
     {

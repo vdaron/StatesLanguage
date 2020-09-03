@@ -13,13 +13,14 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class TransitionStateBuilder<T, B> : InputOutputStateBuilder<T, B> 
+    public abstract class TransitionStateBuilder<T, B> : InputOutputStateBuilder<T, B>
         where T : State
         where B : TransitionStateBuilder<T, B>
     {
@@ -42,9 +43,9 @@ namespace StatesLanguage.Model.States
         {
             set => Transition(NextStateTransition.GetBuilder().NextStateName(value));
         }
-        
+
         /// <summary>
-        /// Sets the transition that will occur when this state completes successfully.
+        ///     Sets the transition that will occur when this state completes successfully.
         /// </summary>
         /// <param name="transition">New transition.</param>
         /// <typeparam name="U"></typeparam>

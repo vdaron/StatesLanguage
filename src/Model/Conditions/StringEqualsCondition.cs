@@ -13,21 +13,22 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for String equal comparison.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class StringEqualsCondition : BinaryCondition<string>
     {
-        private StringEqualsCondition():base(Operator.Eq)
+        private StringEqualsCondition() : base(Operator.Eq)
         {
         }
 
@@ -70,10 +71,10 @@ namespace StatesLanguage.Model.Conditions
             public StringEqualsCondition Build()
             {
                 return new StringEqualsCondition
-                       {
-                           Variable = _variable,
-                           ExpectedValue = _expectedValue
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValue = _expectedValue
+                };
             }
 
             /**
@@ -82,7 +83,6 @@ namespace StatesLanguage.Model.Conditions
              * @param variable Reference path.
              * @return This object for method chaining.
              */
-
             public Builder Variable(string variable)
             {
                 _variable = variable;

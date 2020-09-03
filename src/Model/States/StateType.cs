@@ -14,50 +14,48 @@
  * permissions and limitations under the License.
  */
 
-using System;
-
 namespace StatesLanguage.Model.States
 {
     public enum StateType
     {
         /// <summary>
-        ///     Type identifier for a <see cref="ChoiceState"/>.
+        ///     Type identifier for a <see cref="ChoiceState" />.
         /// </summary>
         Choice,
 
         /// <summary>
-        ///     Type identifier for a <see cref="FailState"/>.
+        ///     Type identifier for a <see cref="FailState" />.
         /// </summary>
         Fail,
 
         /// <summary>
-        ///     Type identifier for a <see cref="ParallelState"/>.
+        ///     Type identifier for a <see cref="ParallelState" />.
         /// </summary>
         Parallel,
 
         /// <summary>
-        ///     Type identifier for a <see cref="PassState"/>.
+        ///     Type identifier for a <see cref="PassState" />.
         /// </summary>
         Pass,
 
         /// <summary>
-        ///     Type identifier for a <see cref="SucceedState"/>.
+        ///     Type identifier for a <see cref="SucceedState" />.
         /// </summary>
         Succeed,
 
         /// <summary>
-        ///     Type identifier for a <see cref="TaskState"/>.
+        ///     Type identifier for a <see cref="TaskState" />.
         /// </summary>
         Task,
 
         /// <summary>
-        ///     Type identifier for a <see cref="WaitState"/>.
+        ///     Type identifier for a <see cref="WaitState" />.
         /// </summary>
         Wait,
-        
+
         /// <summary>
-        /// Type identifier for a <see cref="MapState"/>.
+        ///     Type identifier for a <see cref="MapState" />.
         /// </summary>
-        Map,
+        Map
     }
 }

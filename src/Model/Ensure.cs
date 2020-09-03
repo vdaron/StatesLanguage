@@ -12,7 +12,7 @@ namespace StatesLanguage.Model
                 throw new T();
             }
         }
-        
+
         public static void IsAtMostNCharacter<T>(string param, int numberOfChars) where T : Exception, new()
         {
             if (!string.IsNullOrEmpty(param) && param.Length > numberOfChars)
@@ -20,7 +20,7 @@ namespace StatesLanguage.Model
                 throw new T();
             }
         }
-        
+
         public static void MatchRegex<T>(string param, string regex) where T : Exception, new()
         {
             if (!Regex.IsMatch(param, regex))
@@ -36,7 +36,7 @@ namespace StatesLanguage.Model
                 throw new T();
             }
         }
-        
+
         public static void IsNotNull<T>(object exec) where T : Exception, new()
         {
             if (exec == null)

@@ -14,11 +14,10 @@
  * permissions and limitations under the License.
  */
 
-using System;
-using StatesLanguage.Model.Internal;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
+using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -34,7 +33,7 @@ namespace StatesLanguage.Model.Conditions
 
         [JsonProperty(PropertyNames.IS_NUMERIC)]
         public bool IsNumeric { get; private set; }
-        
+
         [JsonProperty(PropertyNames.VARIABLE)]
         public string Variable { get; set; }
 
@@ -80,11 +79,11 @@ namespace StatesLanguage.Model.Conditions
             /// <returns>An immutable <see cref="BooleanEqualsCondition" /> object.</returns>
             public IsNumericCondition Build()
             {
-                return new IsNumericCondition()
-                       {
-                           Variable = _variable,
-                           IsNumeric = _expectedValue
-                       };
+                return new IsNumericCondition
+                {
+                    Variable = _variable,
+                    IsNumeric = _expectedValue
+                };
             }
 
             /// <summary>

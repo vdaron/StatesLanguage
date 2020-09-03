@@ -13,10 +13,11 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
+using Newtonsoft.Json.Linq;
 using StatesLanguage.Model;
 using StatesLanguage.Model.States;
-using Newtonsoft.Json.Linq;
 using test.Model;
 using Xunit;
 
@@ -24,15 +25,15 @@ namespace StatesLanguage.Tests.Model
 {
     public class PassStateTest
     {
-        private static void AssertJsonEquals(String expected, JToken actual)
+        private static void AssertJsonEquals(string expected, JToken actual)
         {
-                Assert.Equal(JObject.Parse(expected), actual);
+            Assert.Equal(JObject.Parse(expected), actual);
         }
 
         [Fact]
         public void GetResult_ResultCreatedFromString_ReturnsJsonResult()
         {
-             String strResult = "{\"Foo\": \"Bar\"}";
+            var strResult = "{\"Foo\": \"Bar\"}";
             AssertJsonEquals(strResult, NewPassState().Result(strResult).Build().Result);
         }
 
@@ -57,13 +58,14 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SetResult_PojoWithJacksonAnnotations_IgnoresAnnotations()
         {
-            PojoWithJacksonAnnotations pojo = new PojoWithJacksonAnnotations
-                                              {
-                                                  foo = "FooValue",
-                                                  bar = "BarValue",
-                                                  baz = "BazValue"
-                                              };
-            AssertJsonEquals("{\"foo\": \"FooValue\", \"bar\": \"BarValue\"}", NewPassState().Result(pojo).Build().Result);
+            var pojo = new PojoWithJacksonAnnotations
+            {
+                foo = "FooValue",
+                bar = "BarValue",
+                baz = "BazValue"
+            };
+            AssertJsonEquals("{\"foo\": \"FooValue\", \"bar\": \"BarValue\"}",
+                NewPassState().Result(pojo).Build().Result);
         }
 
         private PassState.Builder NewPassState()

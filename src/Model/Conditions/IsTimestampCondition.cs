@@ -14,11 +14,10 @@
  * permissions and limitations under the License.
  */
 
-using System;
-using StatesLanguage.Model.Internal;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
+using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -34,7 +33,7 @@ namespace StatesLanguage.Model.Conditions
 
         [JsonProperty(PropertyNames.IS_TIMESTAMP)]
         public bool IsTimestamp { get; private set; }
-        
+
         [JsonProperty(PropertyNames.VARIABLE)]
         public string Variable { get; set; }
 
@@ -42,7 +41,7 @@ namespace StatesLanguage.Model.Conditions
         {
             var t = token.SelectToken(Variable);
             var isTimestampType = t.Type == JTokenType.Date || t.Type == JTokenType.TimeSpan;
-            return  IsTimestamp ? isTimestampType : !isTimestampType;
+            return IsTimestamp ? isTimestampType : !isTimestampType;
         }
 
         /// <returns>Builder instance to construct a <see cref="IsStringCondition" /></returns>
@@ -80,11 +79,11 @@ namespace StatesLanguage.Model.Conditions
             /// <returns>An immutable <see cref="BooleanEqualsCondition" /> object.</returns>
             public IsTimestampCondition Build()
             {
-                return new IsTimestampCondition()
-                       {
-                           Variable = _variable,
-                           IsTimestamp = _expectedValue
-                       };
+                return new IsTimestampCondition
+                {
+                    Variable = _variable,
+                    IsTimestamp = _expectedValue
+                };
             }
 
             /// <summary>

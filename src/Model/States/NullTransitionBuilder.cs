@@ -13,6 +13,7 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 namespace StatesLanguage.Model.States
 {
     internal class NullTransitionBuilder<T> : ITransitionBuilder<T> where T : ITransition
@@ -25,7 +26,7 @@ namespace StatesLanguage.Model.States
 
         public T Build()
         {
-            return default(T);
+            return default;
         }
     }
 }

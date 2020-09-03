@@ -13,22 +13,23 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 using System;
-using StatesLanguage.Model.Internal;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.Conditions
 {
     /**
      * Binary condition for Numeric equality comparison. Supports both integral and floating point numeric types.
-     *
-     * @see <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
+     * 
+     * @see
+     * <a href="https://states-language.net/spec.html#choice-state">https://states-language.net/spec.html#choice-state</a>
      * @see Choice
      */
     public sealed class TimestampLessThanOrEqualCondition : BinaryCondition<DateTime>
     {
-        private TimestampLessThanOrEqualCondition():base(Operator.Lte)
+        private TimestampLessThanOrEqualCondition() : base(Operator.Lte)
         {
         }
 
@@ -75,10 +76,10 @@ namespace StatesLanguage.Model.Conditions
             public TimestampLessThanOrEqualCondition Build()
             {
                 return new TimestampLessThanOrEqualCondition
-                       {
-                           Variable = _variable,
-                           ExpectedValue = _expectedValue
-                       };
+                {
+                    Variable = _variable,
+                    ExpectedValue = _expectedValue
+                };
             }
 
             /**
@@ -93,6 +94,5 @@ namespace StatesLanguage.Model.Conditions
                 return this;
             }
         }
-        
     }
 }

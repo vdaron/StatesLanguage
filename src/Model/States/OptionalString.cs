@@ -6,9 +6,9 @@ using StatesLanguage.Model.Serialization;
 namespace StatesLanguage.Model.States
 {
     // Inspired by https://github.com/alberto-chiesa/SettableJsonProperties
-    
+
     /// <summary>
-    /// String wrapper used to make difference between null and absent values in Json
+    ///     String wrapper used to make difference between null and absent values in Json
     /// </summary>
     [JsonConverter(typeof(OptionalStringSerializer))]
     public struct OptionalString
@@ -16,7 +16,7 @@ namespace StatesLanguage.Model.States
         private string _value;
 
         /// <summary>
-        /// Standard constructor.
+        ///     Standard constructor.
         /// </summary>
         /// <param name="value"></param>
         public OptionalString(string value)
@@ -26,35 +26,38 @@ namespace StatesLanguage.Model.States
         }
 
         /// <summary>
-        /// True if a value has been set, even if it is null.
+        ///     True if a value has been set, even if it is null.
         /// </summary>
         public bool IsSet { get; private set; }
 
         /// <summary>
-        /// True if not null or undefined.
+        ///     True if not null or undefined.
         /// </summary>
         public bool HasValue => IsSet && _value != null;
 
         /// <summary>
-        /// Gets the value of the current <see cref="OptionalString"/>. 
+        ///     Gets the value of the current <see cref="OptionalString" />.
         /// </summary>
         public string Value
         {
             get
             {
                 if (IsSet)
+                {
                     return _value;
+                }
 
                 throw new InvalidOperationException("The value is undefined.");
             }
-            set {
+            set
+            {
                 IsSet = true;
                 _value = value;
             }
         }
 
         /// <summary>
-        /// Conversion from String
+        ///     Conversion from String
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -64,31 +67,35 @@ namespace StatesLanguage.Model.States
         }
 
         /// <summary>
-        /// Conversion to string.
+        ///     Conversion to string.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
         public static implicit operator string(OptionalString value)
         {
-            return (value.HasValue) ? value._value : null;
+            return value.HasValue ? value._value : null;
         }
-        
+
         /// <summary>
-        /// Indicates whether this instance and a specified object are equal.
+        ///     Indicates whether this instance and a specified object are equal.
         /// </summary>
         /// <returns>
-        /// true if <paramref name="other"/> and this instance are the same type and represent the same value; otherwise, false.
+        ///     true if <paramref name="other" /> and this instance are the same type and represent the same value; otherwise,
+        ///     false.
         /// </returns>
         /// <param name="other">Another object to compare to. </param>
         public override bool Equals(object other)
         {
             if (!HasValue)
+            {
                 return other == null;
+            }
+
             return other != null && _value.Equals(other);
         }
 
         /// <summary>
-        /// Implementation of the equals operator.
+        ///     Implementation of the equals operator.
         /// </summary>
         /// <param name="t1"></param>
         /// <param name="t2"></param>
@@ -96,16 +103,28 @@ namespace StatesLanguage.Model.States
         public static bool operator ==(OptionalString t1, OptionalString t2)
         {
             // undefined equals undefined
-            if (!t1.IsSet && !t2.IsSet) return true;
+            if (!t1.IsSet && !t2.IsSet)
+            {
+                return true;
+            }
 
             // undefined != everything else
-            if (t1.IsSet ^ t2.IsSet) return false;
+            if (t1.IsSet ^ t2.IsSet)
+            {
+                return false;
+            }
 
             // null equals null
-            if (!t1.HasValue && !t2.HasValue) return true;
+            if (!t1.HasValue && !t2.HasValue)
+            {
+                return true;
+            }
 
             // null != everything else
-            if (t1.HasValue ^ t2.HasValue) return false;
+            if (t1.HasValue ^ t2.HasValue)
+            {
+                return false;
+            }
 
             // if both are values, compare them
             return t1._value.Equals(t2._value);
@@ -113,7 +132,7 @@ namespace StatesLanguage.Model.States
 
 
         /// <summary>
-        /// Implementation of the inequality operator.
+        ///     Implementation of the inequality operator.
         /// </summary>
         /// <param name="t1"></param>
         /// <param name="t2"></param>
@@ -124,22 +143,26 @@ namespace StatesLanguage.Model.States
         }
 
         /// <summary>
-        /// Returns the hash code for this instance.
+        ///     Returns the hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A 32-bit signed integer that is the hash code for this instance.
+        ///     A 32-bit signed integer that is the hash code for this instance.
         /// </returns>
         [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
         public override int GetHashCode()
         {
-            if (!IsSet) return -1;
+            if (!IsSet)
+            {
+                return -1;
+            }
+
             return !HasValue ? 0 : _value.GetHashCode();
         }
 
         /// <summary>
-        /// Returns a text representation of
-        /// the value, or an empty string if no value
-        /// is present.
+        ///     Returns a text representation of
+        ///     the value, or an empty string if no value
+        ///     is present.
         /// </summary>
         public override string ToString()
         {

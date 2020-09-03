@@ -13,48 +13,49 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 namespace StatesLanguage.Model.States
 {
     public abstract class StateVisitor<T>
     {
         public virtual T Visit(ChoiceState choiceState)
         {
-            return default(T);
+            return default;
         }
 
         public virtual T Visit(FailState failState)
         {
-            return default(T);
+            return default;
         }
 
         public virtual T Visit(ParallelState parallelState)
         {
-            return default(T);
+            return default;
         }
 
         public virtual T Visit(PassState passState)
         {
-            return default(T);
+            return default;
         }
 
         public virtual T Visit(SucceedState succeedState)
         {
-            return default(T);
+            return default;
         }
 
         public virtual T Visit(TaskState taskState)
         {
-            return default(T);
+            return default;
         }
 
         public virtual T Visit(WaitState waitState)
         {
-            return default(T);
+            return default;
         }
-        
+
         public virtual T Visit(MapState mapState)
         {
-            return default(T);
+            return default;
         }
     }
 }

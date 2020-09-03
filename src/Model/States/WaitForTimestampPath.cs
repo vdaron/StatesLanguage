@@ -13,14 +13,15 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using StatesLanguage.Model.Internal;
+
 using Newtonsoft.Json;
+using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
     /// <summary>
-    ///     <see cref="IWaitFor"/> implementation that can be used in a <see cref="WaitState"/>.
-    ///     Corresponds to the <see cref="PropertyNames.TIMESTAMP_PATH"/> field in the JSON document.
+    ///     <see cref="IWaitFor" /> implementation that can be used in a <see cref="WaitState" />.
+    ///     Corresponds to the <see cref="PropertyNames.TIMESTAMP_PATH" /> field in the JSON document.
     /// </summary>
     public class WaitForTimestampPath : IWaitFor
     {
@@ -29,16 +30,16 @@ namespace StatesLanguage.Model.States
         }
 
         /// <summary>
-        /// Path to a date in the input to this state.The {@link WaitState} will wait until the date specified
-        /// in the input.
+        ///     Path to a date in the input to this state.The {@link WaitState} will wait until the date specified
+        ///     in the input.
         /// </summary>
         public string TimestampPath { get; private set; }
-        
+
         public static Builder GetBuilder()
         {
             return new Builder();
         }
-        
+
         public sealed class Builder : IWaitForBuilder<WaitForTimestampPath>
         {
             [JsonProperty(PropertyNames.TIMESTAMP_PATH)]
@@ -47,18 +48,20 @@ namespace StatesLanguage.Model.States
             internal Builder()
             {
             }
-            
+
             public WaitForTimestampPath Build()
             {
                 return new WaitForTimestampPath
-                       {
-                           TimestampPath = _timestampPath
-                       };
+                {
+                    TimestampPath = _timestampPath
+                };
             }
-            
+
             /// <summary>
-            /// REQUIRED. Sets the path to a date in the input to this state. The <see cref="WaitState"/> will wait until the date specified
-            /// in the input. Date in input must be in the format described <a href="https://states-language.net/spec.html#timestamps">here</a>.
+            ///     REQUIRED. Sets the path to a date in the input to this state. The <see cref="WaitState" /> will wait until the date
+            ///     specified
+            ///     in the input. Date in input must be in the format described
+            ///     <a href="https://states-language.net/spec.html#timestamps">here</a>.
             /// </summary>
             /// <param name="timestampPath"> Reference path to date in the input.</param>
             /// <returns>This object for method chaining.</returns>

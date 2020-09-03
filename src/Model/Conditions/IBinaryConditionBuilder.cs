@@ -13,23 +13,22 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.Conditions
 {
-    public interface IBinaryConditionBuilder<out TBuilder, out TCondition, in TValue> : IConditionBuilder<TCondition> 
+    public interface IBinaryConditionBuilder<out TBuilder, out TCondition, in TValue> : IConditionBuilder<TCondition>
         where TCondition : ICondition
-        where TBuilder : IBinaryConditionBuilder<TBuilder,TCondition, TValue>
+        where TBuilder : IBinaryConditionBuilder<TBuilder, TCondition, TValue>
     {
         string Type { get; }
 
         TBuilder Variable(string variable);
         TBuilder ExpectedValue(TValue expectedValue);
     }
-    
-    public interface IBinaryConditionPathBuilder<out TBuilder, out TCondition> : IConditionBuilder<TCondition> 
+
+    public interface IBinaryConditionPathBuilder<out TBuilder, out TCondition> : IConditionBuilder<TCondition>
         where TCondition : ICondition
-        where TBuilder : IBinaryConditionPathBuilder<TBuilder,TCondition>
+        where TBuilder : IBinaryConditionPathBuilder<TBuilder, TCondition>
     {
         string Type { get; }
         TBuilder Variable(string variable);

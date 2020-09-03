@@ -14,11 +14,10 @@
  * permissions and limitations under the License.
  */
 
-using System;
-using StatesLanguage.Model.Internal;
-using StatesLanguage.Model.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Model.Internal;
+using StatesLanguage.Model.States;
 
 namespace StatesLanguage.Model.Conditions
 {
@@ -34,20 +33,20 @@ namespace StatesLanguage.Model.Conditions
 
         [JsonProperty(PropertyNames.IS_STRING)]
         public bool IsString { get; private set; }
-        
+
         [JsonProperty(PropertyNames.VARIABLE)]
         public string Variable { get; set; }
 
         public bool Match(JToken token)
         {
             var t = token.SelectToken(Variable);
-            
+
             //Timestamp can be considered as string as well
-            bool isStringType = (t.Type == JTokenType.String || 
-                    t.Type == JTokenType.Uri || 
-                    t.Type == JTokenType.Guid || 
-                    t.Type == JTokenType.TimeSpan || 
-                    t.Type == JTokenType.Date);
+            var isStringType = t.Type == JTokenType.String ||
+                               t.Type == JTokenType.Uri ||
+                               t.Type == JTokenType.Guid ||
+                               t.Type == JTokenType.TimeSpan ||
+                               t.Type == JTokenType.Date;
 
             return IsString ? isStringType : !isStringType;
         }
@@ -87,11 +86,11 @@ namespace StatesLanguage.Model.Conditions
             /// <returns>An immutable <see cref="BooleanEqualsCondition" /> object.</returns>
             public IsStringCondition Build()
             {
-                return new IsStringCondition()
-                       {
-                           Variable = _variable,
-                           IsString = _expectedValue
-                       };
+                return new IsStringCondition
+                {
+                    Variable = _variable,
+                    IsString = _expectedValue
+                };
             }
 
             /// <summary>

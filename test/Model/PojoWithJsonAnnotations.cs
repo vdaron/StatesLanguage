@@ -13,7 +13,7 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-using System;
+
 using Newtonsoft.Json;
 
 namespace StatesLanguage.Tests.Model
@@ -21,10 +21,12 @@ namespace StatesLanguage.Tests.Model
     public class PojoWithJacksonAnnotations
     {
         [JsonIgnore]
-        public String baz { get; set; }
+        public string baz { get; set; }
+
         [JsonProperty("FooProperty")]
-        public String foo { get; set; }
+        public string foo { get; set; }
+
         [JsonProperty("BarProperty")]
-        public String bar { get; set; }
+        public string bar { get; set; }
     }
 }
