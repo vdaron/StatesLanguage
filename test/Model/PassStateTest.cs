@@ -52,7 +52,7 @@ namespace StatesLanguage.Tests.Model
         [Fact]
         public void SetResult_MalformedJson_ThrowsException()
         {
-            Assert.Throws<Exception>(() => NewPassState().Result("{").Build().Result);
+            Assert.Throws<StatesLanguageException>(() => NewPassState().Result("{").Build().Result);
         }
 
         [Fact]
