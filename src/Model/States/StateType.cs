@@ -21,42 +21,42 @@ namespace StatesLanguage.Model.States
     public enum StateType
     {
         /// <summary>
-        ///     Type identifier for a {@link ChoiceState}.
+        ///     Type identifier for a <see cref="ChoiceState"/>.
         /// </summary>
         Choice,
 
         /// <summary>
-        ///     Type identifier for a {@link FailState}.
+        ///     Type identifier for a <see cref="FailState"/>.
         /// </summary>
         Fail,
 
         /// <summary>
-        ///     Type identifier for a {@link ParallelState}.
+        ///     Type identifier for a <see cref="ParallelState"/>.
         /// </summary>
         Parallel,
 
         /// <summary>
-        ///     Type identifier for a {@link PassState}.
+        ///     Type identifier for a <see cref="PassState"/>.
         /// </summary>
         Pass,
 
         /// <summary>
-        ///     Type identifier for a {@link SucceedState}.
+        ///     Type identifier for a <see cref="SucceedState"/>.
         /// </summary>
         Succeed,
 
         /// <summary>
-        ///     Type identifier for a {@link TaskState}.
+        ///     Type identifier for a <see cref="TaskState"/>.
         /// </summary>
         Task,
 
         /// <summary>
-        ///     Type identifier for a {@link WaitState}.
+        ///     Type identifier for a <see cref="WaitState"/>.
         /// </summary>
         Wait,
         
         /// <summary>
-        /// Type identifier for a {@link MapState}.
+        /// Type identifier for a <see cref="MapState"/>.
         /// </summary>
         Map,
     }

@@ -18,9 +18,9 @@ using Newtonsoft.Json;
 
 namespace StatesLanguage.Model.States
 {
-    // {@link WaitFor} implementation that can be used in a {@link WaitState}. Corresponds to the
-    //"{@value PropertyNames#SECONDS_PATH}" field in the JSON document.
     /// <summary>
+    ///     <see cref="IWaitFor"/> implementation that can be used in a <see cref="WaitState"/>.
+    ///     Corresponds to the <see cref="PropertyNames.SECONDS_PATH"/> field in the JSON document.
     /// </summary>
     public class WaitForSecondsPath : IWaitFor
     {
@@ -28,19 +28,16 @@ namespace StatesLanguage.Model.States
         {
         }
 
+        /// <summary>
+        /// Path to a number in the input to this state representing
+        /// </summary>
         public string SecondsPath { get; private set; }
-
-        /**
-         * @return Builder instance to construct a {@link WaitForSecondsPath}.
-         */
+        
         public static Builder GetBuilder()
         {
             return new Builder();
         }
-
-        /**
-         * Builder for a {@link WaitForSecondsPath}.
-         */
+        
         public sealed class Builder : IWaitForBuilder<WaitForSecondsPath>
         {
             [JsonProperty(PropertyNames.SECONDS_PATH)]
@@ -49,10 +46,7 @@ namespace StatesLanguage.Model.States
             internal Builder()
             {
             }
-
-            /**
-             * @return An immutable {@link WaitForSecondsPath} object.
-             */
+            
             public WaitForSecondsPath Build()
             {
                 return new WaitForSecondsPath
@@ -60,14 +54,13 @@ namespace StatesLanguage.Model.States
                            SecondsPath = _secondsPath
                        };
             }
-
-            /**
-             * REQUIRED. Sets the path to a number in the input to this state representing
-             * the number of seconds to wait.
-             *
-             * @param secondsPath Reference path to seconds in the input.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// REQUIRED. Sets the path to a number in the input to this state representing
+            /// the number of seconds to wait.
+            /// </summary>
+            /// <param name="secondsPath">Reference path to seconds in the input.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder SecondsPath(ReferencePath secondsPath)
             {
                 _secondsPath = secondsPath;

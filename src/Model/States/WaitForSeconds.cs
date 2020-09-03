@@ -19,9 +19,8 @@ using Newtonsoft.Json;
 namespace StatesLanguage.Model.States
 {
     /// <summary>
-    ///     * {@link WaitFor} implementation that can be used in a {@link WaitState}. Corresponds to the "{@value
-    ///     PropertyNames#SECONDS}"
-    ///     field in the JSON document.
+    ///     <see cref="IWaitFor"/> implementation that can be used in a <see cref="WaitState"/>.
+    ///     Corresponds to the <see cref="PropertyNames.SECONDS"/> field in the JSON document.
     /// </summary>
     public class WaitForSeconds : IWaitFor
     {
@@ -29,19 +28,16 @@ namespace StatesLanguage.Model.States
         {
         }
 
+        /// <summary>
+        /// number of seconds the <see cref="WaitState"/> will wait for.
+        /// </summary>
         public int Seconds { get; private set; }
 
-        /**
-         * @return Builder instance to construct a {@link WaitForSeconds}.
-         */
         public static Builder GetBuilder()
         {
             return new Builder();
         }
 
-        /**
-         * Builder for a {@link WaitForSeconds}.
-         */
         public sealed class Builder : IWaitForBuilder<WaitForSeconds>
         {
             [JsonProperty(PropertyNames.SECONDS)]
@@ -51,9 +47,6 @@ namespace StatesLanguage.Model.States
             {
             }
 
-            /**
-             * @return An immutable {@link WaitForSeconds} object.
-             */
             public WaitForSeconds Build()
             {
                 return new WaitForSeconds
@@ -62,12 +55,11 @@ namespace StatesLanguage.Model.States
                        };
             }
 
-            /**
-             * REQUIRED. Sets the number of seconds the {@link WaitState} will wait for.
-             *
-             * @param seconds Number of seconds. Must be positive.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// REQUIRED. Sets the number of seconds the <see cref="WaitState"/> will wait for.
+            /// </summary>
+            /// <param name="seconds">Number of seconds. Must be positive.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Seconds(int seconds)
             {
                 _seconds = seconds;

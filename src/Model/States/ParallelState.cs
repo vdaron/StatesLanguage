@@ -55,37 +55,32 @@ namespace StatesLanguage.Model.States
             {
             }
             
-            /**
-             * REQUIRED. Adds a new branch of execution to this states branches. A parallel state must have at least one branch.
-             *
-             * @param branchBuilder Instance of {@link Branch.Builder}. Note that the {@link
-             *                      Branch} object is not built until the {@link ParallelState} is built so any modifications on the
-             *                      state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// REQUIRED. Adds a new branch of execution to this states branches. A parallel state must have at least one branch.
+            /// </summary>
+            /// <param name="branchBuilder">Instance of <see cref="Branch.Builder"/>. Note that the <see cref="Branch"/> object is not
+            /// built until the {@link ParallelState} is built so any modifications on the  state model will be reflected in this
+            /// object.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Branch(SubStateMachine.Builder branchBuilder)
             {
                 _branches.Add(branchBuilder);
                 return this;
             }
 
-            /**
-             * REQUIRED. Adds the branches of execution to this states branches. A parallel state must have at least one branch.
-             *
-             * @param branchBuilders Instances of {@link Branch.Builder}. Note that the {@link
-             *                       Branch} object is not built until the {@link ParallelState} is built so any modifications on the
-             *                       state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// REQUIRED. Adds the branches of execution to this states branches. A parallel state must have at least one branch.
+            /// </summary>
+            /// <param name="branchBuilders">Instances of <see cref="Branch.Builder"/>. Note that the <see cref="Branch"/> object is not
+            /// built until the {@link ParallelState} is built so any modifications on the  state model will be reflected in this
+            /// object.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Branches(params SubStateMachine.Builder[] branchBuilders)
             {
                 _branches.AddRange(branchBuilders);
                 return this;
             }
-            
-            /**
-             * @return An immutable {@link ParallelState} object.
-             */
+
             public override ParallelState Build()
             {
                 return new ParallelState()

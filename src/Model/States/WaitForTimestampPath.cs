@@ -18,25 +18,27 @@ using Newtonsoft.Json;
 
 namespace StatesLanguage.Model.States
 {
+    /// <summary>
+    ///     <see cref="IWaitFor"/> implementation that can be used in a <see cref="WaitState"/>.
+    ///     Corresponds to the <see cref="PropertyNames.TIMESTAMP_PATH"/> field in the JSON document.
+    /// </summary>
     public class WaitForTimestampPath : IWaitFor
     {
         private WaitForTimestampPath()
         {
         }
 
+        /// <summary>
+        /// Path to a date in the input to this state.The {@link WaitState} will wait until the date specified
+        /// in the input.
+        /// </summary>
         public string TimestampPath { get; private set; }
-
-        /**
-         * @return Builder instance to construct a {@link WaitForTimestampPath}.
-         */
+        
         public static Builder GetBuilder()
         {
             return new Builder();
         }
-
-        /**
-         * Builder for a {@link WaitForTimestampPath}.
-         */
+        
         public sealed class Builder : IWaitForBuilder<WaitForTimestampPath>
         {
             [JsonProperty(PropertyNames.TIMESTAMP_PATH)]
@@ -45,10 +47,7 @@ namespace StatesLanguage.Model.States
             internal Builder()
             {
             }
-
-            /**
-             * @return An immutable {@link WaitForTimestampPath} object.
-             */
+            
             public WaitForTimestampPath Build()
             {
                 return new WaitForTimestampPath
@@ -56,15 +55,13 @@ namespace StatesLanguage.Model.States
                            TimestampPath = _timestampPath
                        };
             }
-
-            /**
-             * REQUIRED. Sets the path to a date in the input to this state. The {@link WaitState} will wait until the date specified
-             * in the input. Date in input must be in the format described
-             * <a href="https://states-language.net/spec.html#timestamps">here</a>.
-             *
-             * @param timestampPath Reference path to date in the input.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// REQUIRED. Sets the path to a date in the input to this state. The <see cref="WaitState"/> will wait until the date specified
+            /// in the input. Date in input must be in the format described <a href="https://states-language.net/spec.html#timestamps">here</a>.
+            /// </summary>
+            /// <param name="timestampPath"> Reference path to date in the input.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder TimestampPath(ReferencePath timestampPath)
             {
                 _timestampPath = timestampPath;

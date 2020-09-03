@@ -37,35 +37,29 @@ namespace StatesLanguage.Model.States
         {
             return new Builder();
         }
-
-        /**
-     * Builder for {@link NextStateTransition}
-     */
+        
         public sealed class Builder : ITransitionBuilder<NextStateTransition>
         {
-            internal string _nextStateName;
+            [JsonProperty(PropertyNames.NEXT)]
+            private string _nextStateName;
 
             internal Builder()
             {
             }
 
-            /**
-             * @return An immutable {@link WaitState} object.
-             */
             public NextStateTransition Build()
             {
                 return new NextStateTransition
-                       {
-                           NextStateName = _nextStateName
-                       };
+                {
+                    NextStateName = _nextStateName
+                };
             }
 
-            /**
-             * REQUIRED. Sets the name of the state to transition to. Must be a valid state in the state machine.
-             *
-             * @param nextStateName State name
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// REQUIRED. Sets the name of the state to transition to. Must be a valid state in the state machine.
+            /// </summary>
+            /// <param name="nextStateName">State name</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder NextStateName(string nextStateName)
             {
                 _nextStateName = nextStateName;

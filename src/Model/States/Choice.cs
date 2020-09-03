@@ -27,21 +27,23 @@ namespace StatesLanguage.Model.States
         {
         }
 
+        /// <summary>
+        /// Name of the state that the state machine will transition to if the condition evaluates to true
+        /// </summary>
         [JsonIgnore]
         public ICondition Condition { get; set; }
 
+        /// <summary>
+        /// The transition for this choice rule.
+        /// </summary>
         [JsonIgnore]
         public ITransition Transition { get; set; }
 
-        /**
-         * @return Builder instance to construct a {@link Choice}.
-         */
         public static Builder GetBuilder()
         {
             return new Builder();
         }
 
-        //@JsonDeserialize(using = Choice.ChoiceDeserializer.class)
         public sealed class Builder : IBuildable<Choice>
         {
             private IBuildable<ICondition> _condition = NullConditionBuilder.Instance;
@@ -51,22 +53,20 @@ namespace StatesLanguage.Model.States
             internal Builder()
             {
             }
-
-            /**
-             * Sets the name of the state that the state machine will transition to if the condition evaluates to true.
-             *
-             * @param nextStateName Name of the state.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// Sets the name of the state that the state machine will transition to if the condition evaluates to true
+            /// </summary>
             [JsonProperty(PropertyNames.NEXT)]
             private string NextStateName
             {
                 set => Transition(NextStateTransition.GetBuilder().NextStateName(value));
             }
 
-            /**
-             * @return An immutable {@link Choice} object.
-             */
+            /// <summary>
+            /// Build the <see cref="Choice"/>
+            /// </summary>
+            /// <returns></returns>
             public Choice Build()
             {
                 return new Choice
@@ -75,26 +75,25 @@ namespace StatesLanguage.Model.States
                            Transition = _transition.Build()
                        };
             }
-
-            /**
-             * REQUIRED. Sets the condition for this choice rule.
-             *
-             * @param conditionBuilder Instance of {@link Builder}. Note that the {@link State} object is not built until the
-             *     {@link Choice} is built so any modifications on the state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// REQUIRED. Sets the condition for this choice rule.
+            /// </summary>
+            /// <param name="conditionBuilder">Instance of {@link Builder}. Note that the <see cref="State"/> object is not built until the
+            ///  <see cref="Choice"/> is built so any modifications on the state model will be reflected in this object.</param>
+            /// <typeparam name="T"></typeparam>
+            /// <returns>This object for method chaining.</returns>
             public Builder Condition<T>(IConditionBuilder<T> conditionBuilder) where T : ICondition
             {
                 _condition = (IBuildable<ICondition>) conditionBuilder;
                 return this;
             }
 
-            /**
-             * REQUIRED. Sets the transition for this choice rule.
-             *
-             * @param transition Transition that occurs if the choice rule condition evaluates to true.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// Sets the transition for this choice rule.
+            /// </summary>
+            /// <param name="transition">Transition that occurs if the choice rule condition evaluates to true.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Transition(NextStateTransition.Builder transition)
             {
                 _transition = transition;

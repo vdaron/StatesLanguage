@@ -21,22 +21,18 @@ using Newtonsoft.Json.Linq;
 
 namespace StatesLanguage.Model.States
 {
-    public class PassState : TransitionState
+    public class PassState : ParameterState
     {
         private PassState()
         {
         }
 
+        /// <summary>
+        /// "virtual" result of the pass state.
+        /// </summary>
         [JsonProperty(PropertyNames.RESULT)]
         public JToken Result { get; private set; }
-
-        [JsonProperty(PropertyNames.RESULT_PATH)]
-        public OptionalString ResultPath { get; private set; }
-
-        [JsonProperty(PropertyNames.PARAMETERS)]
-        public JObject Parameters { get; private set; }
-
-
+        
         public override StateType Type => StateType.Pass;
 
         /**
@@ -63,50 +59,62 @@ namespace StatesLanguage.Model.States
             internal Builder()
             {
             }
-
-            /**
-             * OPTIONAL. Sets the "virtual" result of the pass state. Must be a POJO that can be serialized into JSON.
-             *
-             * @param result Object that will be serialized into the JSON document representing this states result.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// Sets the "virtual" result of the pass state. Must be a POJO that can be serialized into JSON.
+            /// </summary>
+            /// <param name="result">Object that will be serialized into the JSON document representing this states result.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Result(object result)
             {
                 _result = JToken.FromObject(result);
                 return this;
             }
 
+            /// <summary>
+            /// Sets the "virtual" result of the pass state. Must be a POJO that can be serialized into JSON.
+            /// </summary>
+            /// <param name="result">Object that will be serialized into the JSON document representing this states result.</param>
+            /// <param name="serializerSettings">Json Serialization Settings</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Result(object result, JsonSerializerSettings serializerSettings)
             {
                 _result = JToken.FromObject(result, JsonSerializer.Create(serializerSettings));
                 return this;
             }
-
-            /**
-             * OPTIONAL. Sets the "virtual" result of the pass state. Must be a valid JSON document.
-             *
-             * @param result JSON result represented as a string.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// Sets the "virtual" result of the pass state. Must be a valid JSON document.
+            /// </summary>
+            /// <param name="result">JSON result represented as a string.</param>
+            /// <returns>This object for method chaining.</returns>
+            /// <exception cref="StatesLanguageException"></exception>
             public Builder Result(string result)
             {
                 try
                 {
-                    using (var reader = new StringReader(result))
-                    {
-                        _result = JToken.Load(new JsonTextReader(reader));
-                    }
+                    using var reader = new StringReader(result);
+                    _result = JToken.Load(new JsonTextReader(reader));
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Result must be a JSON document", e);
+                    throw new StatesLanguageException("Result must be a JSON document", e);
                 }
 
                 return this;
             }
-
-
-
+            
+            /// <summary>
+            /// Sets the "virtual" result of the pass state.
+            /// </summary>
+            /// <param name="result">JSON result.</param>
+            /// <returns>This object for method chaining.</returns>
+            public Builder Result(JToken result)
+            {
+                _result = result;
+                return this;
+            }
+            
             /**
              * @return An immutable {@link PassState} object.
              */

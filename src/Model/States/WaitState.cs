@@ -29,10 +29,7 @@ namespace StatesLanguage.Model.States
 
         [JsonIgnore]
         public IWaitFor WaitFor { get; private set; }
-
-        /**
-         * @return Builder instance to construct a {@link WaitState}.
-         */
+        
         public static Builder GetBuilder()
         {
             return new Builder();
@@ -43,9 +40,6 @@ namespace StatesLanguage.Model.States
             return visitor.Visit(this);
         }
 
-        /**
-         * Builder for a {@link WaitState}.
-         */
         public sealed class Builder : TransitionStateBuilder<WaitState, Builder>
         {
             private IWaitForBuilder<IWaitFor> _waitFor = NullWaitForBuilder.Instance;
@@ -54,21 +48,18 @@ namespace StatesLanguage.Model.States
             {
             }
             
-            /**
-             * REQUIRED. Implementation of {@link WaitFor} that indicates how long the state should wait before proceeding.
-             *
-             * @param WaitFor Implementation of {@link WaitFor}
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// REQUIRED. Implementation of <see cref="IWaitFor"/> that indicates how long the state should wait before proceeding.
+            /// </summary>
+            /// <param name="waitFor">Implementation of <see cref="IWaitFor"/></param>
+            /// <typeparam name="T"></typeparam>
+            /// <returns>This object for method chaining.</returns>
             public Builder WaitFor<T>(IWaitForBuilder<T> waitFor) where T : IWaitFor
             {
                 _waitFor = (IWaitForBuilder<IWaitFor>) waitFor;
                 return this;
             }
             
-            /**
-             * @return An immutable {@link WaitState} object.
-             */
             public override WaitState Build()
             {
                 return new WaitState

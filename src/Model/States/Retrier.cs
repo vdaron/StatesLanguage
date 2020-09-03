@@ -25,13 +25,27 @@ namespace StatesLanguage.Model.States
         {
         }
         
+        /// <summary>
+        /// codes to the list of error codes that this retrier handles
+        /// </summary>
+        [JsonProperty(PropertyNames.ERROR_EQUALS)]
         public List<string> ErrorEquals { get; private set; }
-
-
+        
+        /// <summary>
+        /// Delay before the first retry attempt.
+        /// </summary>
         [JsonProperty(PropertyNames.INTERVAL_SECONDS)]
         private int? _interval;
+        
+        /// <summary>
+        /// Max number of retry attempts this retrier can perform. The default value is 3 if not specified.
+        /// </summary>
         [JsonProperty(PropertyNames.MAX_ATTEMPTS)]
         private int? _attempts;
+        
+        /// <summary>
+        ///  Multiplier that increases the <see cref="IntervalSeconds"/> on each attempt. The default value is 2.0.
+        /// </summary>
         [JsonProperty(PropertyNames.BACKOFF_RATE)]
         private double? _backoff;
 
@@ -42,17 +56,11 @@ namespace StatesLanguage.Model.States
         [JsonIgnore]
         public double BackoffRate => _backoff ?? 2.0;
 
-        /**
-         * @return Builder instance to construct a {@link Retrier}.
-         */
         public static Builder GetBuilder()
         {
             return new Builder();
         }
 
-        /**
-         * Builder for a {@link Retrier}.
-         */
         public sealed class Builder : IBuildable<Retrier>
         {
             [JsonProperty(PropertyNames.BACKOFF_RATE)]
@@ -71,9 +79,6 @@ namespace StatesLanguage.Model.States
             {
             }
 
-            /**
-             * @return An immutable {@link Retrier} object.
-             */
             public Retrier Build()
             {
                 return new Retrier
@@ -85,64 +90,58 @@ namespace StatesLanguage.Model.States
                        };
             }
 
-            /**
-             * REQUIRED. Adds the codes to the list of error codes that this retrier handles. If the retrier matches an error code
-             * then the state may be retried according to the retry parameters.
-             *
-             * @param errorEquals New error codes to add to this retrier's handled errors.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// REQUIRED. Adds the codes to the list of error codes that this retrier handles. If the retrier matches an error code
+            /// then the state may be retried according to the retry parameters.
+            /// </summary>
+            /// <param name="errorEquals">New error codes to add to this retrier's handled errors.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder ErrorEquals(params string[] errorEquals)
             {
                 _errorEquals.AddRange(errorEquals);
                 return this;
             }
 
-            /**
-             * OPTIONAL. Makes this retrier handle all errors. This method should not be used with {@link #errorEquals}.
-             *
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// OPTIONAL. Makes this retrier handle all errors. This method should not be used with <see cref="ErrorEquals"/>.
+            /// </summary>
+            /// <returns>This object for method chaining.</returns>
             public Builder RetryOnAllErrors()
             {
                 _errorEquals.Clear();
                 ErrorEquals(ErrorCodes.ALL);
                 return this;
             }
-
-            /**
-             * OPTIONAL. Delay before the first retry attempt. The default value is 1 second. The delay for subsequent retries will
-             * be
-             * computed by applying the {@link #backoffRate} multiplier to the previous delay.
-             *
-             * @param intervalSeconds Delay in seconds. Positive integer.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// OPTIONAL. Delay before the first retry attempt. The default value is 1 second. The delay for subsequent retries will be
+            /// computed by applying the <see cref="BackoffRate"/> multiplier to the previous delay.
+            /// </summary>
+            /// <param name="intervalSeconds">Delay in seconds. Positive integer.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder IntervalSeconds(int intervalSeconds)
             {
                 _intervalSeconds = intervalSeconds;
                 return this;
             }
 
-            /**
-             * OPTIONAL. Max number of retry attempts this retrier can perform. The default value is 3 if not specified. <p>Note that
-             * 0 is a legal value for MaxAttempts and represents that the error should not be retried.</p>
-             *
-             * @param maxAttempts Number of max attempts. Non-negative integer.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// OPTIONAL. Max number of retry attempts this retrier can perform. The default value is 3 if not specified. <p>Note that
+            /// 0 is a legal value for MaxAttempts and represents that the error should not be retried.</p>
+            /// </summary>
+            /// <param name="maxAttempts">Number of max attempts. Non-negative integer.</param>
+            /// <returns> This object for method chaining.</returns>
             public Builder MaxAttempts(int maxAttempts)
             {
                 _maxAttempts = maxAttempts;
                 return this;
             }
 
-            /**
-             * OPTIONAL. Multiplier that increases the {@link #intervalSeconds(Integer)} on each attempt. The default value is 2.0.
-             *
-             * @param backoffRate Multiplier for {@link #intervalSeconds(Integer)}. Must be greater than or equal to 1.0.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// OPTIONAL. Multiplier that increases the <see cref="IntervalSeconds"/> on each attempt. The default value is 2.0.
+            /// </summary>
+            /// <param name="backoffRate">Multiplier for <see cref="IntervalSeconds"/>. Must be greater than or equal to 1.0.</param>
+            /// <returns> This object for method chaining.</returns>
             public Builder BackoffRate(double backoffRate)
             {
                 _backoffRate = backoffRate;

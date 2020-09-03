@@ -34,64 +34,53 @@ namespace StatesLanguage.Model.States
         internal RetryCatchStateBuilder()
         {
         }
-
-        /**
-             * OPTIONAL. Adds the {@link Retrier}s to this states retries. If a single branch fails then the entire parallel state is
-             * considered failed and eligible for retry.
-             *
-             * @param retrierBuilders Instances of {@link Retrier.Builder}. Note that the {@link
-             *                        Retrier} object is not built until the {@link ParallelState} is built so any modifications on
-             *                        the state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
+        
+        /// <summary>
+        /// OPTIONAL. Adds the <see cref="Retrier"/> to this states retries. If a single branch fails then the entire parallel state is
+        /// considered failed and eligible for retry.
+        /// </summary>
+        /// <param name="retrierBuilders">Instances of <see cref="Retrier.Builder"/>. Note that the <see cref="Retrier"/> object is not built
+        /// until the <see cref="ParallelState"/> is built so any modifications on the state model will be reflected in this object.</param>
+        /// <returns>This object for method chaining.</returns>
         public B Retriers(params Retrier.Builder[] retrierBuilders)
         {
             _retriers.AddRange(retrierBuilders);
             return (B) this;
         }
-
-        /**
-             * OPTIONAL. Adds the {@link Retrier} to this states retries. If a single branch fails then the entire parallel state is
-             * considered failed and eligible for retry.
-             *
-             * @param retrierBuilder Instance of {@link Retrier.Builder}. Note that the {@link
-             *                       Retrier} object is not built until the {@link ParallelState} is built so any modifications on
-             *                       the
-             *                       state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
+        
+        /// <summary>
+        /// OPTIONAL. Adds the {@link Retrier} to this states retries. If a single branch fails then the entire parallel state is
+        /// considered failed and eligible for retry.
+        /// </summary>
+        /// <param name="retrierBuilder">Instance of <see cref="Retrier.Builder"/>. Note that the <see cref="Retrier"/> object is not built
+        /// until the <see cref="ParallelState"/> is built so any modifications on the state model will be reflected in this object.</param>
+        /// <returns>This object for method chaining.</returns>
         public B Retrier(Retrier.Builder retrierBuilder)
         {
             _retriers.Add(retrierBuilder);
             return (B) this;
         }
-
-        /**
-             * OPTIONAL. Adds the {@link Catcher}s to this states catchers.  If a single branch fails then the entire parallel state
-             * is considered failed and eligible to be caught.
-             *
-             * @param catcherBuilders Instances of {@link Catcher.Builder}. Note that the {@link
-             *                        Catcher} object is not built until the {@link ParallelState} is built so any modifications on
-             *                        the state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
+        
+        /// <summary>
+        /// OPTIONAL. Adds the <see cref="Catcher"/>s to this states catchers.  If a single branch fails then the entire parallel state
+        /// is considered failed and eligible to be caught.
+        /// </summary>
+        /// <param name="catcherBuilders">Instances of <see cref="Catcher.Builder"/>. Note that the <see cref="Catcher"/> object is not built until the
+        /// <see cref="ParallelState"/> is built so any modifications on the state model will be reflected in this object.</param>
+        /// <returns>This object for method chaining.</returns>
         public B Catchers(params Catcher.Builder[] catcherBuilders)
         {
             _catchers.AddRange(catcherBuilders);
             return (B) this;
         }
 
-        /**
-             * OPTIONAL. Adds the {@link Catcher} to this states catchers.  If a single branch fails then the entire parallel state
-             * is
-             * considered failed and eligible to be caught.
-             *
-             * @param catcherBuilder Instance of {@link Catcher.Builder}. Note that the {@link
-             *                       Catcher} object is not built until the {@link ParallelState} is built so any modifications on
-             *                       the
-             *                       state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
+        /// <summary>
+        /// OPTIONAL. Adds the <see cref="Catcher"/> to this states catchers.  If a single branch fails then the entire parallel state
+        /// is considered failed and eligible to be caught.
+        /// </summary>
+        /// <param name="catcherBuilder">Instance of <see cref="Catcher.Builder"/>. Note that the <see cref="Catcher"/> object is not built until the
+        /// <see cref="ParallelState"/> is built so any modifications on the state model will be reflected in this object.</param>
+        /// <returns>This object for method chaining.</returns>
         public B Catcher(Catcher.Builder catcherBuilder)
         {
             _catchers.Add(catcherBuilder);

@@ -19,25 +19,26 @@ using Newtonsoft.Json;
 
 namespace StatesLanguage.Model.States
 {
+    /// <summary>
+    ///     <see cref="IWaitFor"/> implementation that can be used in a <see cref="WaitState"/>.
+    ///     Corresponds to the <see cref="PropertyNames.TIMESTAMP"/> field in the JSON document.
+    /// </summary>
     public class WaitForTimestamp : IWaitFor
     {
         private WaitForTimestamp()
         {
         }
 
+        /// <summary>
+        /// Date that this state should wait until before proceeding.
+        /// </summary>
         public DateTime Timestamp { get; private set; }
-
-        /**
-         * @return Builder instance to construct a {@link WaitForTimestamp}.
-         */
+        
         public static Builder GetBuilder()
         {
             return new Builder();
         }
-
-        /**
-         * Builder for a {@link WaitForTimestamp}.
-         */
+        
         public sealed class Builder : IWaitForBuilder<WaitForTimestamp>
         {
             [JsonProperty(PropertyNames.TIMESTAMP)]
@@ -46,10 +47,7 @@ namespace StatesLanguage.Model.States
             internal Builder()
             {
             }
-
-            /**
-             * @return An immutable {@link WaitForTimestamp} object.
-             */
+            
             public WaitForTimestamp Build()
             {
                 return new WaitForTimestamp
@@ -57,13 +55,12 @@ namespace StatesLanguage.Model.States
                            Timestamp = _timestamp
                        };
             }
-
-            /**
-             * REQUIRED. Sets the date that this state should wait until before proceeding.
-             *
-             * @param time stamp Date to wait until.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// REQUIRED. Sets the date that this state should wait until before proceeding.
+            /// </summary>
+            /// <param name="timestamp">Date to wait until.</param>
+            /// <returns> This object for method chaining.</returns>
             public Builder Timestamp(DateTime timestamp)
             {
                 _timestamp = timestamp;

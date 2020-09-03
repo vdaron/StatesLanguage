@@ -18,15 +18,12 @@ using StatesLanguage.Model.Internal;
 namespace StatesLanguage.Model.States
 {
     /// <summary>
-    ///     Interface for different waiting strategies used by {@link WaitState}.
+    ///     Interface for different waiting strategies used by <see cref="WaitState"/>
     /// </summary>
     public interface IWaitFor
     {
     }
 
-    /**
-     * Builder interface for {@link WaitState}
-     */
     public interface IWaitForBuilder<out T> : IBuildable<T> where T : IWaitFor
     {
     }

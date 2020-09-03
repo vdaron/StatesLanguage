@@ -26,10 +26,16 @@ namespace StatesLanguage.Model.States
     [JsonObject(MemberSerialization.OptIn)]
     public abstract class State : IState
     {
+        /// <summary>
+        /// State Type
+        /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
         [JsonProperty(PropertyNames.TYPE)]
         public abstract StateType Type { get; }
         
+        /// <summary>
+        /// Human readable description for the state.
+        /// </summary>
         [JsonProperty(PropertyNames.COMMENT)]
         public string Comment { get; set; }
 

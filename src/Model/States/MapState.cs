@@ -6,7 +6,7 @@ using StatesLanguage.Model.Internal;
 
 namespace StatesLanguage.Model.States
 {
-    public class MapState: RetryCatchState, IState
+    public class MapState: RetryCatchState
     {
         public override StateType Type => StateType.Map;
         
@@ -48,15 +48,14 @@ namespace StatesLanguage.Model.States
             internal Builder()
             {
             }
-
-            /**
-             * REQUIRED. Set the iterator for thi MapState.
-             *
-             * @param iteratorBuilder Instance of {@link Branch.Builder}. Note that the {@link
-             *                      Branch} object is not built until the {@link ParallelState} is built so any modifications on the
-             *                      state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// REQUIRED. Set the iterator for this MapState.
+            /// </summary>
+            /// <param name="iteratorBuilder">Instance of <see cref="SubStateMachine"/>. Note that the <see cref="SubStateMachine"/> object is
+            /// not built until the {@link ParallelState} is built so any modifications on the state model will be reflected in this object.
+            /// </param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Iterator(SubStateMachine.Builder iteratorBuilder)
             {
                 _iterator = iteratorBuilder;

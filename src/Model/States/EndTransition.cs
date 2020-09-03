@@ -17,9 +17,12 @@ using Newtonsoft.Json;
 
 namespace StatesLanguage.Model.States
 {
+    /// <summary>
+    /// Terminal Transition ending the Execution
+    /// </summary>
     public class EndTransition : ITransition
     {
-        internal EndTransition()
+        private EndTransition()
         {
         }
 
@@ -28,26 +31,17 @@ namespace StatesLanguage.Model.States
         [JsonIgnore]
         public bool IsTerminal { get; set; } = true;
 
-        /**
-     * @return Builder instance to construct a {@link EndTransition}.
-     */
         public static Builder GetBuilder()
         {
             return new Builder();
         }
-
-        /**
-     * Builder for {@link EndTransition}
-     */
+        
         public sealed class Builder : ITransitionBuilder<EndTransition>
         {
             internal Builder()
             {
             }
-
-            /**
-             * @return An immutable {@link EndTransition} object.
-             */
+            
             public EndTransition Build()
             {
                 return new EndTransition();

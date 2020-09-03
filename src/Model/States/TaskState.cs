@@ -26,18 +26,33 @@ namespace StatesLanguage.Model.States
         {
         }
 
+        /// <summary>
+        /// The resource to be executed by this task.
+        /// </summary>
         [JsonProperty(PropertyNames.RESOURCE)]
         public string Resource { get; private set; }
-
+        
+        /// <summary>
+        /// Json Reference Path of the Timeout, in seconds
+        /// </summary>
         [JsonProperty(PropertyNames.TIMEOUT_SECONDS_PATH)]
         public string TimeoutSecondPath { get; private set; }
 
+        /// <summary>
+        /// Timeout, in seconds
+        /// </summary>
         [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
         public int? TimeoutSeconds { get; private set; }
         
+        /// <summary>
+        /// Allowed time between "Heartbeats"
+        /// </summary>
         [JsonProperty(PropertyNames.HEARTBEAT_SECONDS)]
         public int? HeartbeatSeconds { get; private set; }
         
+        /// <summary>
+        /// Json Reference Path of the Heartbeat, in seconds
+        /// </summary>
         [JsonProperty(PropertyNames.HEARTBEAT_SECONDS_PATH)]
         public string HeartbeatSecondsPath { get; private set; }
 
@@ -46,10 +61,7 @@ namespace StatesLanguage.Model.States
 
         [JsonIgnore]
         public override bool IsTerminalState => Transition.IsTerminal;
-
-        /**
-         * @return Builder instance to construct a {@link TaskState}.
-         */
+        
         public static Builder GetBuilder()
         {
             return new Builder();
@@ -59,10 +71,7 @@ namespace StatesLanguage.Model.States
         {
             return visitor.Visit(this);
         }
-
-        /**
-     * Builder for a {@link TaskState}.
-     */
+        
         public sealed class Builder : RetryCatchStateBuilder<TaskState, Builder>
         {
             [JsonProperty(PropertyNames.HEARTBEAT_SECONDS)]
@@ -84,54 +93,63 @@ namespace StatesLanguage.Model.States
             {
                 _transition = NullTransitionBuilder<ITransition>.Instance;
             }
-
-            /**
-             * REQUIRED. Sets the resource to be executed by this task. Must be a URI that uniquely identifies the specific task to
-             * execute. This may be the ARN of a Lambda function or a States Activity.
-             *
-             * @param resource URI of resource.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// REQUIRED. Sets the resource to be executed by this task. Must be a URI that uniquely identifies the specific task to
+            /// execute. This may be the ARN of a Lambda function or a States Activity.
+            /// </summary>
+            /// <param name="resource">URI of resource</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Resource(string resource)
             {
                 _resource = resource;
                 return this;
             }
             
-            /**
-             * OPTIONAL. Timeout, in seconds, that a task is allowed to run. If the task execution runs longer than this timeout the
-             * execution fails with a {@link ErrorCodes#TIMEOUT} error.
-             *
-             * @param timeoutSeconds Timeout value.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// OPTIONAL. Timeout, in seconds, that a task is allowed to run. If the task execution runs longer than this timeout the
+            /// execution fails with a <see cref="ErrorCodes.TIMEOUT"/> error.
+            /// </summary>
+            /// <param name="timeoutSeconds">Timeout value</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder TimeoutSeconds(int timeoutSeconds)
             {
                 _timeoutSeconds = timeoutSeconds;
                 return this;
             }
             
+            /// <summary>
+            /// OPTIONAL. Json Reference Path of the Timeout, in seconds, that a task is allowed to run. If the task execution runs longer than this timeout the
+            /// execution fails with a <see cref="ErrorCodes.TIMEOUT"/> error.
+            /// </summary>
+            /// <param name="timeoutSecondsPath">Json Reference Path value</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder TimeoutSecondsPath(ReferencePath timeoutSecondsPath)
             {
                 _timeoutSecondsPath = timeoutSecondsPath;
                 return this;
             }
-
-            /**
-             * OPTIONAL. Allowed time between "Heartbeats". If the task does not send "Heartbeats" within the timeout then execution
-             * fails with a {@link ErrorCodes#TIMEOUT}. If not set then no heartbeats are required. Heartbeats are a more granular
-             * way
-             * for a task to report it's progress to the state machine.
-             *
-             * @param heartbeatSeconds Heartbeat value.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// OPTIONAL. Allowed time between "Heartbeats". If the task does not send "Heartbeats" within the timeout then execution
+            /// fails with a <see cref="ErrorCodes.TIMEOUT"/>. If not set then no heartbeats are required. Heartbeats are a more granular way
+            /// for a task to report it's progress to the state machine.
+            /// </summary>
+            /// <param name="heartbeatSeconds">Heartbeat value.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder HeartbeatSeconds(int heartbeatSeconds)
             {
                 _heartbeatSeconds = heartbeatSeconds;
                 return this;
             }
             
+            /// <summary>
+            /// OPTIONAL. Json Reference Path of the Allowed time between "Heartbeats". If the task does not send "Heartbeats" within the timeout then execution
+            /// fails with a <see cref="ErrorCodes.TIMEOUT"/>. If not set then no heartbeats are required. Heartbeats are a more granular way
+            /// for a task to report it's progress to the state machine.
+            /// </summary>
+            /// <param name="heartbeatSeconds">Heartbeat value.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder HeartbeatSecondsPath(ReferencePath heartbeatSecondsPath)
             {
                 _heartbeatSecondsPath = heartbeatSecondsPath;

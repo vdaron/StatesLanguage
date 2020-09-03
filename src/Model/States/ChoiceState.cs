@@ -82,43 +82,40 @@ namespace StatesLanguage.Model.States
                        };
             }
             
-            /**
-             * OPTIONAL. Name of state to transition to if no {@link Choice} rules match. If a default state is not provided and no
-             * choices match then a {@link ErrorCodes#NO_CHOICE_MATCHED} error is thrown.
-             *
-             * @param defaultStateName Name of default state.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// OPTIONAL. Name of state to transition to if no {@link Choice} rules match. If a default state is not provided and no
+            /// choices match then a  <see cref="ErrorCodes.NO_CHOICE_MATCHED"/> error is thrown.
+            /// </summary>
+            /// <param name="defaultStateName">Name of default state.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder DefaultStateName(string defaultStateName)
             {
                 _defaultStateName = defaultStateName;
                 return this;
             }
-
-            /**
-             * REQUIRED. Adds a new {@link Choice} rule to the {@link ChoiceState}. A {@link ChoiceState} must contain at least one
-             * choice rule.
-             *
-             * @param choiceBuilder Instance of {@link Choice.Builder}. Note that the {@link
-             *                      Choice} object is not built until the {@link ChoiceState} is built so any modifications on the
-             *                      state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
+            
+            /// <summary>
+            /// REQUIRED. Adds a new {@link Choice} rule to the <see cref="ChoiceState"/>. A <see cref="ChoiceState"/> must contain at least one
+            /// choice rule.
+            /// </summary>
+            /// <param name="choiceBuilder">Instance of <see cref="Choice.Builder"/>. Note that the <see cref="Choice"/>
+            /// object is not built until the <see cref="ChoiceState"/> is built so any modifications on the
+            ///  state model will be reflected in this object.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Choice(Choice.Builder choiceBuilder)
             {
                 _choices.Add(choiceBuilder);
                 return this;
             }
 
-            /**
-             * REQUIRED. Adds the {@link Choice} rules to the {@link ChoiceState}. A {@link ChoiceState} must contain at least one
-             * choice rule.
-             *
-             * @param choiceBuilders Instances of {@link Choice.Builder}. Note that the {@link
-             *                       Choice} object is not built until the {@link ChoiceState} is built so any modifications on the
-             *                       state model will be reflected in this object.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// Adds the <see cref="Choice"/> rules to the <see cref="ChoiceState"/>. A <see cref="ChoiceState"/> must contain at least one
+            /// choice rule.
+            /// </summary>
+            /// <param name="choiceBuilders">Instances of <see cref="Choice.Builder"/>. Note that the <see cref="Choice"/>
+            /// object is not built until the <see cref="ChoiceState"/> is built so any modifications on the
+            ///  state model will be reflected in this object.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Choices(params Choice.Builder[] choiceBuilders)
             {
                 _choices.AddRange(choiceBuilders);

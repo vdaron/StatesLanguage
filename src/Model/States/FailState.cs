@@ -25,11 +25,18 @@ namespace StatesLanguage.Model.States
         {
         }
 
+        /// <summary>
+        /// Error code that can be referenced in <see cref="Retrier"/>s or <see cref="Catcher"/>s and can also be used for
+        /// diagnostic purposes.
+        /// </summary>
         [JsonProperty(PropertyNames.ERROR)]
-        public string Error { get; set; }
+        public string Error { get; protected set; }
 
+        /// <summary>
+        /// Human readable message describing the failure. Used for diagnostic purposes only.
+        /// </summary>
         [JsonProperty(PropertyNames.CAUSE)]
-        public string Cause { get; set; }
+        public string Cause { get; protected set; }
 
         public override StateType Type => StateType.Fail;
         public override bool IsTerminalState => true;
@@ -62,9 +69,6 @@ namespace StatesLanguage.Model.States
             {
             }
 
-            /**
-             * @return An immutable {@link FailState} object.
-             */
             public override FailState Build()
             {
                 return new FailState
@@ -75,26 +79,23 @@ namespace StatesLanguage.Model.States
                        };
             }
             
-            /**
-             * REQUIRED. Error code that can be referenced in {@link Retrier}s or {@link Catcher}s and can also be used for
-             * diagnostic
-             * purposes.
-             *
-             * @param error Error code value.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// REQUIRED. Error code that can be referenced in <see cref="Retrier"/>s or <see cref="Catcher"/>s and can also be used for
+            /// diagnostic purposes.
+            /// </summary>
+            /// <param name="error">Error code value</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Error(string error)
             {
                 _error = error;
                 return this;
             }
 
-            /**
-             * REQUIRED. Human readable message describing the failure. Used for diagnostic purposes only.
-             *
-             * @param cause Cause description.
-             * @return This object for method chaining.
-             */
+            /// <summary>
+            /// REQUIRED. Human readable message describing the failure. Used for diagnostic purposes only.
+            /// </summary>
+            /// <param name="cause">Cause description.</param>
+            /// <returns>This object for method chaining.</returns>
             public Builder Cause(string cause)
             {
                 _cause = cause;
