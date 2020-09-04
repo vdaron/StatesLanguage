@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace StatesLanguage.Internal.Validation
 {
     [Serializable]
-    public class InvalidIntrinsicFunctionException : StatesLanguageException
+    public class InvalidIntrinsicFunctionException : ValidationException
     {
         //
         // For guidelines regarding the creation of new exception types, see

@@ -18,42 +18,47 @@ namespace StatesLanguage
 {
     public static class ErrorCodes
     {
-        //
-        //A wild-card which matches any Error Name.
-        //
+        /// <summary>
+        /// A wild-card which matches any Error Name.
+        /// </summary>
         public const string ALL = "States.ALL";
 
-        //
-        //A Task State either ran longer than the “TimeoutSeconds” value, or failed to heartbeat for a time longer than the
-        //“HeartbeatSeconds” value.
-        //
+        /// <summary>
+        /// A Task State either ran longer than the “TimeoutSeconds” value, or failed to heartbeat for a time
+        /// longer than the “HeartbeatSeconds” value.
+        /// </summary>
         public const string TIMEOUT = "States.Timeout";
 
-        //
-        //A Task State failed during the execution.
-        //
+        /// <summary>
+        /// A Task State failed during the execution.
+        /// </summary>
         public const string TASK_FAILED = "States.TaskFailed";
 
-        //
-        //A Task State failed because it had insufficient privileges to execute the specified code.
-        //
+        /// <summary>
+        /// A Task State failed because it had insufficient privileges to execute the specified code.
+        /// </summary>
         public const string PERMISSIONS = "States.Permissions";
 
-        //
-        //A Task State’s “ResultPath” field cannot be applied to the input the state received.
-        //
+        /// <summary>
+        /// A Task State’s “ResultPath” field cannot be applied to the input the state received.
+        /// </summary>
         public const string RESULT_PATH_MATCH_FAILURE = "States.ResultPathMatchFailure";
 
         public const string PARAMETER_PATH_FAILURE = "States.ParameterPathFailure";
 
-        //
-        //A branch of a Parallel state failed.
-        //
+        /// <summary>
+        /// A branch of a Parallel state failed.
+        /// </summary>
         public const string BRANCH_FAILED = "States.BranchFailed";
 
-        //
-        //A Choice state failed to find a match for the condition field extracted from its input.
-        //
+        /// <summary>
+        /// A Choice state failed to find a match for the condition field extracted from its input.
+        /// </summary>
         public const string NO_CHOICE_MATCHED = "States.NoChoiceMatched";
+        
+        /// <summary>
+        /// Within a Payload Template, the attempt to invoke an Intrinsic Function failed.
+        /// </summary>
+        public const string INTRINSIC_FAILURE = "States.IntrinsicFailure";
     }
 }

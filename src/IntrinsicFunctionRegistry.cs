@@ -40,7 +40,7 @@ namespace StatesLanguage
                 return _intrinsicFunctions[function.Name](function, input, context, this);
             }
 
-            throw new Exception("Invalid Intrinsic function name");
+            throw new StatesLanguageException("Invalid Intrinsic function name");
         }
     }
 }
