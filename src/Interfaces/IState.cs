@@ -1,4 +1,4 @@
-using StatesLanguage.Model.States;
+using StatesLanguage.States;
 
 namespace StatesLanguage.Interfaces
 {

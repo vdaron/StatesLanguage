@@ -14,10 +14,8 @@
  * permissions and limitations under the License.
  */
 
-using System;
 using Newtonsoft.Json.Linq;
-using StatesLanguage.Model;
-using StatesLanguage.Model.States;
+using StatesLanguage.States;
 using test.Model;
 using Xunit;
 

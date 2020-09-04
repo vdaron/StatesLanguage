@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using StatesLanguage.Model.States;
+using StatesLanguage.States;
 
 namespace StatesLanguage.Interfaces
 {

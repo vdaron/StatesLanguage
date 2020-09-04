@@ -14,9 +14,8 @@
  * permissions and limitations under the License.
  */
 
-using StatesLanguage.Model;
-using StatesLanguage.Model.Conditions;
-using StatesLanguage.Model.Internal.Validation;
+using StatesLanguage.Conditions;
+using StatesLanguage.Internal.Validation;
 using Xunit;
 
 namespace StatesLanguage.Tests.Model.Validation

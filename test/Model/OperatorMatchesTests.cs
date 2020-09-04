@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
-using StatesLanguage.Model;
 using Xunit;
 
 namespace StatesLanguage.Tests.Model

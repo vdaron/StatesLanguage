@@ -1,6 +1,5 @@
-using StatesLanguage.Model;
-using StatesLanguage.Model.Internal.Validation;
-using StatesLanguage.Model.ReferencePathTokens;
+using StatesLanguage.Internal.Validation;
+using StatesLanguage.ReferencePathTokens;
 using Xunit;
 
 namespace StatesLanguage.Tests

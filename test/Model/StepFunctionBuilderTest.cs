@@ -18,8 +18,7 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using StatesLanguage.Model;
-using StatesLanguage.Model.States;
+using StatesLanguage.States;
 using test.Model;
 using Xunit;
 

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
-using StatesLanguage.Model.Serialization;
-using StatesLanguage.Model.States;
+using StatesLanguage.Serialization;
+using StatesLanguage.States;
 using Xunit;
 
 namespace StatesLanguage.Tests.Model

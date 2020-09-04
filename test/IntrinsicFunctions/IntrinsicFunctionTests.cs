@@ -1,5 +1,4 @@
-using StatesLanguage.Model;
-using StatesLanguage.Model.Internal.Validation;
+using StatesLanguage.Internal.Validation;
 using Xunit;
 
 namespace StatesLanguage.Tests.IntrinsicFunctions
