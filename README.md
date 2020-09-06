@@ -9,11 +9,11 @@ This project starts as a port of the java livrary [light-workflow-4j project](ht
 # StateMachine Builder
 
 ```csharp
-StateMachine stateMachine = StepFunctionBuilder.StateMachine()
+StateMachine stateMachine = StateMachineBuilder.StateMachine()
     .StartAt("InitialState")
     .TimeoutSeconds(30)
     .Comment("My Simple State Machine")
-    .State("InitialState", StepFunctionBuilder.SucceedState()
+    .State("InitialState", StateMachineBuilder.SucceedState()
         .Comment("Initial State")
         .InputPath("$.input")
         .OutputPath("$.output"))
