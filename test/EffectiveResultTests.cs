@@ -77,6 +77,5 @@ namespace StatesLanguage.Tests
             
             Assert.True(JToken.DeepEquals(effectiveResult,JToken.Parse(test.ExpectedResult)));
         }
-        
     }
 }

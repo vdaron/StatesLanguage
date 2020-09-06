@@ -79,13 +79,6 @@ namespace StatesLanguage.Tests
             });
             items.Add(new EffectiveOutputTest
             {
-                Input = @"{'firstname':'john', 'lastname':'doe'}",
-                Result = @"{ 'a': [1, 2, 3, 4] }",
-                ResultPath = "$[2]",
-                ExpectedResult =  @"[null,null,{ 'a': [1, 2, 3, 4] }]"
-            });
-            items.Add(new EffectiveOutputTest
-            {
                 Input = @"[{'firstname':'john', 'lastname':'doe'}]",
                 Result = @"{ 'a': [1, 2, 3, 4] }",
                 ResultPath = "$[1]",
@@ -130,6 +123,26 @@ namespace StatesLanguage.Tests
                 null,
                 new OptionalString(), 
                 "$.a[0,1]"));
+        }
+        
+        [Fact]
+        public void Test_Effective_Output_Invalid_Result_Path()
+        {
+            Assert.Throws<ResultPathMatchFailureException>(() => _inputOutputProcessor.GetEffectiveOutput(
+                "input",
+                "{'b':123}",
+                new OptionalString(), 
+                "$.a"));
+            Assert.Throws<ResultPathMatchFailureException>(() => _inputOutputProcessor.GetEffectiveOutput(
+                "{'a':456}",
+                "{'b':123}",
+                new OptionalString(), 
+                "$[2]"));
+            Assert.Throws<ResultPathMatchFailureException>(() => _inputOutputProcessor.GetEffectiveOutput(
+                "['a']",
+                "{'b':123}",
+                new OptionalString(), 
+                "$.a"));
         }
     }
 }

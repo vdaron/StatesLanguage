@@ -187,7 +187,7 @@ namespace StatesLanguage
                         return container;
                     }
 
-                    return token;
+                    throw new ResultPathMatchFailureException($"Unable to apply result path '{resultPath}' to input '{input}'");
             }
         }
         
