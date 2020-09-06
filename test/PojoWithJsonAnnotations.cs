@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2010-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * Copyright 2018- Vincent DARON All Rights Reserved.
  *
@@ -14,15 +14,19 @@
  * permissions and limitations under the License.
  */
 
-namespace test.Model
-{
-    public class SimplePojo
-    {
-        public string foo;
+using Newtonsoft.Json;
 
-        public SimplePojo(string foo)
-        {
-            this.foo = foo;
-        }
+namespace StatesLanguage.Tests
+{
+    public class PojoWithJacksonAnnotations
+    {
+        [JsonIgnore]
+        public string baz { get; set; }
+
+        [JsonProperty("FooProperty")]
+        public string foo { get; set; }
+
+        [JsonProperty("BarProperty")]
+        public string bar { get; set; }
     }
 }

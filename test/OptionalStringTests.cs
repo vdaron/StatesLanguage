@@ -3,7 +3,7 @@ using StatesLanguage.Serialization;
 using StatesLanguage.States;
 using Xunit;
 
-namespace StatesLanguage.Tests.Model
+namespace StatesLanguage.Tests
 {
     public class OptionalStringTests
     {

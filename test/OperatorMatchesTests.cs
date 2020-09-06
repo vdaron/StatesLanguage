@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using Xunit;
 
-namespace StatesLanguage.Tests.Model
+namespace StatesLanguage.Tests
 {
     public class OperatorMatchesTests
     {

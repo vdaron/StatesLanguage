@@ -19,10 +19,9 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StatesLanguage.States;
-using test.Model;
 using Xunit;
 
-namespace StatesLanguage.Tests.Model
+namespace StatesLanguage.Tests
 {
     public class StepFunctionBuilderTest
     {
