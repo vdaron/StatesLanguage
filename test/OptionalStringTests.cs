@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 using StatesLanguage.Serialization;
 using StatesLanguage.States;
@@ -53,6 +54,23 @@ namespace StatesLanguage.Tests
             Assert.True(s.Test.HasValue);
             Assert.Equal("test", s.Test.Value);
             Assert.Equal("test", s.Test);
+        }
+
+        [Fact]
+        [SuppressMessage("ReSharper", "EqualExpressionComparison")]
+        public void TestOptionalStringEquality()
+        {
+            Assert.True(new OptionalString() == new OptionalString());
+            Assert.True(new OptionalString(null) == new OptionalString(null));
+            Assert.False(new OptionalString() == new OptionalString("test"));
+            Assert.False(new OptionalString() == new OptionalString(null));
+            Assert.False(new OptionalString("test") == new OptionalString(null));
+            
+            Assert.False(new OptionalString() != new OptionalString());
+            Assert.False(new OptionalString(null) != new OptionalString(null));
+            Assert.True(new OptionalString() != new OptionalString("test"));
+            Assert.True(new OptionalString() != new OptionalString(null));
+            Assert.True(new OptionalString("test") != new OptionalString(null));
         }
 
         private string Serialize(TestOptionalString s)
