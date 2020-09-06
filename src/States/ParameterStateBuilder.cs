@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StatesLanguage.Internal;
+using StatesLanguage.ReferencePaths;
 
 namespace StatesLanguage.States
 {
@@ -20,9 +21,9 @@ namespace StatesLanguage.States
         /// </summary>
         /// <param name="resultPath">New path value.</param>
         /// <returns>This object for method chaining.</returns>
-        public B ResultPath(ReferencePath resultPath)
+        public B ResultPath(string resultPath)
         {
-            _resultPath = resultPath.Path;
+            _resultPath = ReferencePath.Parse(resultPath).Path;
             return (B) this;
         }
 

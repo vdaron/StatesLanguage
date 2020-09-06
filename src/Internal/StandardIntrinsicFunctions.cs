@@ -5,6 +5,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StatesLanguage.Internal.Validation;
+using StatesLanguage.IntrinsicFunctions;
 
 namespace StatesLanguage.Internal
 {

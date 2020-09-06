@@ -4,7 +4,8 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using StatesLanguage.Interfaces;
 using StatesLanguage.Internal;
-using StatesLanguage.ReferencePathTokens;
+using StatesLanguage.IntrinsicFunctions;
+using StatesLanguage.ReferencePaths;
 using StatesLanguage.States;
 
 namespace StatesLanguage

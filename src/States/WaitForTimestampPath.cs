@@ -16,6 +16,7 @@
 
 using Newtonsoft.Json;
 using StatesLanguage.Internal;
+using StatesLanguage.ReferencePaths;
 
 namespace StatesLanguage.States
 {
@@ -65,9 +66,9 @@ namespace StatesLanguage.States
             /// </summary>
             /// <param name="timestampPath"> Reference path to date in the input.</param>
             /// <returns>This object for method chaining.</returns>
-            public Builder TimestampPath(ReferencePath timestampPath)
+            public Builder TimestampPath(string timestampPath)
             {
-                _timestampPath = timestampPath;
+                _timestampPath =  ReferencePath.Parse(timestampPath).Path;
                 return this;
             }
         }

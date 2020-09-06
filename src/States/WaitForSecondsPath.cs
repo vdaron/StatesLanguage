@@ -16,6 +16,7 @@
 
 using Newtonsoft.Json;
 using StatesLanguage.Internal;
+using StatesLanguage.ReferencePaths;
 
 namespace StatesLanguage.States
 {
@@ -62,9 +63,9 @@ namespace StatesLanguage.States
             /// </summary>
             /// <param name="secondsPath">Reference path to seconds in the input.</param>
             /// <returns>This object for method chaining.</returns>
-            public Builder SecondsPath(ReferencePath secondsPath)
+            public Builder SecondsPath(string secondsPath)
             {
-                _secondsPath = secondsPath;
+                _secondsPath = ReferencePath.Parse(secondsPath).Path;
                 return this;
             }
         }

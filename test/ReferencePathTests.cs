@@ -1,5 +1,5 @@
 using StatesLanguage.Internal.Validation;
-using StatesLanguage.ReferencePathTokens;
+using StatesLanguage.ReferencePaths;
 using Xunit;
 
 namespace StatesLanguage.Tests

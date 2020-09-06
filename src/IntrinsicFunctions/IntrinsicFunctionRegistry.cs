@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 using StatesLanguage.Interfaces;
 using StatesLanguage.Internal;
+using StatesLanguage.IntrinsicFunctions;
 
-namespace StatesLanguage
+namespace StatesLanguage.IntrinsicFunctions
 {
-    public delegate JToken IntrinsicFunctionFunc(IntrinsicFunction function, JToken input, JObject context,
+    public delegate JToken IntrinsicFunctionFunc(
+        IntrinsicFunction function, 
+        JToken input,
+        JObject context,
         IntrinsicFunctionRegistry registry);
 
     public class IntrinsicFunctionRegistry : IIntrinsicFunctionRegistry

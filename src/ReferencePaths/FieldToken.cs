@@ -1,4 +1,4 @@
-namespace StatesLanguage.ReferencePathTokens
+namespace StatesLanguage.ReferencePaths
 {
     public class FieldToken : PathToken
     {

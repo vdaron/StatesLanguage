@@ -4,57 +4,8 @@ using System.Linq;
 using System.Text;
 using StatesLanguage.Internal.Validation;
 
-namespace StatesLanguage
+namespace StatesLanguage.IntrinsicFunctions
 {
-    public abstract class IntrinsicParam
-    {
-    }
-
-    public class NullIntrinsicParam : IntrinsicParam
-    {
-    }
-
-    public class NumberIntrinsicParam : IntrinsicParam
-    {
-        public NumberIntrinsicParam(decimal number)
-        {
-            Number = number;
-        }
-
-        public decimal Number { get; }
-    }
-
-    public class PathIntrinsicParam : IntrinsicParam
-    {
-        public PathIntrinsicParam(string path)
-        {
-            Path = path;
-        }
-
-        public string Path { get; }
-    }
-
-    public class StringIntrinsicParam : IntrinsicParam
-    {
-        public StringIntrinsicParam(string value)
-        {
-            Value = value;
-        }
-
-        public string Value { get; }
-    }
-
-    public class IntrinsicFunction : IntrinsicParam
-    {
-        public string Name { get; set; }
-        public IntrinsicParam[] Parameters { get; set; }
-
-        public static IntrinsicFunction Parse(string intrinsicFunctionDefinition)
-        {
-            return IntrinsicFunctionParser.Parse(intrinsicFunctionDefinition);
-        }
-    }
-
     internal class IntrinsicFunctionParser
     {
         private readonly string _intrinsicFunction;

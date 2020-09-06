@@ -3,6 +3,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using StatesLanguage.Interfaces;
 using StatesLanguage.Internal.Validation;
+using StatesLanguage.IntrinsicFunctions;
 using StatesLanguage.States;
 using Xunit;
 using Xunit.Abstractions;

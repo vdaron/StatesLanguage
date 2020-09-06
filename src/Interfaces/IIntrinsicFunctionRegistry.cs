@@ -1,3 +1,5 @@
+using StatesLanguage.IntrinsicFunctions;
+
 namespace StatesLanguage.Interfaces
 {
     public interface IIntrinsicFunctionRegistry

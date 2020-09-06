@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Text;
 using StatesLanguage.Internal.Validation;
-using StatesLanguage.ReferencePathTokens;
 
-namespace StatesLanguage
+namespace StatesLanguage.ReferencePaths
 {
-    public class ReferencePath
+    internal class ReferencePath
     {
         private int _currentIndex;
 

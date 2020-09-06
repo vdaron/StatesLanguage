@@ -16,6 +16,7 @@
 
 using Newtonsoft.Json;
 using StatesLanguage.Internal;
+using StatesLanguage.ReferencePaths;
 
 namespace StatesLanguage.States
 {
@@ -125,9 +126,9 @@ namespace StatesLanguage.States
             /// </summary>
             /// <param name="timeoutSecondsPath">Json Reference Path value</param>
             /// <returns>This object for method chaining.</returns>
-            public Builder TimeoutSecondsPath(ReferencePath timeoutSecondsPath)
+            public Builder TimeoutSecondsPath(string timeoutSecondsPath)
             {
-                _timeoutSecondsPath = timeoutSecondsPath;
+                _timeoutSecondsPath = ReferencePath.Parse(timeoutSecondsPath).Path;
                 return this;
             }
 
@@ -153,11 +154,11 @@ namespace StatesLanguage.States
             ///     granular way
             ///     for a task to report it's progress to the state machine.
             /// </summary>
-            /// <param name="heartbeatSeconds">Heartbeat value.</param>
+            /// <param name="heartbeatSecondsPath">Heartbeat path value.</param>
             /// <returns>This object for method chaining.</returns>
-            public Builder HeartbeatSecondsPath(ReferencePath heartbeatSecondsPath)
+            public Builder HeartbeatSecondsPath(string heartbeatSecondsPath)
             {
-                _heartbeatSecondsPath = heartbeatSecondsPath;
+                _heartbeatSecondsPath = ReferencePath.Parse(heartbeatSecondsPath).Path;
                 return this;
             }
 

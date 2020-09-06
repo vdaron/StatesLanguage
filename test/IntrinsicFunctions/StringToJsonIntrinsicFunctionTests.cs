@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Linq;
 using StatesLanguage.Internal.Validation;
+using StatesLanguage.IntrinsicFunctions;
 using Xunit;
 
 namespace StatesLanguage.Tests.IntrinsicFunctions

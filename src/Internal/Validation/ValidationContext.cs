@@ -17,6 +17,7 @@
 using System;
 using System.Collections;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.ReferencePaths;
 
 namespace StatesLanguage.Internal.Validation
 {

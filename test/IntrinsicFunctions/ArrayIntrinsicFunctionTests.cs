@@ -1,5 +1,6 @@
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.IntrinsicFunctions;
 using Xunit;
 
 namespace StatesLanguage.Tests.IntrinsicFunctions

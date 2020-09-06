@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using StatesLanguage.Internal;
+using StatesLanguage.ReferencePaths;
 
 namespace StatesLanguage.States
 {
@@ -66,9 +67,9 @@ namespace StatesLanguage.States
             /// </summary>
             /// <param name="itemPath"></param>
             /// <returns></returns>
-            public Builder ItemPath(ReferencePath itemPath)
+            public Builder ItemPath(string itemPath)
             {
-                _itemsPath = itemPath;
+                _itemsPath = ReferencePath.Parse(itemPath).Path;
                 return this;
             }
 
