@@ -23,3 +23,14 @@ This project starts as a port of the java livrary [light-workflow-4j project](ht
 
     var builder = StateMachine.FromJson(json);
 ```
+
+# InputOutputProcessor is also available
+
+```csharp
+    public interface IInputOutputProcessor
+    {
+        JToken GetEffectiveInput(JToken input, OptionalString inputPath, JObject payload, JObject context);
+        JToken GetEffectiveResult(JToken output, JObject payload, JObject context);
+        JToken GetEffectiveOutput(JToken input, JToken result, OptionalString outputPath, OptionalString resultPath);
+    }
+```
