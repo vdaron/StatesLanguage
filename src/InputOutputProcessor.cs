@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Interfaces;
 using StatesLanguage.Internal;
 using StatesLanguage.ReferencePathTokens;
 using StatesLanguage.States;
@@ -9,7 +10,7 @@ using StatesLanguage.States;
 namespace StatesLanguage
 {
     
-    public class InputOutputProcessor
+    public class InputOutputProcessor : IInputOutputProcessor
     {
         private readonly IntrinsicFunctionRegistry _registry;
         private const string ROOT_MEMBER_OBJECT = "$";
