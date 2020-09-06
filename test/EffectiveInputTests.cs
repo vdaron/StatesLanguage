@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Interfaces;
 using StatesLanguage.States;
 using Xunit;
 using Xunit.Abstractions;
@@ -25,7 +26,7 @@ namespace StatesLanguage.Tests
         }
         
         
-        private readonly InputOutputProcessor _inputOutputProcessor = new InputOutputProcessor(new IntrinsicFunctionRegistry());
+        private readonly IInputOutputProcessor _inputOutputProcessor = new InputOutputProcessor(new IntrinsicFunctionRegistry());
         
         public static IEnumerable<object[]> GetEffectiveInputData()
         {

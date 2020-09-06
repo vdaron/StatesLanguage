@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.Interfaces;
 using StatesLanguage.Internal.Validation;
 using StatesLanguage.States;
 using Xunit;
@@ -21,7 +22,7 @@ namespace StatesLanguage.Tests
             public string ExpectedResult { get; set; }
         }
         
-        private readonly InputOutputProcessor _inputOutputProcessor = new InputOutputProcessor(new IntrinsicFunctionRegistry());
+        private readonly IInputOutputProcessor _inputOutputProcessor = new InputOutputProcessor(new IntrinsicFunctionRegistry());
 
         public EffectiveOutputTests(ITestOutputHelper testOutputHelper)
         {
