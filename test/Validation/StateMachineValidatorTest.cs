@@ -26,32 +26,32 @@ namespace StatesLanguage.Tests.Model.Validation
         public void NothingSet_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine().Build());
+                StateMachineBuilder.StateMachine().Build());
         }
 
         [Fact]
         public void NoStates_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine().StartAt("Foo").Build());
+                StateMachineBuilder.StateMachine().StartAt("Foo").Build());
         }
 
         [Fact]
         public void StartAtStateDoesNotExist_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Foo")
-                    .State("Initial", StepFunctionBuilder.SucceedState())
+                    .State("Initial", StateMachineBuilder.SucceedState())
                     .Build());
         }
 
         [Fact] //
         public void ValidMinimalStateMachine_IsValid()
         {
-            StepFunctionBuilder.StateMachine()
+            StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
-                .State("Initial", StepFunctionBuilder.SucceedState())
+                .State("Initial", StateMachineBuilder.SucceedState())
                 .Build();
         }
 
@@ -59,10 +59,10 @@ namespace StatesLanguage.Tests.Model.Validation
         public void MissingResourceInTaskState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -70,9 +70,9 @@ namespace StatesLanguage.Tests.Model.Validation
         public void MissingTransitionInTaskState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
+                    .State("Initial", StateMachineBuilder.TaskState()
                         .Resource("arn"))
                     .Build());
         }
@@ -81,10 +81,10 @@ namespace StatesLanguage.Tests.Model.Validation
         public void InvalidTransitionInTaskState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.Next("NoSuchState"))
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.Next("NoSuchState"))
                         .Resource("arn"))
                     .Build());
         }
@@ -93,10 +93,10 @@ namespace StatesLanguage.Tests.Model.Validation
         public void NegativeTimeoutSecondsInTaskState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
                         .TimeoutSeconds(-1)
                         .Resource("arn"))
                     .Build());
@@ -106,10 +106,10 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ZeroTimeoutSecondsInTaskState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
                         .TimeoutSeconds(0)
                         .Resource("arn"))
                     .Build());
@@ -119,10 +119,10 @@ namespace StatesLanguage.Tests.Model.Validation
         public void NegativeHeartbeatSecondsInTaskState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
                         .HeartbeatSeconds(-1)
                         .Resource("arn"))
                     .Build());
@@ -132,10 +132,10 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ZeroHeartbeatSecondsInTaskState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
                         .HeartbeatSeconds(0)
                         .Resource("arn"))
                     .Build());
@@ -145,10 +145,10 @@ namespace StatesLanguage.Tests.Model.Validation
         public void HeartbeatSecondsGreaterThanTimeoutSecondsInTaskState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
                         .HeartbeatSeconds(60)
                         .TimeoutSeconds(30)
                         .Resource("arn"))
@@ -158,11 +158,11 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact] //
         public void RetrierInTaskState_OnlyErrorEqualsSet_IsValid()
         {
-            StepFunctionBuilder.StateMachine()
+            StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
-                .State("Initial", StepFunctionBuilder.TaskState()
-                    .Transition(StepFunctionBuilder.End())
-                    .Retrier(StepFunctionBuilder.Retrier()
+                .State("Initial", StateMachineBuilder.TaskState()
+                    .Transition(StateMachineBuilder.End())
+                    .Retrier(StateMachineBuilder.Retrier()
                         .RetryOnAllErrors())
                     .Resource("arn"))
                 .Build();
@@ -172,11 +172,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void RetrierInTaskState_MaxAttemptsNegative_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
-                        .Retrier(StepFunctionBuilder.Retrier()
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
+                        .Retrier(StateMachineBuilder.Retrier()
                             .MaxAttempts(-1)
                             .RetryOnAllErrors())
                         .Resource("arn"))
@@ -186,11 +186,11 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact] //
         public void RetrierInTaskState_MaxAttemptsZero_IsValid()
         {
-            StepFunctionBuilder.StateMachine()
+            StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
-                .State("Initial", StepFunctionBuilder.TaskState()
-                    .Transition(StepFunctionBuilder.End())
-                    .Retrier(StepFunctionBuilder.Retrier()
+                .State("Initial", StateMachineBuilder.TaskState()
+                    .Transition(StateMachineBuilder.End())
+                    .Retrier(StateMachineBuilder.Retrier()
                         .MaxAttempts(0)
                         .RetryOnAllErrors())
                     .Resource("arn"))
@@ -201,11 +201,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void RetrierInTaskState_IntervalSecondsNegative_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
-                        .Retrier(StepFunctionBuilder.Retrier()
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
+                        .Retrier(StateMachineBuilder.Retrier()
                             .IntervalSeconds(-1)
                             .RetryOnAllErrors())
                         .Resource("arn"))
@@ -216,11 +216,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void RetrierInTaskState_IntervalSecondsZero_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
-                        .Retrier(StepFunctionBuilder.Retrier()
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
+                        .Retrier(StateMachineBuilder.Retrier()
                             .IntervalSeconds(0)
                             .RetryOnAllErrors())
                         .Resource("arn"))
@@ -230,11 +230,11 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact] //
         public void RetrierInTaskState_IntervalSecondsPositive_IsValid()
         {
-            StepFunctionBuilder.StateMachine()
+            StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
-                .State("Initial", StepFunctionBuilder.TaskState()
-                    .Transition(StepFunctionBuilder.End())
-                    .Retrier(StepFunctionBuilder.Retrier()
+                .State("Initial", StateMachineBuilder.TaskState()
+                    .Transition(StateMachineBuilder.End())
+                    .Retrier(StateMachineBuilder.Retrier()
                         .IntervalSeconds(10)
                         .RetryOnAllErrors())
                     .Resource("arn"))
@@ -245,11 +245,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void RetrierInTaskState_BackoffRateNegative_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
-                        .Retrier(StepFunctionBuilder.Retrier()
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
+                        .Retrier(StateMachineBuilder.Retrier()
                             .BackoffRate(-1.0)
                             .RetryOnAllErrors())
                         .Resource("arn"))
@@ -260,11 +260,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void RetrierInTaskState_BackoffRateLessThanOne_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
-                        .Retrier(StepFunctionBuilder.Retrier()
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
+                        .Retrier(StateMachineBuilder.Retrier()
                             .BackoffRate(0.5)
                             .RetryOnAllErrors())
                         .Resource("arn"))
@@ -274,11 +274,11 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact] //
         public void RetrierInTaskState_BackoffRateGreaterThanOne_IsValid()
         {
-            StepFunctionBuilder.StateMachine()
+            StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
-                .State("Initial", StepFunctionBuilder.TaskState()
-                    .Transition(StepFunctionBuilder.End())
-                    .Retrier(StepFunctionBuilder.Retrier()
+                .State("Initial", StateMachineBuilder.TaskState()
+                    .Transition(StateMachineBuilder.End())
+                    .Retrier(StateMachineBuilder.Retrier()
                         .BackoffRate(1.5)
                         .RetryOnAllErrors())
                     .Resource("arn"))
@@ -289,11 +289,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void RetrierInTaskState_RetryAllHasOtherErrorCodes_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
-                        .Retrier(StepFunctionBuilder.Retrier()
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
+                        .Retrier(StateMachineBuilder.Retrier()
                             .ErrorEquals("Foo", "Bar", ErrorCodes.ALL))
                         .Resource("arn"))
                     .Build());
@@ -303,13 +303,13 @@ namespace StatesLanguage.Tests.Model.Validation
         public void RetrierInTaskState_RetryAllIsNotLastRetrier_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
-                        .Retrier(StepFunctionBuilder.Retrier()
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
+                        .Retrier(StateMachineBuilder.Retrier()
                             .RetryOnAllErrors())
-                        .Retrier(StepFunctionBuilder.Retrier()
+                        .Retrier(StateMachineBuilder.Retrier()
                             .ErrorEquals("Foo", "Bar"))
                         .Resource("arn"))
                     .Build());
@@ -318,15 +318,15 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact] //
         public void CatcherInTaskState_ValidTransition_IsValid()
         {
-            StepFunctionBuilder.StateMachine()
+            StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
-                .State("Initial", StepFunctionBuilder.TaskState()
-                    .Transition(StepFunctionBuilder.End())
-                    .Catcher(StepFunctionBuilder.Catcher()
-                        .Transition(StepFunctionBuilder.Next("Terminal"))
+                .State("Initial", StateMachineBuilder.TaskState()
+                    .Transition(StateMachineBuilder.End())
+                    .Catcher(StateMachineBuilder.Catcher()
+                        .Transition(StateMachineBuilder.Next("Terminal"))
                         .CatchAll())
                     .Resource("arn"))
-                .State("Terminal", StepFunctionBuilder.SucceedState())
+                .State("Terminal", StateMachineBuilder.SucceedState())
                 .Build();
         }
 
@@ -335,12 +335,12 @@ namespace StatesLanguage.Tests.Model.Validation
         public void CatcherInTaskState_InvalidTransition_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
-                        .Catcher(StepFunctionBuilder.Catcher()
-                            .Transition(StepFunctionBuilder.Next("NoSuchState"))
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
+                        .Catcher(StateMachineBuilder.Catcher()
+                            .Transition(StateMachineBuilder.Next("NoSuchState"))
                             .CatchAll())
                         .Resource("arn"))
                     .Build());
@@ -350,15 +350,15 @@ namespace StatesLanguage.Tests.Model.Validation
         public void CatcherInTaskState_CatchAllHasOtherErrorCodes_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
-                        .Catcher(StepFunctionBuilder.Catcher()
-                            .Transition(StepFunctionBuilder.Next("Terminal"))
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
+                        .Catcher(StateMachineBuilder.Catcher()
+                            .Transition(StateMachineBuilder.Next("Terminal"))
                             .ErrorEquals("Foo", "Bar", ErrorCodes.ALL))
                         .Resource("arn"))
-                    .State("Terminal", StepFunctionBuilder.SucceedState())
+                    .State("Terminal", StateMachineBuilder.SucceedState())
                     .Build());
         }
 
@@ -366,18 +366,18 @@ namespace StatesLanguage.Tests.Model.Validation
         public void CatcherInTaskState_CatchAllIsNotLastCatcher_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.TaskState()
-                        .Transition(StepFunctionBuilder.End())
-                        .Catcher(StepFunctionBuilder.Catcher()
-                            .Transition(StepFunctionBuilder.Next("Terminal"))
+                    .State("Initial", StateMachineBuilder.TaskState()
+                        .Transition(StateMachineBuilder.End())
+                        .Catcher(StateMachineBuilder.Catcher()
+                            .Transition(StateMachineBuilder.Next("Terminal"))
                             .CatchAll())
-                        .Catcher(StepFunctionBuilder.Catcher()
-                            .Transition(StepFunctionBuilder.Next("Terminal"))
+                        .Catcher(StateMachineBuilder.Catcher()
+                            .Transition(StateMachineBuilder.Next("Terminal"))
                             .ErrorEquals("Foo", "Bar"))
                         .Resource("arn"))
-                    .State("Terminal", StepFunctionBuilder.SucceedState())
+                    .State("Terminal", StateMachineBuilder.SucceedState())
                     .Build());
         }
 
@@ -385,11 +385,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void InvalidTransitionInWaitState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.Seconds(10))
-                        .Transition(StepFunctionBuilder.Next("NoSuchState")))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.Seconds(10))
+                        .Transition(StateMachineBuilder.Next("NoSuchState")))
                     .Build());
         }
 
@@ -397,10 +397,10 @@ namespace StatesLanguage.Tests.Model.Validation
         public void NoWaitForSupplied_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -408,11 +408,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void WaitForSeconds_NegativeSeconds_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.Seconds(-1))
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.Seconds(-1))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -420,11 +420,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void WaitForSeconds_ZeroSeconds_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.Seconds(0))
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.Seconds(0))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -432,11 +432,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void WaitForTimestampPath_MissingPath_IsNotValid()
         {
             Assert.ThrowsAny<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.TimestampPath(null))
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.TimestampPath(null))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -444,11 +444,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void WaitForTimestampPath_EmptyPath_IsNotValid()
         {
             Assert.ThrowsAny<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.TimestampPath(""))
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.TimestampPath(""))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -456,11 +456,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void WaitForTimestampPath_InvalidJsonPath_IsNotValid()
         {
             Assert.ThrowsAny<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.TimestampPath("$."))
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.TimestampPath("$."))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -468,11 +468,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void WaitForTimestampPath_InvalidReferencePath_IsNotValid()
         {
             Assert.ThrowsAny<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.TimestampPath("$.Foo[*]"))
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.TimestampPath("$.Foo[*]"))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -480,11 +480,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void WaitForSecondsPath_MissingPath_IsNotValid()
         {
             Assert.ThrowsAny<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.SecondsPath(null))
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.SecondsPath(null))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -492,11 +492,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void WaitForSecondsPath_EmptyPath_IsNotValid()
         {
             Assert.ThrowsAny<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.SecondsPath(""))
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.SecondsPath(""))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -504,11 +504,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void WaitForSecondsPath_InvalidJsonPath_IsNotValid()
         {
             Assert.ThrowsAny<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.SecondsPath("$."))
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.SecondsPath("$."))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -516,11 +516,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void WaitForSecondsPath_InvalidReferencePath_IsNotValid()
         {
             Assert.ThrowsAny<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.WaitState()
-                        .WaitFor(StepFunctionBuilder.SecondsPath("$.Foo[*]"))
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.WaitState()
+                        .WaitFor(StateMachineBuilder.SecondsPath("$.Foo[*]"))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -528,21 +528,21 @@ namespace StatesLanguage.Tests.Model.Validation
         public void InvalidTransitionInPassState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.PassState()
-                        .Transition(StepFunctionBuilder.Next("NoSuchState")))
+                    .State("Initial", StateMachineBuilder.PassState()
+                        .Transition(StateMachineBuilder.Next("NoSuchState")))
                     .Build());
         }
 
         [Fact] //
         public void ValidTransitionInPassState_IsValid()
         {
-            StepFunctionBuilder.StateMachine()
+            StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
-                .State("Initial", StepFunctionBuilder.PassState()
-                    .Transition(StepFunctionBuilder.Next("Terminal")))
-                .State("Terminal", StepFunctionBuilder.SucceedState())
+                .State("Initial", StateMachineBuilder.PassState()
+                    .Transition(StateMachineBuilder.Next("Terminal")))
+                .State("Terminal", StateMachineBuilder.SucceedState())
                 .Build();
         }
 
@@ -550,9 +550,9 @@ namespace StatesLanguage.Tests.Model.Validation
         public void MissingCauseInFailState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.FailState()
+                    .State("Initial", StateMachineBuilder.FailState()
                         .Error("Error"))
                     .Build());
         }
@@ -560,9 +560,9 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact] //
         public void MissingErrorInFailState_IsValid()
         {
-            StepFunctionBuilder.StateMachine()
+            StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
-                .State("Initial", StepFunctionBuilder.FailState()
+                .State("Initial", StateMachineBuilder.FailState()
                     .Cause("Cause"))
                 .Build();
         }
@@ -570,9 +570,9 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact] //
         public void FailStateWithErrorAndCause_IsValid()
         {
-            StepFunctionBuilder.StateMachine()
+            StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
-                .State("Initial", StepFunctionBuilder.FailState()
+                .State("Initial", StateMachineBuilder.FailState()
                     .Error("Error")
                     .Cause("Cause"))
                 .Build();
@@ -582,11 +582,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ChoiceStateWithNoChoices_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ChoiceState()
+                    .State("Initial", StateMachineBuilder.ChoiceState()
                         .DefaultStateName("Terminal"))
-                    .State("Terminal", StepFunctionBuilder.SucceedState())
+                    .State("Terminal", StateMachineBuilder.SucceedState())
                     .Build());
         }
 
@@ -594,14 +594,14 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ChoiceStateWithInvalidDefaultState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ChoiceState()
-                        .Choice(StepFunctionBuilder.Choice()
-                            .Condition(StepFunctionBuilder.StringEquals("$.Foo", "bar"))
-                            .Transition(StepFunctionBuilder.Next("Terminal")))
+                    .State("Initial", StateMachineBuilder.ChoiceState()
+                        .Choice(StateMachineBuilder.Choice()
+                            .Condition(StateMachineBuilder.StringEquals("$.Foo", "bar"))
+                            .Transition(StateMachineBuilder.Next("Terminal")))
                         .DefaultStateName("NoSuchState"))
-                    .State("Terminal", StepFunctionBuilder.SucceedState())
+                    .State("Terminal", StateMachineBuilder.SucceedState())
                     .Build());
         }
 
@@ -609,14 +609,14 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ChoiceStateWithInvalidChoiceTransition_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ChoiceState()
-                        .Choice(StepFunctionBuilder.Choice()
-                            .Condition(StepFunctionBuilder.StringEquals("$.Foo", "bar"))
-                            .Transition(StepFunctionBuilder.Next("NoSuchState")))
+                    .State("Initial", StateMachineBuilder.ChoiceState()
+                        .Choice(StateMachineBuilder.Choice()
+                            .Condition(StateMachineBuilder.StringEquals("$.Foo", "bar"))
+                            .Transition(StateMachineBuilder.Next("NoSuchState")))
                         .DefaultStateName("Terminal"))
-                    .State("Terminal", StepFunctionBuilder.SucceedState())
+                    .State("Terminal", StateMachineBuilder.SucceedState())
                     .Build());
         }
 
@@ -624,14 +624,14 @@ namespace StatesLanguage.Tests.Model.Validation
         public void MissingVariable_StringEqualsCondition_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ChoiceState()
-                        .Choice(StepFunctionBuilder.Choice()
-                            .Condition(StepFunctionBuilder.StringEquals(null, "foo"))
-                            .Transition(StepFunctionBuilder.Next("Terminal")))
+                    .State("Initial", StateMachineBuilder.ChoiceState()
+                        .Choice(StateMachineBuilder.Choice()
+                            .Condition(StateMachineBuilder.StringEquals(null, "foo"))
+                            .Transition(StateMachineBuilder.Next("Terminal")))
                         .DefaultStateName("Terminal"))
-                    .State("Terminal", StepFunctionBuilder.SucceedState())
+                    .State("Terminal", StateMachineBuilder.SucceedState())
                     .Build());
         }
 
@@ -639,14 +639,14 @@ namespace StatesLanguage.Tests.Model.Validation
         public void MissingExpectedValue_StringEqualsCondition_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ChoiceState()
-                        .Choice(StepFunctionBuilder.Choice()
-                            .Condition(StepFunctionBuilder.StringEquals("$.Foo", null))
-                            .Transition(StepFunctionBuilder.Next("Terminal")))
+                    .State("Initial", StateMachineBuilder.ChoiceState()
+                        .Choice(StateMachineBuilder.Choice()
+                            .Condition(StateMachineBuilder.StringEquals("$.Foo", null))
+                            .Transition(StateMachineBuilder.Next("Terminal")))
                         .DefaultStateName("Terminal"))
-                    .State("Terminal", StepFunctionBuilder.SucceedState())
+                    .State("Terminal", StateMachineBuilder.SucceedState())
                     .Build());
         }
 
@@ -654,14 +654,14 @@ namespace StatesLanguage.Tests.Model.Validation
         public void NoConditionsInAnd_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ChoiceState()
-                        .Choice(StepFunctionBuilder.Choice()
-                            .Condition(StepFunctionBuilder.And())
-                            .Transition(StepFunctionBuilder.Next("Terminal")))
+                    .State("Initial", StateMachineBuilder.ChoiceState()
+                        .Choice(StateMachineBuilder.Choice()
+                            .Condition(StateMachineBuilder.And())
+                            .Transition(StateMachineBuilder.Next("Terminal")))
                         .DefaultStateName("Terminal"))
-                    .State("Terminal", StepFunctionBuilder.SucceedState())
+                    .State("Terminal", StateMachineBuilder.SucceedState())
                     .Build());
         }
 
@@ -669,14 +669,14 @@ namespace StatesLanguage.Tests.Model.Validation
         public void NoConditionSetForNot_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ChoiceState()
-                        .Choice(StepFunctionBuilder.Choice()
+                    .State("Initial", StateMachineBuilder.ChoiceState()
+                        .Choice(StateMachineBuilder.Choice()
                             .Condition(NotCondition.GetBuilder())
-                            .Transition(StepFunctionBuilder.Next("Terminal")))
+                            .Transition(StateMachineBuilder.Next("Terminal")))
                         .DefaultStateName("Terminal"))
-                    .State("Terminal", StepFunctionBuilder.SucceedState())
+                    .State("Terminal", StateMachineBuilder.SucceedState())
                     .Build());
         }
 
@@ -684,10 +684,10 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ParallelStateWithNoBranches_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ParallelState()
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.ParallelState()
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -695,13 +695,13 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ParallelStateWithInvalidTransition_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ParallelState()
-                        .Branch(StepFunctionBuilder.SubStateMachine()
+                    .State("Initial", StateMachineBuilder.ParallelState()
+                        .Branch(StateMachineBuilder.SubStateMachine()
                             .StartAt("InitialBranchState")
-                            .State("InitialBranchState", StepFunctionBuilder.SucceedState()))
-                        .Transition(StepFunctionBuilder.Next("NoSuchState")))
+                            .State("InitialBranchState", StateMachineBuilder.SucceedState()))
+                        .Transition(StateMachineBuilder.Next("NoSuchState")))
                     .Build());
         }
 
@@ -709,13 +709,13 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ParallelStateBranchStartAtStateInvalid_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ParallelState()
-                        .Branch(StepFunctionBuilder.SubStateMachine()
+                    .State("Initial", StateMachineBuilder.ParallelState()
+                        .Branch(StateMachineBuilder.SubStateMachine()
                             .StartAt("NoSuchState")
-                            .State("InitialBranchState", StepFunctionBuilder.SucceedState()))
-                        .Transition(StepFunctionBuilder.End()))
+                            .State("InitialBranchState", StateMachineBuilder.SucceedState()))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -723,13 +723,13 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ParallelStateInvalidBranchState_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ParallelState()
-                        .Branch(StepFunctionBuilder.SubStateMachine()
+                    .State("Initial", StateMachineBuilder.ParallelState()
+                        .Branch(StateMachineBuilder.SubStateMachine()
                             .StartAt("InitialBranchState")
-                            .State("InitialBranchState", StepFunctionBuilder.FailState()))
-                        .Transition(StepFunctionBuilder.End()))
+                            .State("InitialBranchState", StateMachineBuilder.FailState()))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -737,14 +737,14 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ParallelStateInvalidRetrier_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ParallelState()
-                        .Branch(StepFunctionBuilder.SubStateMachine()
+                    .State("Initial", StateMachineBuilder.ParallelState()
+                        .Branch(StateMachineBuilder.SubStateMachine()
                             .StartAt("InitialBranchState")
-                            .State("InitialBranchState", StepFunctionBuilder.SucceedState()))
-                        .Transition(StepFunctionBuilder.End())
-                        .Retrier(StepFunctionBuilder.Retrier()
+                            .State("InitialBranchState", StateMachineBuilder.SucceedState()))
+                        .Transition(StateMachineBuilder.End())
+                        .Retrier(StateMachineBuilder.Retrier()
                             .IntervalSeconds(-1)))
                     .Build());
         }
@@ -753,15 +753,15 @@ namespace StatesLanguage.Tests.Model.Validation
         public void ParallelStateInvalidCatcher_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.ParallelState()
-                        .Branch(StepFunctionBuilder.SubStateMachine()
+                    .State("Initial", StateMachineBuilder.ParallelState()
+                        .Branch(StateMachineBuilder.SubStateMachine()
                             .StartAt("InitialBranchState")
-                            .State("InitialBranchState", StepFunctionBuilder.SucceedState()))
-                        .Transition(StepFunctionBuilder.End())
-                        .Catcher(StepFunctionBuilder.Catcher()
-                            .Transition(StepFunctionBuilder.Next("NoSuchState"))))
+                            .State("InitialBranchState", StateMachineBuilder.SucceedState()))
+                        .Transition(StateMachineBuilder.End())
+                        .Catcher(StateMachineBuilder.Catcher()
+                            .Transition(StateMachineBuilder.Next("NoSuchState"))))
                     .Build());
         }
 
@@ -769,10 +769,10 @@ namespace StatesLanguage.Tests.Model.Validation
         public void MapStateWithoutIterator_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.MapState()
-                        .Transition(StepFunctionBuilder.End()))
+                    .State("Initial", StateMachineBuilder.MapState()
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
 
@@ -780,11 +780,11 @@ namespace StatesLanguage.Tests.Model.Validation
         public void InputPath_IsNotValid()
         {
             Assert.Throws<ValidationException>(() =>
-                StepFunctionBuilder.StateMachine()
+                StateMachineBuilder.StateMachine()
                     .StartAt("Initial")
-                    .State("Initial", StepFunctionBuilder.PassState()
+                    .State("Initial", StateMachineBuilder.PassState()
                         .InputPath("['invalidPath")
-                        .Transition(StepFunctionBuilder.End()))
+                        .Transition(StateMachineBuilder.End()))
                     .Build());
         }
     }

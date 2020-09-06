@@ -9,20 +9,20 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestEqOperatorWithJObject()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringEquals("$.varstr", "value")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericEquals("$.varint", 33)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampEquals("$.vardate",
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringEquals("$.varstr", "value")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericEquals("$.varint", 33)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampEquals("$.vardate",
                         new DateTime(2018, 10, 22, 22, 33, 11))))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.BooleanEquals("$.varbool", true)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.BooleanEquals("$.varbool", true)))
                 .Build();
 
             var choices = c.Choices.ToArray();
@@ -47,19 +47,19 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestEqOperatorWithJTokens()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringEquals(null, "value")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericEquals(null, 33)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampEquals(null, new DateTime(2018, 10, 22, 22, 33, 11))))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.BooleanEquals(null, true)))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringEquals(null, "value")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericEquals(null, 33)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampEquals(null, new DateTime(2018, 10, 22, 22, 33, 11))))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.BooleanEquals(null, true)))
                 .Build();
 
             var choices = c.Choices.ToArray();
@@ -80,16 +80,16 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestMatchOperatorWithJObject()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.Match("$.varstr", "val*")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.Match("$.varstr", "val*ue")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.Match("$.varstr", "val\\*ue")))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.Match("$.varstr", "val*")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.Match("$.varstr", "val*ue")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.Match("$.varstr", "val\\*ue")))
                 .Build();
 
             var choices = c.Choices.ToArray();
@@ -107,16 +107,16 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestGtOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringGreaterThan("$.varstr", "value")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericGreaterThan("$.varint", 33)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampGreaterThan("$.vardate",
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringGreaterThan("$.varstr", "value")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericGreaterThan("$.varint", 33)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampGreaterThan("$.vardate",
                         new DateTime(2018, 10, 22, 22, 33, 11))))
                 .Build();
 
@@ -141,16 +141,16 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestGtPathOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringGreaterThanPath("$.varstr", "$.a")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericGreaterThanPath("$.varint", "$.a")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampGreaterThanPath("$.vardate", "$.a")))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringGreaterThanPath("$.varstr", "$.a")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericGreaterThanPath("$.varint", "$.a")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampGreaterThanPath("$.vardate", "$.a")))
                 .Build();
 
             var choices = c.Choices.ToArray();
@@ -173,16 +173,16 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestGteOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringGreaterThanEquals("$.varstr", "value")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericGreaterThanEquals("$.varint", 33)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampGreaterThanEquals("$.vardate",
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringGreaterThanEquals("$.varstr", "value")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericGreaterThanEquals("$.varint", 33)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampGreaterThanEquals("$.vardate",
                         new DateTime(2018, 10, 22, 22, 33, 11))))
                 .Build();
 
@@ -207,16 +207,16 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestGtePathOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringGreaterThanEqualsPath("$.varstr", "$.b")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericGreaterThanEqualsPath("$.varint", "$.b")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampGreaterThanEqualsPath("$.vardate", "$.b")))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringGreaterThanEqualsPath("$.varstr", "$.b")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericGreaterThanEqualsPath("$.varint", "$.b")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampGreaterThanEqualsPath("$.vardate", "$.b")))
                 .Build();
 
             var choices = c.Choices.ToArray();
@@ -239,16 +239,16 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestLtOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringLessThan("$.varstr", "value")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericLessThan("$.varint", 33)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampLessThan("$.vardate",
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringLessThan("$.varstr", "value")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericLessThan("$.varint", 33)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampLessThan("$.vardate",
                         new DateTime(2018, 10, 22, 22, 33, 11))))
                 .Build();
 
@@ -273,16 +273,16 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestLtPathOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringLessThanPath("$.varstr", "$.b")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericLessThanPath("$.varint", "$.b")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampLessThanPath("$.vardate", "$.b")))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringLessThanPath("$.varstr", "$.b")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericLessThanPath("$.varint", "$.b")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampLessThanPath("$.vardate", "$.b")))
                 .Build();
 
             var choices = c.Choices.ToArray();
@@ -305,16 +305,16 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestLteOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringLessThanEquals("$.varstr", "value")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericLessThanEquals("$.varint", 33)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampLessThanEquals("$.vardate",
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringLessThanEquals("$.varstr", "value")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericLessThanEquals("$.varint", 33)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampLessThanEquals("$.vardate",
                         new DateTime(2018, 10, 22, 22, 33, 11))))
                 .Build();
 
@@ -339,16 +339,16 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestLtePathOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringLessThanEqualsPath("$.varstr", "$.b")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericLessThanEqualsPath("$.varint", "$.b")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampLessThanEqualsPath("$.vardate", "$.b")))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringLessThanEqualsPath("$.varstr", "$.b")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericLessThanEqualsPath("$.varint", "$.b")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampLessThanEqualsPath("$.vardate", "$.b")))
                 .Build();
 
             var choices = c.Choices.ToArray();
@@ -371,19 +371,19 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestEqualPathOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.StringEqualsPath("$.a", "$.b")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.NumericEqualsPath("$.a", "$.b")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.TimestampEqualsPath("$.a", "$.b")))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.BooleanEqualsPath("$.a", "$.b")))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.StringEqualsPath("$.a", "$.b")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.NumericEqualsPath("$.a", "$.b")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.TimestampEqualsPath("$.a", "$.b")))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.BooleanEqualsPath("$.a", "$.b")))
                 .Build();
 
             var choices = c.Choices.ToArray();
@@ -407,10 +407,10 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestNotOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.Not(StepFunctionBuilder.StringEquals("$.varstr", "value"))))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.Not(StateMachineBuilder.StringEquals("$.varstr", "value"))))
                 .Build();
 
             var choices = c.Choices.ToArray();
@@ -421,11 +421,11 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestAndOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.And(StepFunctionBuilder.StringEquals("$.varstr", "value"),
-                        StepFunctionBuilder.BooleanEquals("$.varbool", true)))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.And(StateMachineBuilder.StringEquals("$.varstr", "value"),
+                        StateMachineBuilder.BooleanEquals("$.varbool", true)))
                 )
                 .Build();
 
@@ -440,11 +440,11 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestOrOperator()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.Or(StepFunctionBuilder.StringEquals("$.varstr", "value"),
-                        StepFunctionBuilder.BooleanEquals("$.varbool", false)))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.Or(StateMachineBuilder.StringEquals("$.varstr", "value"),
+                        StateMachineBuilder.BooleanEquals("$.varbool", false)))
                 )
                 .Build();
 
@@ -459,13 +459,13 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestIsNull()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsNull("$.isNull", true)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsNull("$.isNotNull", false))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsNull("$.isNull", true)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsNull("$.isNotNull", false))
                 )
                 .Build();
 
@@ -481,13 +481,13 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestIsPresent()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsPresent("$.isPresent", true)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsPresent("$.isNotPresent", false))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsPresent("$.isPresent", true)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsPresent("$.isNotPresent", false))
                 )
                 .Build();
 
@@ -504,13 +504,13 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestIsString()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsString("$.isString", true)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsString("$.isString", false))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsString("$.isString", true)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsString("$.isString", false))
                 )
                 .Build();
 
@@ -530,13 +530,13 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestIsNumeric()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsNumeric("$.isNumeric", true)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsNumeric("$.isNumeric", false))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsNumeric("$.isNumeric", true)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsNumeric("$.isNumeric", false))
                 )
                 .Build();
 
@@ -556,13 +556,13 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestIsTimestamp()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsTimestamp("$.isTimestamp", true)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsTimestamp("$.isTimestamp", false))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsTimestamp("$.isTimestamp", true)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsTimestamp("$.isTimestamp", false))
                 )
                 .Build();
 
@@ -582,13 +582,13 @@ namespace StatesLanguage.Tests
         [Fact]
         public void TestIsBoolean()
         {
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsBoolean("$.isBoolean", true)))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.IsBoolean("$.isBoolean", false))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsBoolean("$.isBoolean", true)))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsBoolean("$.isBoolean", false))
                 )
                 .Build();
 
@@ -611,24 +611,24 @@ namespace StatesLanguage.Tests
         public void TestBadFormat()
         {
             var dt = new DateTime(2018, 10, 22, 22, 33, 11);
-            var c = StepFunctionBuilder.ChoiceState()
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.Or(StepFunctionBuilder.NumericEquals("$.varint", 33),
-                        StepFunctionBuilder.NumericGreaterThan("$.varint", 33),
-                        StepFunctionBuilder.NumericGreaterThanEquals("$.varint", 33),
-                        StepFunctionBuilder.NumericLessThan("$.varint", 33),
-                        StepFunctionBuilder.NumericLessThanEquals("$.varint", 33))))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.Or(StepFunctionBuilder.TimestampEquals("$.vardate", dt),
-                        StepFunctionBuilder.TimestampGreaterThan("$.vardate", dt),
-                        StepFunctionBuilder.TimestampGreaterThanEquals("$.vardate", dt),
-                        StepFunctionBuilder.TimestampLessThan("$.vardate", dt),
-                        StepFunctionBuilder.TimestampLessThanEquals("$.vardate", dt))))
-                .Choice(StepFunctionBuilder.Choice()
-                    .Transition(StepFunctionBuilder.Next("NextState"))
-                    .Condition(StepFunctionBuilder.BooleanEquals("$.varbool", true)))
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.Or(StateMachineBuilder.NumericEquals("$.varint", 33),
+                        StateMachineBuilder.NumericGreaterThan("$.varint", 33),
+                        StateMachineBuilder.NumericGreaterThanEquals("$.varint", 33),
+                        StateMachineBuilder.NumericLessThan("$.varint", 33),
+                        StateMachineBuilder.NumericLessThanEquals("$.varint", 33))))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.Or(StateMachineBuilder.TimestampEquals("$.vardate", dt),
+                        StateMachineBuilder.TimestampGreaterThan("$.vardate", dt),
+                        StateMachineBuilder.TimestampGreaterThanEquals("$.vardate", dt),
+                        StateMachineBuilder.TimestampLessThan("$.vardate", dt),
+                        StateMachineBuilder.TimestampLessThanEquals("$.vardate", dt))))
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.BooleanEquals("$.varbool", true)))
                 .Build();
 
             var choices = c.Choices.ToArray();

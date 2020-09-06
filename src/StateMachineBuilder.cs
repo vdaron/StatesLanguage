@@ -24,7 +24,7 @@ namespace StatesLanguage
     /**
      * Fluent API for creating a {@link StateMachine} object.
      */
-    public static class StepFunctionBuilder
+    public static class StateMachineBuilder
     {
         /**
          * Represents a StepFunctions state machine. A state machine must have at least one state.
@@ -52,18 +52,7 @@ namespace StatesLanguage
         {
             return States.ParallelState.GetBuilder();
         }
-
-        /**
-         * A single branch of parallel execution in a state machine. See {@link ParallelState}.
-         *
-         * @return Builder used to configure a {@link Branch}.
-         */
-        [Obsolete("Use SubStateMachine instead")]
-        public static SubStateMachine.Builder Branch()
-        {
-            return States.SubStateMachine.GetBuilder();
-        }
-
+        
         public static SubStateMachine.Builder SubStateMachine()
         {
             return States.SubStateMachine.GetBuilder();

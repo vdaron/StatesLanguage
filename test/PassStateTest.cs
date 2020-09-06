@@ -67,7 +67,7 @@ namespace StatesLanguage.Tests
 
         private PassState.Builder NewPassState()
         {
-            return StepFunctionBuilder.PassState().Transition(StepFunctionBuilder.End());
+            return StateMachineBuilder.PassState().Transition(StateMachineBuilder.End());
         }
     }
 }
