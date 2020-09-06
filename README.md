@@ -39,8 +39,9 @@ public interface IInputOutputProcessor
 
 ## IntrinsicFunctions support 
 
-There is a IIntrinsicFunctionRegistry available to register your StateLanguage Intrinsic functions
-the Standard Intrinsic functions defined [here](https://states-language.net/spec.html#appendix-b) are already included in the registry.
+There is a IIntrinsicFunctionRegistry available to register your StateLanguage Intrinsic functions.
+
+The Standard Intrinsic functions defined [here](https://states-language.net/spec.html#appendix-b) are already included in the registry.
 
 ```csharp
 public interface IIntrinsicFunctionRegistry
