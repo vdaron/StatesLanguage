@@ -11,7 +11,7 @@ namespace StatesLanguage.States
         ///     MUST be a Reference Path, which specifies the raw input’s combination with or replacement by the state’s result.
         /// </summary>
         [JsonProperty(PropertyNames.RESULT_PATH)]
-        public string ResultPath { get; protected set; }
+        public OptionalString ResultPath { get; protected set; }
 
         /// <summary>
         ///     MUST be a Payload Template which is a JSON object, whose input is the result of applying the InputPath to the raw
