@@ -6,6 +6,12 @@
       "InputPath": "$.detail",
       "ItemsPath": "$.shipped",
       "MaxConcurrency": 0,
+      "Parameters": {
+        "value": "param"
+      },
+      "ResultSelector": {
+        "value": "param"
+      },
       "Iterator": {
         "StartAt": "Validate",
         "States": {

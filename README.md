@@ -6,20 +6,47 @@ This is the workflow description language used by [AWS StepFunctions](https://aw
 This project starts as a port of the java livrary [light-workflow-4j project](https://github.com/networknt/light-workflow-4j).
 
  
-# Sample
+# StateMachine Builder
 
 ```csharp
-	StateMachine stateMachine = StepFunctionBuilder.StateMachine()
-		.StartAt("InitialState")
-		.TimeoutSeconds(30)
-		.Comment("My Simple State Machine")
-		.State("InitialState", StepFunctionBuilder.SucceedState()
-			.Comment("Initial State")
-			.InputPath("$.input")
-			.OutputPath("$.output"))
-		.Build();
+StateMachine stateMachine = StateMachineBuilder.StateMachine()
+    .StartAt("InitialState")
+    .TimeoutSeconds(30)
+    .Comment("My Simple State Machine")
+    .State("InitialState", StateMachineBuilder.SucceedState()
+        .Comment("Initial State")
+        .InputPath("$.input")
+        .OutputPath("$.output"))
+    .Build();
 
-    string json = stateMachine.ToJson();
+string json = stateMachine.ToJson();
 
-    var builder = StateMachine.FromJson(json);
+var builder = StateMachine.FromJson(json);
+```
+
+# Tools
+
+## InputOutputProcessor 
+
+```csharp
+public interface IInputOutputProcessor
+{
+    JToken GetEffectiveInput(JToken input, OptionalString inputPath, JObject payload, JObject context);
+    JToken GetEffectiveResult(JToken output, JObject payload, JObject context);
+    JToken GetEffectiveOutput(JToken input, JToken result, OptionalString outputPath, OptionalString resultPath);
+}
+```
+
+## IntrinsicFunctions support 
+
+There is a IIntrinsicFunctionRegistry available to register your StateLanguage Intrinsic functions.
+
+The Standard Intrinsic functions defined [here](https://states-language.net/spec.html#appendix-b) are already included in the registry.
+
+```csharp
+public interface IIntrinsicFunctionRegistry
+{
+    void Register(string name, IntrinsicFunctionFunc func);
+    void Unregister(string name);
+}
 ```

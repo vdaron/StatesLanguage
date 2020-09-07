@@ -7,7 +7,12 @@
       "InputPath": "$.input",
       "OutputPath": "$.output",
       "ResultPath": "$.result",
-      "Parameters": "params", 
+      "Parameters": {
+        "value": "param"
+      },
+      "ResultSelector": {
+        "value": "param"
+      },
       "Next": "NextState",
       "Branches": [
         {
