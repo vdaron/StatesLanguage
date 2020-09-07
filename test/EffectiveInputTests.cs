@@ -123,6 +123,12 @@ namespace StatesLanguage.Tests
                 Payload = "{'book':true, 'u.$':'$.user.firstname'}",
                 ExpectedResult = "{'book':true, 'u':'bob'}"
             });
+            items.Add(new EffectiveInputTest
+            {
+                Input = "{ user:{'firstname':'bob', 'lastname':'doe' }}",
+                Payload = "{'book':true, 'u.$':'States.Format(\\'Hello {}\\', $.user.firstname)'}",
+                ExpectedResult = "{'book':true, 'u':'Hello bob'}"
+            });
 
             return items.Select(x => new object[]{x});
         }
