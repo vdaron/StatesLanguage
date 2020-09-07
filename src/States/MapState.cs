@@ -69,7 +69,7 @@ namespace StatesLanguage.States
             /// <returns></returns>
             public Builder ItemPath(string itemPath)
             {
-                _itemsPath = ReferencePath.Parse(itemPath).Path;
+                _itemsPath = itemPath;
                 return this;
             }
 

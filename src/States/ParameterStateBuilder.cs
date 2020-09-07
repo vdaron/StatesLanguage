@@ -21,9 +21,9 @@ namespace StatesLanguage.States
         /// </summary>
         /// <param name="resultPath">New path value.</param>
         /// <returns>This object for method chaining.</returns>
-        public B ResultPath(string resultPath)
+        public B ResultPath(OptionalString resultPath)
         {
-            _resultPath = ReferencePath.Parse(resultPath).Path;
+            _resultPath = resultPath;
             return (B) this;
         }
 

@@ -106,7 +106,7 @@ namespace StatesLanguage.States
             /// </summary>
             /// <param name="resultPath"></param>
             /// <returns>This object for method chaining.</returns>
-            public Builder ResultPath(string resultPath)
+            public Builder ResultPath(OptionalString resultPath)
             {
                 _resultPath = resultPath;
                 return this;

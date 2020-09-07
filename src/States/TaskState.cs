@@ -128,7 +128,7 @@ namespace StatesLanguage.States
             /// <returns>This object for method chaining.</returns>
             public Builder TimeoutSecondsPath(string timeoutSecondsPath)
             {
-                _timeoutSecondsPath = ReferencePath.Parse(timeoutSecondsPath).Path;
+                _timeoutSecondsPath = timeoutSecondsPath;
                 return this;
             }
 
@@ -158,7 +158,7 @@ namespace StatesLanguage.States
             /// <returns>This object for method chaining.</returns>
             public Builder HeartbeatSecondsPath(string heartbeatSecondsPath)
             {
-                _heartbeatSecondsPath = ReferencePath.Parse(heartbeatSecondsPath).Path;
+                _heartbeatSecondsPath = heartbeatSecondsPath;
                 return this;
             }
 

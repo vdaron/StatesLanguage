@@ -65,7 +65,7 @@ namespace StatesLanguage.States
             /// <returns>This object for method chaining.</returns>
             public Builder SecondsPath(string secondsPath)
             {
-                _secondsPath = ReferencePath.Parse(secondsPath).Path;
+                _secondsPath = secondsPath;
                 return this;
             }
         }
