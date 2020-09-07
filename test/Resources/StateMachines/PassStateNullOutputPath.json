@@ -1,0 +1,12 @@
+{
+  "StartAt": "helloPass",
+  "States": {
+    "helloPass": {
+      "Type": "Pass",
+      "Result": [1,2,3],
+      "InputPath": "$.a",
+      "OutputPath": null,
+      "End": true
+    }
+  }
+}

@@ -76,6 +76,7 @@
     <EmbeddedResource Include="Resources\StateMachines\SingleWaitStateWithTimestampWithTimezone.json" />
     <EmbeddedResource Include="Resources\StateMachines\TaskStateWithParametersAndEnd.json" />
     <EmbeddedResource Include="Resources\StateMachines\TaskStateWithEnd.json" />
+    <EmbeddedResource Include="Resources\StateMachines\PassStateNullOutputPath.json" />
   </ItemGroup>
 
   <ItemGroup>
