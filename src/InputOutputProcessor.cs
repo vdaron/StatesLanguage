@@ -56,6 +56,11 @@ namespace StatesLanguage
         
         private static JToken ExtractTokenFromJsonPath(JToken input, string path)
         {
+            if (input == null)
+            {
+                throw new PathMatchFailureException($"Input is null, unable to extract Path '{path}'");
+            }
+            
             if (path == null)
             {
                 return new JObject();
