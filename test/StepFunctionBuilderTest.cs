@@ -635,5 +635,19 @@ namespace StatesLanguage.Tests
         {
             Assert.Throws<StatesLanguageException>(() => StateMachine.FromJson("{"));
         }
+
+        [Fact]
+        public void OutputPAthIsNull()
+        {
+            var stateMachine = StateMachineBuilder.StateMachine()
+                .StartAt("helloPass")
+                .State("helloPass", StateMachineBuilder.PassState()
+                    .Result(JArray.Parse("[1,2,3]"))
+                    .InputPath("$.a")
+                    .OutputPath(null)
+                    .Transition(StateMachineBuilder.End())).Build();
+            
+            AssertStateMachine(stateMachine, "PassStateNullOutputPath.json");
+        }
     }
 }

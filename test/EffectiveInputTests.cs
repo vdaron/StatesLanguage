@@ -162,6 +162,10 @@ namespace StatesLanguage.Tests
                 "input", 
                 null,
                 JObject.Parse("{'test.$':'$$.value'}"), JObject.Parse("{'a':'b'}")));
+            Assert.Throws<PathMatchFailureException>(() => _inputOutputProcessor.GetEffectiveInput(
+                null,
+                "$.input",
+                null, null));
         }
     }
 }
