@@ -136,7 +136,6 @@ namespace StatesLanguage
             jsonSerializer.Converters.Add(new ParallelStateSerializer());
             jsonSerializer.Converters.Add(new MapStateSerializer());
 
-            jsonSerializer.NullValueHandling = NullValueHandling.Ignore;
             jsonSerializer.ContractResolver = StatesContractResolver.Instance;
             jsonSerializer.Formatting = formatting;
             return jsonSerializer;

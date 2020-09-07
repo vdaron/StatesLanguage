@@ -34,9 +34,13 @@ namespace StatesLanguage.Serialization
             var property = base.CreateProperty(member, memberSerialization);
 
             var shouldSerialize = property.ShouldSerialize;
+            
             property.ShouldSerialize = obj =>
                 (shouldSerialize == null || shouldSerialize(obj)) && !IsEmptyCollection(property, obj) &&
                 IsSet(property, obj);
+            
+            property.ShouldDeserialize = obj => true;
+            
             return property;
         }
 
@@ -48,7 +52,7 @@ namespace StatesLanguage.Serialization
                 return ostring.IsSet;
             }
 
-            return true;
+            return val != null; // Ignore null for non OptionalString (replace NullValueHandling)
         }
 
         private bool IsEmptyCollection(JsonProperty property, object target)
