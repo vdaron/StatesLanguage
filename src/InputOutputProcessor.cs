@@ -138,7 +138,7 @@ namespace StatesLanguage
                         Ensure.IsNotNull<ParameterPathFailureException>(contextToken);
                         changes.Add(element.Key, new JProperty(newPropertyName, contextToken));
                     }
-                    else if (elementValue.Contains("$"))
+                    else if (elementValue.StartsWith("$"))
                     {
                         var token = input.SelectToken(elementValue);
                         Ensure.IsNotNull<ParameterPathFailureException>(token);
