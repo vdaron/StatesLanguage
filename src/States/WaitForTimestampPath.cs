@@ -68,7 +68,7 @@ namespace StatesLanguage.States
             /// <returns>This object for method chaining.</returns>
             public Builder TimestampPath(string timestampPath)
             {
-                _timestampPath =  ReferencePath.Parse(timestampPath).Path;
+                _timestampPath =  timestampPath;
                 return this;
             }
         }
