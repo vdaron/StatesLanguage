@@ -30,7 +30,7 @@ namespace StatesLanguage.States
         public List<string> ErrorEquals { get; private set; }
 
         [JsonProperty(PropertyNames.RESULT_PATH)]
-        public string ResultPath { get; private set; }
+        public OptionalString ResultPath { get; private set; }
 
         [JsonIgnore]
         public ITransition Transition { get; private set; }
@@ -49,7 +49,7 @@ namespace StatesLanguage.States
             private List<string> _errorEquals = new List<string>();
 
             [JsonProperty(PropertyNames.RESULT_PATH)]
-            private string _resultPath;
+            private OptionalString _resultPath;
 
             [JsonIgnore] private ITransitionBuilder<NextStateTransition> _transition =
                 NullTransitionBuilder<NextStateTransition>.Instance;
