@@ -79,7 +79,7 @@ namespace StatesLanguage
             switch (tokens.Length)
             {
                 case 0:
-                    throw new PathMatchFailureException($"Input Path '{path}' does not exists in Input Received: '{input}'");
+                    throw new PathMatchFailureException($"Input Path '{path}' does not exists in Input received: '{input}'");
                 case 1:
                     return tokens[0];
                 default:
@@ -133,15 +133,15 @@ namespace StatesLanguage
 
                     if (elementValue.StartsWith("$$."))
                     {
-                        Ensure.IsNotNull<ParameterPathFailureException>(context);
+                        Ensure.IsNotNull(context, new ParameterPathFailureException($"Context is null, unable to extract Input Path '{elementValue}'"));
                         var contextToken = context.SelectToken(elementValue.Substring(1, elementValue.Length - 1));
-                        Ensure.IsNotNull<ParameterPathFailureException>(contextToken);
+                        Ensure.IsNotNull(contextToken, new ParameterPathFailureException($"Input Path '{elementValue}' does not exists in Context received: '{context}'"));
                         changes.Add(element.Key, new JProperty(newPropertyName, contextToken));
                     }
                     else if (elementValue.StartsWith("$"))
                     {
                         var token = input.SelectToken(elementValue);
-                        Ensure.IsNotNull<ParameterPathFailureException>(token);
+                        Ensure.IsNotNull(token, new ParameterPathFailureException($"Input Path '{elementValue}' does not exists in Input received: '{input}'"));
                         changes.Add(element.Key, new JProperty(newPropertyName, token));
                     }
                     else // Intrinsic functions
