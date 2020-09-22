@@ -4,7 +4,7 @@
     <Copyright>Copyright 2010-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  Copyright 2018- Vincent DARON All Rights Reserved.</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>2.0.3</PackageVersion>
+    <PackageVersion>2.0.4</PackageVersion>
     <PackageLicense>http://aws.amazon.com/apache2.0</PackageLicense>
     <RepositoryUrl>https://github.com/vdaron/StatesLanguage</RepositoryUrl>
     <PackageProjectUrl>https://github.com/vdaron/StatesLanguage</PackageProjectUrl>
@@ -15,7 +15,7 @@
     <FileVersion>2.0.0</FileVersion>
     <LangVersion>latest</LangVersion>
     <Title>StatesLanguage</Title>
-    <Authors>vdaron</Authors>
+    <Authors>Vincent DARON</Authors>
     <PackageLicenseUrl>https://raw.githubusercontent.com/vdaron/StatesLanguage/develop/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
   <ItemGroup>

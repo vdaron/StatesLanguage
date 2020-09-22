@@ -37,11 +37,11 @@ namespace StatesLanguage.Internal
             }
         }
 
-        public static void IsNotNull<T>(object exec) where T : Exception, new()
+        public static void IsNotNull<T>(object exec, T exception = null) where T : Exception, new()
         {
             if (exec == null)
             {
-                throw new T();
+                throw exception ?? new T();
             }
         }
 
