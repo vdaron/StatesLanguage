@@ -93,6 +93,54 @@
             {
               "Variable": "$.boolean",
               "BooleanEquals": false
+            },
+            {
+              "IsPresent": false,
+              "Variable": "$.present"
+            },
+            {
+              "IsPresent": true,
+              "Variable": "$.present"
+            },
+            {
+              "IsBoolean": false,
+              "Variable": "$.boolean"
+            },
+            {
+              "IsBoolean": true,
+              "Variable": "$.boolean"
+            },
+            {
+              "IsNumeric": false,
+              "Variable": "$.numeric"
+            },
+            {
+              "IsNumeric": true,
+              "Variable": "$.numeric"
+            },
+            {
+              "IsString": false,
+              "Variable": "$.string"
+            },
+            {
+              "IsString": true,
+              "Variable": "$.string"
+            },
+            {
+              "IsNull": false,
+              "Variable": "$.null"
+            },
+            {
+              "IsNull": true,
+              "Variable": "$.null"
+            },
+            {
+              "IsTimestamp": false,
+              "Variable": "$.timestamp"
+            },
+            {
+              "IsTimestamp": true,
+              "Variable": "$.timestamp"
             }
           ],
           "Next": "NextState"

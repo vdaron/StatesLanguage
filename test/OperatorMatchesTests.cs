@@ -500,6 +500,22 @@ namespace StatesLanguage.Tests
             Assert.True(choices[1].Condition.Match(JObject.Parse("{}")));
             Assert.False(choices[1].Condition.Match(JObject.Parse("{\"isNotPresent\":33}")));
         }
+        
+        [Fact]
+        public void TestIfEmptyArrayWithIsPresent()
+        {
+            var c = StateMachineBuilder.ChoiceState()
+                .Choice(StateMachineBuilder.Choice()
+                    .Transition(StateMachineBuilder.Next("NextState"))
+                    .Condition(StateMachineBuilder.IsPresent("$.files[0]", true)))
+                .Build();
+
+            var js = c.ToJson();
+            var choices = c.Choices.ToArray();
+
+            Assert.True(choices[0].Condition.Match(JObject.Parse("{\"files\":[1,2,3]}")));
+            Assert.False(choices[0].Condition.Match(JObject.Parse("{\"files\":[]}")));
+        }
 
         [Fact]
         public void TestIsString()

@@ -138,6 +138,31 @@ namespace StatesLanguage.Serialization
                 {
                     return DeserializeBinaryCondition(BooleanEqualsCondition.GetBuilder(), node);
                 }
+                
+                if (node.Property(PropertyNames.IS_PRESENT) != null)
+                {
+                    return DeserializeBinaryCondition(IsPresentCondition.GetBuilder(),node);
+                }
+                if (node.Property(PropertyNames.IS_NULL) != null)
+                {
+                    return DeserializeBinaryCondition(IsNullCondition.GetBuilder(),node);
+                }                
+                if (node.Property(PropertyNames.IS_BOOLEAN) != null)
+                {
+                    return DeserializeBinaryCondition(IsBooleanCondition.GetBuilder(),node);
+                }
+                if (node.Property(PropertyNames.IS_STRING) != null)
+                {
+                    return DeserializeBinaryCondition(IsStringCondition.GetBuilder(),node);
+                }
+                if (node.Property(PropertyNames.IS_NUMERIC) != null)
+                {
+                    return DeserializeBinaryCondition(IsNumericCondition.GetBuilder(),node);
+                }                
+                if (node.Property(PropertyNames.IS_TIMESTAMP) != null)
+                {
+                    return DeserializeBinaryCondition(IsTimestampCondition.GetBuilder(),node);
+                }
             }
             else if (node.Property(PropertyNames.AND) != null)
             {
@@ -163,7 +188,7 @@ namespace StatesLanguage.Serialization
             {
                 return NotCondition.GetBuilder()
                     .Condition(DeserializeCondition((JObject) node.Property(PropertyNames.NOT).First));
-            }
+            } 
 
             throw new StatesLanguageException("Condition must be provided");
         }
