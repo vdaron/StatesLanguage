@@ -52,8 +52,8 @@ namespace StatesLanguage.Tests.IntrinsicFunctions
             var f = IntrinsicFunction.Parse("test(   1    ,  'a'  , a(  $p  , 'test'  )  )  ");
             Assert.Equal("test", f.Name);
             Assert.Equal(3, f.Parameters.Length);
-            Assert.IsType<DecimalIntrinsicParam>(f.Parameters[0]);
-            Assert.Equal(1, ((DecimalIntrinsicParam) f.Parameters[0]).Number);
+            Assert.IsType<IntegerIntrinsicParam>(f.Parameters[0]);
+            Assert.Equal(1, ((IntegerIntrinsicParam) f.Parameters[0]).Number);
             Assert.IsType<StringIntrinsicParam>(f.Parameters[1]);
             Assert.Equal("a", ((StringIntrinsicParam) f.Parameters[1]).Value);
             Assert.IsType<IntrinsicFunction>(f.Parameters[2]);
@@ -113,8 +113,8 @@ namespace StatesLanguage.Tests.IntrinsicFunctions
             Assert.Equal(2, f.Parameters.Length);
             Assert.IsType<StringIntrinsicParam>(f.Parameters[0]);
             Assert.Equal("hello", ((StringIntrinsicParam) f.Parameters[0]).Value);
-            Assert.IsType<DecimalIntrinsicParam>(f.Parameters[1]);
-            Assert.Equal(33, ((DecimalIntrinsicParam) f.Parameters[1]).Number);
+            Assert.IsType<IntegerIntrinsicParam>(f.Parameters[1]);
+            Assert.Equal(33, ((IntegerIntrinsicParam) f.Parameters[1]).Number);
         }
 
         [Fact]
@@ -125,8 +125,8 @@ namespace StatesLanguage.Tests.IntrinsicFunctions
             Assert.Equal(3, f.Parameters.Length);
             Assert.IsType<StringIntrinsicParam>(f.Parameters[0]);
             Assert.Equal("hello", ((StringIntrinsicParam) f.Parameters[0]).Value);
-            Assert.IsType<DecimalIntrinsicParam>(f.Parameters[1]);
-            Assert.Equal(33, ((DecimalIntrinsicParam) f.Parameters[1]).Number);
+            Assert.IsType<IntegerIntrinsicParam>(f.Parameters[1]);
+            Assert.Equal(33, ((IntegerIntrinsicParam) f.Parameters[1]).Number);
             Assert.IsType<NullIntrinsicParam>(f.Parameters[2]);
         }
 
@@ -138,8 +138,8 @@ namespace StatesLanguage.Tests.IntrinsicFunctions
             Assert.Equal(4, f.Parameters.Length);
             Assert.IsType<StringIntrinsicParam>(f.Parameters[0]);
             Assert.Equal("hello", ((StringIntrinsicParam) f.Parameters[0]).Value);
-            Assert.IsType<DecimalIntrinsicParam>(f.Parameters[1]);
-            Assert.Equal(33, ((DecimalIntrinsicParam) f.Parameters[1]).Number);
+            Assert.IsType<IntegerIntrinsicParam>(f.Parameters[1]);
+            Assert.Equal(33, ((IntegerIntrinsicParam) f.Parameters[1]).Number);
             Assert.IsType<NullIntrinsicParam>(f.Parameters[2]);
             Assert.IsType<PathIntrinsicParam>(f.Parameters[3]);
             Assert.Equal("$.test", ((PathIntrinsicParam) f.Parameters[3]).Path);

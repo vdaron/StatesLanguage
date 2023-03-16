@@ -195,7 +195,7 @@ namespace StatesLanguage.Tests
                     .InputPath("$.input")
                     .OutputPath("$.output")
                     .ResultPath("$.result")
-                    .Parameters(JObject.Parse("{'a':1}"))
+                    .Parameters(JObject.Parse("{\"a\":1}"))
                     .Transition(StateMachineBuilder.Next("NextState"))
                     .Result("{\"Foo\": \"Bar\"}"))
                 .State("NextState", StateMachineBuilder.SucceedState())
@@ -481,7 +481,19 @@ namespace StatesLanguage.Tests
                             StateMachineBuilder.TimestampLessThan("$.timestamp", date),
                             StateMachineBuilder.TimestampLessThanEquals("$.timestamp", date),
                             StateMachineBuilder.BooleanEquals("$.boolean", true),
-                            StateMachineBuilder.BooleanEquals("$.boolean", false)
+                            StateMachineBuilder.BooleanEquals("$.boolean", false),
+                            StateMachineBuilder.IsPresent("$.present", false),
+                            StateMachineBuilder.IsPresent("$.present", true),
+                            StateMachineBuilder.IsBoolean("$.boolean", false),
+                            StateMachineBuilder.IsBoolean("$.boolean", true),
+                            StateMachineBuilder.IsNumeric("$.numeric", false),
+                            StateMachineBuilder.IsNumeric("$.numeric", true),
+                            StateMachineBuilder.IsString("$.string", false),
+                            StateMachineBuilder.IsString("$.string", true),
+                            StateMachineBuilder.IsNull("$.null", false),
+                            StateMachineBuilder.IsNull("$.null", true),
+                            StateMachineBuilder.IsTimestamp("$.timestamp", false),
+                            StateMachineBuilder.IsTimestamp("$.timestamp", true)
                         ))))
                 .State("NextState", StateMachineBuilder.SucceedState())
                 .State("DefaultState", StateMachineBuilder.SucceedState())
