@@ -512,10 +512,14 @@ namespace StatesLanguage.Internal
                     "Must be one of: MD5, SHA-1, SHA-256, SHA-384, SHA-512")
             };
 
-            return BitConverter
+            var ret = BitConverter
                 .ToString(hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(data)))
                 .Replace("-", string.Empty)
                 .ToLower();
+
+            hashAlgorithm.Dispose();
+
+            return ret;
         }
 
         public static JToken JsonMerge(IntrinsicFunction function, JToken input, JObject context,
@@ -687,7 +691,7 @@ namespace StatesLanguage.Internal
 
             int start = paramValues[0];
             int end = paramValues[1];
-            Random rand = function.Parameters.Length != 3 ? new Random() : new Random(paramValues[2]);
+            Random rand = function.Parameters.Length != 3 ? Random.Shared : new Random(paramValues[2]);
 
             return rand.Next(start, end);
         }
