@@ -500,7 +500,7 @@ namespace StatesLanguage.Internal
                     $"States.Hash: Cannot hash string with more than {MAX_STRING_LENGTH} characters.");
             }
 
-            HashAlgorithm hashAlgorithm = algorithm switch
+            using HashAlgorithm hashAlgorithm = algorithm switch
             {
                 "MD5" => MD5.Create(),
                 "SHA-1" => SHA1.Create(),
@@ -516,8 +516,6 @@ namespace StatesLanguage.Internal
                 .ToString(hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(data)))
                 .Replace("-", string.Empty)
                 .ToLower();
-
-            hashAlgorithm.Dispose();
 
             return ret;
         }
