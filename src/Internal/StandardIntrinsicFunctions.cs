@@ -689,7 +689,7 @@ namespace StatesLanguage.Internal
 
             int start = paramValues[0];
             int end = paramValues[1];
-            Random rand = function.Parameters.Length != 3 ? Random.Shared : new Random(paramValues[2]);
+            System.Random rand = function.Parameters.Length != 3 ? Random.Shared : new System.Random(paramValues[2]);
 
             return rand.Next(start, end);
         }
@@ -875,7 +875,7 @@ namespace StatesLanguage.Internal
             }
         }
 
-        private class JTokenDeepComparer : IEqualityComparer<JToken>
+        private sealed class JTokenDeepComparer : IEqualityComparer<JToken>
         {
             public bool Equals(JToken t1, JToken t2)
             {
@@ -891,3 +891,10 @@ namespace StatesLanguage.Internal
         }
     }
 }
+
+#if NETSTANDARD2_1
+public static class Random
+{
+    public static readonly System.Random Shared = new System.Random();
+}
+#endif

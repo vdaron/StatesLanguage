@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+      <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
     <Copyright>Copyright 2010-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  Copyright 2018- Vincent DARON All Rights Reserved.</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

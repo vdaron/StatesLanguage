@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net6.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -85,17 +85,4 @@
   <ItemGroup>
     <ProjectReference Include="..\src\StatesLanguage.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System">
-      <HintPath>System</HintPath>
-    </Reference>
-    <Reference Include="System.Data">
-      <HintPath>System.Data</HintPath>
-    </Reference>
-    <Reference Include="System.Xml">
-      <HintPath>System.Xml</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
