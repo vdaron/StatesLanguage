@@ -1,8 +1,8 @@
 namespace StatesLanguage.IntrinsicFunctions
 {
-    public class NumberIntrinsicParam : IntrinsicParam
+    public class DecimalIntrinsicParam : IntrinsicParam
     {
-        public NumberIntrinsicParam(decimal number)
+        public DecimalIntrinsicParam(decimal number)
         {
             Number = number;
         }

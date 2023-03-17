@@ -130,10 +130,22 @@ namespace StatesLanguage.IntrinsicFunctions
                 return new PathIntrinsicParam(p);
             }
 
-            decimal i;
-            if (decimal.TryParse(p, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out i))
+            if (p == "true" || p == "false")
             {
-                return new NumberIntrinsicParam(i);
+                return new BooleanIntrinsicParam(p == "true");
+            }
+
+            if (int.TryParse(p, NumberStyles.Integer, CultureInfo.InvariantCulture, out var i))
+            {
+                return new IntegerIntrinsicParam(i);
+            }
+
+            var decimalNumberStyle = NumberStyles.AllowDecimalPoint |
+                                     NumberStyles.AllowLeadingSign |
+                                     NumberStyles.AllowExponent;
+            if (decimal.TryParse(p, decimalNumberStyle, CultureInfo.InvariantCulture, out var d))
+            {
+                return new DecimalIntrinsicParam(d);
             }
 
             throw new InvalidIntrinsicFunctionException("Invalid parameter");

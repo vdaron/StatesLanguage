@@ -20,10 +20,24 @@ namespace StatesLanguage.IntrinsicFunctions
 
         public IntrinsicFunctionRegistry()
         {
-            Register("States.Format", StandardIntrinsicFunctions.Format);
-            Register("States.StringToJson", StandardIntrinsicFunctions.StringToJson);
-            Register("States.JsonToString", StandardIntrinsicFunctions.JsonToString);
             Register("States.Array", StandardIntrinsicFunctions.Array);
+            Register("States.ArrayContains", StandardIntrinsicFunctions.ArrayContains);
+            Register("States.ArrayGetItem", StandardIntrinsicFunctions.ArrayGetItem);
+            Register("States.ArrayLength", StandardIntrinsicFunctions.ArrayLength);
+            Register("States.ArrayPartition", StandardIntrinsicFunctions.ArrayPartition);
+            Register("States.ArrayRange", StandardIntrinsicFunctions.ArrayRange);
+            Register("States.ArrayUnique", StandardIntrinsicFunctions.ArrayUnique);
+            Register("States.Base64Encode", StandardIntrinsicFunctions.Base64Encode);
+            Register("States.Base64Decode", StandardIntrinsicFunctions.Base64Decode);
+            Register("States.Format", StandardIntrinsicFunctions.Format);
+            Register("States.Hash", StandardIntrinsicFunctions.Hash);
+            Register("States.JsonMerge", StandardIntrinsicFunctions.JsonMerge);
+            Register("States.JsonToString", StandardIntrinsicFunctions.JsonToString);
+            Register("States.MathAdd", StandardIntrinsicFunctions.MathAdd);
+            Register("States.MathRandom", StandardIntrinsicFunctions.MathRandom);
+            Register("States.StringSplit", StandardIntrinsicFunctions.StringSplit);
+            Register("States.StringToJson", StandardIntrinsicFunctions.StringToJson);
+            Register("States.UUID", StandardIntrinsicFunctions.Uuid);
         }
 
         public void Register(string name, IntrinsicFunctionFunc func)
