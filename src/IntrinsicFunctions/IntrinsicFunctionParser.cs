@@ -140,7 +140,10 @@ namespace StatesLanguage.IntrinsicFunctions
                 return new IntegerIntrinsicParam(i);
             }
 
-            if (decimal.TryParse(p, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var d))
+            var decimalNumberStyle = NumberStyles.AllowDecimalPoint |
+                                     NumberStyles.AllowLeadingSign |
+                                     NumberStyles.AllowExponent;
+            if (decimal.TryParse(p, decimalNumberStyle, CultureInfo.InvariantCulture, out var d))
             {
                 return new DecimalIntrinsicParam(d);
             }

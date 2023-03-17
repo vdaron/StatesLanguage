@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using StatesLanguage.Internal.Validation;
 using StatesLanguage.IntrinsicFunctions;
 using Xunit;
@@ -173,6 +174,27 @@ namespace StatesLanguage.Tests.IntrinsicFunctions
         public void IntrinsicFunctionParserError(string functionDefinition)
         {
             Assert.Throws<InvalidIntrinsicFunctionException>(() => IntrinsicFunction.Parse(functionDefinition));
+        }
+
+        internal static void GenericIntrinsicFunctionTest(IntrinsicFunctionRegistry registry,
+            string functionName, string parameterString, string inputStr, bool mustThrow, string expected = null)
+        {
+            var input = string.IsNullOrWhiteSpace(inputStr) ? new JObject() : JToken.Parse(inputStr);
+            var f = IntrinsicFunction.Parse($"{functionName}({parameterString})");
+
+            if (mustThrow)
+            {
+                Assert.Throws<InvalidIntrinsicFunctionException>(
+                    () => registry.CallFunction(f, input, new JObject()));
+            }
+            else
+            {
+                var res = registry.CallFunction(f, input, new JObject());
+                if (expected != null)
+                {
+                    Assert.True(JToken.DeepEquals(res, JToken.Parse(expected)));
+                }
+            }
         }
     }
 }

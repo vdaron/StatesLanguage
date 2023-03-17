@@ -62,7 +62,7 @@ namespace StatesLanguage.Internal
 
             if (arrayParam == null)
             {
-                return new JObject { ["contains"] = false };
+                return false;
             }
 
             var array = arrayParam switch
@@ -789,6 +789,10 @@ namespace StatesLanguage.Internal
         public static JToken Uuid(IntrinsicFunction function, JToken input, JObject context,
             IntrinsicFunctionRegistry registry)
         {
+            if (function.Parameters.Any())
+            {
+                throw new InvalidIntrinsicFunctionException("States.Uuid: Function expects no parameters");
+            }
             return Guid.NewGuid().ToString();
         }
 
