@@ -45,12 +45,9 @@ namespace StatesLanguage.Internal.Validation
 
             ValidateStates(context, _stateMachine.States);
 
-            if (!string.IsNullOrEmpty(_stateMachine.StartAt))
+            if (!string.IsNullOrEmpty(_stateMachine.StartAt) && !_stateMachine.States.ContainsKey(_stateMachine.StartAt))
             {
-                if (!_stateMachine.States.ContainsKey(_stateMachine.StartAt))
-                {
-                    _problemReporter.Report(new Problem(context, $"{PropertyNames.START_AT} state does not exist."));
-                }
+                _problemReporter.Report(new Problem(context, $"{PropertyNames.START_AT} state does not exist."));
             }
 
             // If basic validation failed then the graph may not be in a good state to be able to Validate
@@ -253,7 +250,24 @@ namespace StatesLanguage.Internal.Validation
 
             public override int Visit(FailState failState)
             {
-                _currentContext.AssertStringNotEmpty(failState.Cause, PropertyNames.CAUSE);
+                if (string.IsNullOrWhiteSpace(failState.CausePath))
+                {
+                    _currentContext.AssertStringNotEmpty(failState.Cause, PropertyNames.CAUSE);
+                }
+                else
+                {
+                    _currentContext.AssertIsValidReferencePath(failState.CausePath, PropertyNames.CAUSE_PATH);
+                }
+                
+                if (string.IsNullOrWhiteSpace(failState.ErrorPath))
+                {
+                    _currentContext.AssertStringNotEmpty(failState.Error, PropertyNames.ERROR);
+                }
+                else
+                {
+                    _currentContext.AssertIsValidReferencePath(failState.ErrorPath, PropertyNames.ERROR_PATH);
+                }
+                
                 return 0;
             }
 
@@ -307,13 +321,10 @@ namespace StatesLanguage.Internal.Validation
                 _currentContext.AssertIsPositiveIfPresent(taskState.TimeoutSeconds, PropertyNames.TIMEOUT_SECONDS);
                 _currentContext.AssertIsPositiveIfPresent(taskState.HeartbeatSeconds, PropertyNames.HEARTBEAT_SECONDS);
 
-                if (taskState.HeartbeatSeconds != null)
+                if (taskState.HeartbeatSeconds != null && taskState.HeartbeatSeconds >= taskState.TimeoutSeconds)
                 {
-                    if (taskState.HeartbeatSeconds >= taskState.TimeoutSeconds)
-                    {
-                        _problemReporter.Report(new Problem(_currentContext,
-                            $"{PropertyNames.HEARTBEAT_SECONDS} must be smaller than {PropertyNames.TIMEOUT_SECONDS}"));
-                    }
+                    _problemReporter.Report(new Problem(_currentContext,
+                        $"{PropertyNames.HEARTBEAT_SECONDS} must be smaller than {PropertyNames.TIMEOUT_SECONDS}"));
                 }
 
                 if (taskState.HeartbeatSeconds.HasValue && !string.IsNullOrEmpty(taskState.HeartbeatSecondsPath))
@@ -403,18 +414,15 @@ namespace StatesLanguage.Internal.Validation
 
             private void ValidateIterator(MapState mapState)
             {
-                _currentContext.AssertStringNotEmpty(mapState.Iterator.StartAt, PropertyNames.START_AT);
-                _currentContext.AssertNotEmpty(mapState.Iterator.States, PropertyNames.STATES);
+                _currentContext.AssertStringNotEmpty(mapState.ItemProcessor.StartAt, PropertyNames.START_AT);
+                _currentContext.AssertNotEmpty(mapState.ItemProcessor.States, PropertyNames.STATES);
                 var iteratorContext = _currentContext.Iterator();
-                ValidateStates(iteratorContext, mapState.Iterator.States);
+                ValidateStates(iteratorContext, mapState.ItemProcessor.States);
 
-                if (!string.IsNullOrEmpty(mapState.Iterator.StartAt))
+                if (!string.IsNullOrEmpty(mapState.ItemProcessor.StartAt) && !mapState.ItemProcessor.States.ContainsKey(mapState.ItemProcessor.StartAt))
                 {
-                    if (!mapState.Iterator.States.ContainsKey(mapState.Iterator.StartAt))
-                    {
-                        _problemReporter.Report(new Problem(iteratorContext,
-                            $"{PropertyNames.START_AT} references a non existent state."));
-                    }
+                    _problemReporter.Report(new Problem(iteratorContext,
+                        $"{PropertyNames.START_AT} references a non existent state."));
                 }
             }
 

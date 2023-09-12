@@ -49,8 +49,9 @@ namespace StatesLanguage.Internal
 
         // FailState property names
         public const string ERROR = "Error";
-
         public const string CAUSE = "Cause";
+        public const string ERROR_PATH = "ErrorPath";
+        public const string CAUSE_PATH = "CausePath";
 
         // ChoiceState property names
         public const string DEFAULT_STATE = "Default";

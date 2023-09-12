@@ -316,6 +316,20 @@ namespace StatesLanguage.Tests
 
             AssertStateMachine(stateMachine, "SingleFailState.json");
         }
+        
+        [Fact]
+        public void SingleFailStateWithPath()
+        {
+            var stateMachine = StateMachineBuilder.StateMachine()
+                                                  .StartAt("InitialState")
+                                                  .State("InitialState", StateMachineBuilder.FailState()
+                                                                                            .Comment("My fail state")
+                                                                                            .CausePath("$.cause")
+                                                                                            .ErrorPath("$.error"))
+                                                  .Build();
+
+            AssertStateMachine(stateMachine, "SingleFailStateWithPath.json");
+        }
 
         [Fact]
         public void SimpleChoiceState()
