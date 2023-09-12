@@ -33,6 +33,20 @@ namespace StatesLanguage.States
         /// </summary>
         [JsonProperty(PropertyNames.BACKOFF_RATE)]
         private double? _backoff;
+        
+        /// <summary>
+        ///     A positive integer that sets the maximum value, in seconds, up to which a retry interval can increase. Value must greater than 0 and less than 31622401. 
+        /// </summary>
+        [JsonProperty(PropertyNames.MAX_DELAY_SECONDS)]
+        private int? _maxDelaySeconds;
+        
+        /// <summary>
+        ///  A string that determines whether or not to include jitter in the wait times between consecutive retry attempts.
+        ///  Jitter reduces simultaneous retry attempts by spreading these out over a randomized delay interval.
+        ///  This string accepts FULL or NONE as its values. The default value is NONE.
+        /// </summary>
+        [JsonProperty(PropertyNames.JITTER_STRATEGY)]
+        private string _jitterStrategy = "NONE";
 
         /// <summary>
         ///     Delay before the first retry attempt.
@@ -59,6 +73,12 @@ namespace StatesLanguage.States
         [JsonIgnore]
         public double BackoffRate => _backoff ?? 2.0;
 
+        [JsonIgnore]
+        public int? MaxDelaySeconds => _maxDelaySeconds;
+
+        [JsonIgnore]
+        public string JitterStrategy => _jitterStrategy;
+
         public static Builder GetBuilder()
         {
             return new Builder();
@@ -77,6 +97,12 @@ namespace StatesLanguage.States
 
             [JsonProperty(PropertyNames.MAX_ATTEMPTS)]
             private int? _maxAttempts;
+            
+            [JsonProperty(PropertyNames.MAX_DELAY_SECONDS)]
+            private int? _maxDelaySeconds;
+
+            [JsonProperty(PropertyNames.JITTER_STRATEGY)]
+            private string _jitterStrategy;
 
             internal Builder()
             {
@@ -84,12 +110,17 @@ namespace StatesLanguage.States
 
             public Retrier Build()
             {
+                if (_maxDelaySeconds is <= 0 or >= 31622401)
+                    throw new StatesLanguageException("MaxDelaySeconds must be bigger than 0 and less than 31622401");
+                
                 return new Retrier
                 {
                     ErrorEquals = new List<string>(_errorEquals),
                     _interval = _intervalSeconds,
                     _attempts = _maxAttempts,
-                    _backoff = _backoffRate
+                    _backoff = _backoffRate,
+                    _jitterStrategy = _jitterStrategy,
+                    _maxDelaySeconds = _maxDelaySeconds
                 };
             }
 
@@ -152,6 +183,37 @@ namespace StatesLanguage.States
             public Builder BackoffRate(double backoffRate)
             {
                 _backoffRate = backoffRate;
+                return this;
+            }
+            
+            /// <summary>
+            ///     OPTIONAL.  A positive integer that sets the maximum value, in seconds, up to which a retry interval can increase. Value must greater than 0 and less than 31622401. 
+            /// </summary>
+            /// <param name="maxDelaySeconds"></param>
+            /// <returns> This object for method chaining.</returns>
+            public Builder MaxDelaySeconds(int maxDelaySeconds)
+            {
+                _maxDelaySeconds = maxDelaySeconds;
+                return this;
+            }
+            
+            /// <summary>
+            ///     OPTIONAL. Use the Full Jitter strategy
+            /// </summary>
+            /// <returns> This object for method chaining.</returns>
+            public Builder FullJitterStrategy()
+            {
+                _jitterStrategy = "FULL";
+                return this;
+            }
+            
+            /// <summary>
+            ///     OPTIONAL. Disable Jitter strategy
+            /// </summary>
+            /// <returns> This object for method chaining.</returns>
+            public Builder NoJitterStrategy()
+            {
+                _jitterStrategy = "NONE";
                 return this;
             }
         }

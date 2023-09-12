@@ -13,7 +13,9 @@
           ],
           "IntervalSeconds": 20,
           "BackoffRate": 2.0,
-          "MaxAttempts": 3
+          "MaxAttempts": 3,
+          "MaxDelaySeconds": 5,
+          "JitterStrategy": "FULL"
         },
         {
           "ErrorEquals": [

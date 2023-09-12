@@ -64,6 +64,8 @@ namespace StatesLanguage.Internal
         public const string INTERVAL_SECONDS = "IntervalSeconds";
         public const string MAX_ATTEMPTS = "MaxAttempts";
         public const string BACKOFF_RATE = "BackoffRate";
+        public const string MAX_DELAY_SECONDS = "MaxDelaySeconds";
+        public const string JITTER_STRATEGY = "JitterStrategy";
 
         // WaitState property names
         public const string SECONDS = "Seconds";

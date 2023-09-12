@@ -148,11 +148,14 @@ namespace StatesLanguage.Tests
                 .State("InitialState", StateMachineBuilder.TaskState()
                     .Transition(StateMachineBuilder.Next("NextState"))
                     .Resource("resource-arn")
-                    .Retriers(StateMachineBuilder.Retrier()
+                    .Retriers(
+                        StateMachineBuilder.Retrier()
                             .ErrorEquals("Foo", "Bar")
                             .IntervalSeconds(20)
                             .MaxAttempts(3)
-                            .BackoffRate(2.0),
+                            .BackoffRate(2.0)
+                            .MaxDelaySeconds(5)
+                            .FullJitterStrategy(),
                         StateMachineBuilder.Retrier()
                             .RetryOnAllErrors()
                             .IntervalSeconds(30)
