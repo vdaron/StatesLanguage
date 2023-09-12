@@ -14,7 +14,7 @@
       "ResultSelector": {
         "value": "param"
       },
-      "ItemProcessor": {
+      "Iterator": {
         "StartAt": "Validate",
         "States": {
           "Validate": {

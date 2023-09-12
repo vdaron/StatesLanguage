@@ -635,12 +635,23 @@ namespace StatesLanguage.Tests
                     .Parameters(JObject.FromObject(new {value = "param"}))
                     .ResultSelector(JObject.FromObject(new {value = "param"}))
                     .Transition(StateMachineBuilder.End())
-                    .Iterator(StateMachineBuilder.SubStateMachine()
+                    .ItemProcessor(StateMachineBuilder.SubStateMachine()
                         .StartAt("Validate")
                         .State("Validate", StateMachineBuilder.TaskState()
                             .Resource("arn:aws:lambda:us-east-1:123456789012:function:ship-val")
                             .Transition(StateMachineBuilder.End()))))
                 .Build();
+
+            AssertStateMachine(stateMachine, "SimpleMapState.json");
+        }
+        
+        
+        [Fact]
+        public void SimpleMapStateDeprecated()
+        {
+            //Ensure We are converting deprecated values automatically
+            var expected = LoadExpected("SimpleMapStateDeprecated.json");
+            var stateMachine = StateMachine.FromJObject(expected).Build();
 
             AssertStateMachine(stateMachine, "SimpleMapState.json");
         }

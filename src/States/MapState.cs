@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using StatesLanguage.Internal;
 
@@ -20,7 +21,11 @@ namespace StatesLanguage.States
         public int? ToleratedFailureCount { get; private set; }
 
         [JsonIgnore]
-        public SubStateMachine Iterator { get; private set; }
+        [Obsolete("Replaced by ItemProcessor")]
+        public SubStateMachine Iterator => ItemProcessor;
+        
+        [JsonIgnore]
+        public SubStateMachine ItemProcessor { get; private set; }
 
         public override bool IsTerminalState => Transition.IsTerminal;
 
@@ -43,7 +48,10 @@ namespace StatesLanguage.States
             private string _itemsPath;
 
             [JsonProperty(PropertyNames.ITERATOR)]
-            private SubStateMachine.Builder _iterator = new SubStateMachine.Builder();
+            private SubStateMachine.Builder _iterator;
+
+            [JsonProperty(PropertyNames.ITEM_PROCESSOR)]
+            private SubStateMachine.Builder _itemProcessor;
 
             [JsonProperty(PropertyNames.MAX_CONCURENCY)]
             private int? _maxConcurrency;
@@ -54,20 +62,29 @@ namespace StatesLanguage.States
 
             internal Builder()
             {
+                _iterator = _itemProcessor = new SubStateMachine.Builder();
+            }
+
+
+            [Obsolete("Use ItemProcessor instead")]
+            public Builder Iterator(SubStateMachine.Builder iteratorBuilder)
+            {
+                _itemProcessor = iteratorBuilder;
+                return this;
             }
 
             /// <summary>
-            ///     REQUIRED. Set the iterator for this MapState.
+            ///     REQUIRED. Set the ItemProcessor for this MapState.
             /// </summary>
             /// <param name="iteratorBuilder">
             ///     Instance of <see cref="SubStateMachine" />. Note that the <see cref="SubStateMachine" /> object is
-            ///     not built until the {@link ParallelState} is built so any modifications on the state model will be reflected in
+            ///     not built until the <see cref="MapState"/> is built so any modifications on the state model will be reflected in
             ///     this object.
             /// </param>
             /// <returns>This object for method chaining.</returns>
-            public Builder Iterator(SubStateMachine.Builder iteratorBuilder)
+            public Builder ItemProcessor(SubStateMachine.Builder itemProcessorBuilder)
             {
-                _iterator = iteratorBuilder;
+                _itemProcessor = itemProcessorBuilder;
                 return this;
             }
 
@@ -123,7 +140,7 @@ namespace StatesLanguage.States
                 return new MapState
                 {
                     Comment = _comment,
-                    Iterator = _iterator.Build(),
+                    ItemProcessor = _itemProcessor.Build(),
                     ItemsPath = _itemsPath,
                     MaxConcurrency = _maxConcurrency,
                     ToleratedFailureCount = _toleratedFailureCount,
