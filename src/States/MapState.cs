@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using StatesLanguage.Internal;
-using StatesLanguage.ReferencePaths;
 
 namespace StatesLanguage.States
 {
@@ -13,6 +12,12 @@ namespace StatesLanguage.States
 
         [JsonProperty(PropertyNames.ITEMS_PATH)]
         public string ItemsPath { get; private set; }
+        
+        [JsonProperty(PropertyNames.TOLERATED_FAILURE_PERCENTAGE)]
+        public int? ToleratedFailurePercentage { get; private set; }
+        
+        [JsonProperty(PropertyNames.TOLERATED_FAILURE_COUNT)]
+        public int? ToleratedFailureCount { get; private set; }
 
         [JsonIgnore]
         public SubStateMachine Iterator { get; private set; }
@@ -42,6 +47,10 @@ namespace StatesLanguage.States
 
             [JsonProperty(PropertyNames.MAX_CONCURENCY)]
             private int? _maxConcurrency;
+            [JsonProperty(PropertyNames.TOLERATED_FAILURE_PERCENTAGE)]
+            private int? _toleratedFailurePercentage;
+            [JsonProperty(PropertyNames.TOLERATED_FAILURE_COUNT)]
+            private int? _toleratedFailureCount;
 
             internal Builder()
             {
@@ -83,6 +92,28 @@ namespace StatesLanguage.States
                 _maxConcurrency = maxConcurrency;
                 return this;
             }
+            
+            /// <summary>
+            ///     Provides an upper bound on the percentage of items that may fail. 
+            /// </summary>
+            /// <param name="toleratedFailurePercentage"></param>
+            /// <returns></returns>
+            public Builder ToleratedFailurePercentage(int toleratedFailurePercentage)
+            {
+                _toleratedFailurePercentage = toleratedFailurePercentage;
+                return this;
+            }
+            
+            /// <summary>
+            ///     Provides an upper bound on how many items may fail. 
+            /// </summary>
+            /// <param name="toleratedFailureCount"></param>
+            /// <returns></returns>
+            public Builder ToleratedFailureCount(int toleratedFailureCount)
+            {
+                _toleratedFailureCount = toleratedFailureCount;
+                return this;
+            }
 
             /**
              * @return An immutable {@link ParallelState} object.
@@ -95,6 +126,8 @@ namespace StatesLanguage.States
                     Iterator = _iterator.Build(),
                     ItemsPath = _itemsPath,
                     MaxConcurrency = _maxConcurrency,
+                    ToleratedFailureCount = _toleratedFailureCount,
+                    ToleratedFailurePercentage = _toleratedFailurePercentage,
                     InputPath = _inputPath,
                     ResultPath = _resultPath,
                     OutputPath = _outputPath,

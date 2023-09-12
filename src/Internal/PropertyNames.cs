@@ -71,6 +71,8 @@ namespace StatesLanguage.Internal
         public const string MAX_CONCURENCY = "MaxConcurrency";
         public const string ITERATOR = "Iterator";
         public const string ITEMS_PATH = "ItemsPath";
+        public const string TOLERATED_FAILURE_PERCENTAGE = "ToleratedFailurePercentage";
+        public const string TOLERATED_FAILURE_COUNT = "ToleratedFailureCount";
 
         // Binary condition property names
         public const string VARIABLE = "Variable";

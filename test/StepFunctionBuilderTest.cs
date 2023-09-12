@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Globalization;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -253,7 +254,7 @@ namespace StatesLanguage.Tests
             var stateMachine = StateMachineBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StateMachineBuilder.WaitState()
-                    .WaitFor(StateMachineBuilder.Timestamp(DateTime.Parse("2016-03-14T01:59:00Z").ToUniversalTime()))
+                    .WaitFor(StateMachineBuilder.Timestamp(DateTime.Parse("2016-03-14T01:59:00Z",CultureInfo.InvariantCulture).ToUniversalTime()))
                     .Transition(StateMachineBuilder.End()))
                 .Build();
 
@@ -263,7 +264,7 @@ namespace StatesLanguage.Tests
         [Fact]
         public void SingleWaitState_WaitUntilTimestampWithMillisecond()
         {
-            var millis = DateTime.Parse("2016-03-14T01:59:00.123Z").ToUniversalTime();
+            var millis = DateTime.Parse("2016-03-14T01:59:00.123Z",CultureInfo.InvariantCulture).ToUniversalTime();
             var stateMachine = StateMachineBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StateMachineBuilder.WaitState()
@@ -277,7 +278,7 @@ namespace StatesLanguage.Tests
         [Fact]
         public void SingleWaitState_WaitUntilTimestampWithTimezone()
         {
-            var epochMilli = DateTime.Parse("2016-03-14T01:59:00.123-08:00").ToUniversalTime();
+            var epochMilli = DateTime.Parse("2016-03-14T01:59:00.123-08:00",CultureInfo.InvariantCulture).ToUniversalTime();
             var stateMachine = StateMachineBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StateMachineBuilder.WaitState()
@@ -453,7 +454,7 @@ namespace StatesLanguage.Tests
         [Fact]
         public void ChoiceStateWithAllPrimitiveConditions()
         {
-            var date = DateTime.Parse("2016-03-14T01:59:00.000Z").ToUniversalTime();
+            var date = DateTime.Parse("2016-03-14T01:59:00.000Z",CultureInfo.InvariantCulture).ToUniversalTime();
             var stateMachine = StateMachineBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StateMachineBuilder.ChoiceState()
@@ -629,6 +630,8 @@ namespace StatesLanguage.Tests
                     .ItemPath("$.shipped")
                     .ResultPath("$.detail.shipped")
                     .MaxConcurrency(0)
+                    .ToleratedFailureCount(20)
+                    .ToleratedFailurePercentage(5)
                     .Parameters(JObject.FromObject(new {value = "param"}))
                     .ResultSelector(JObject.FromObject(new {value = "param"}))
                     .Transition(StateMachineBuilder.End())

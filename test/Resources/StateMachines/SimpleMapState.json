@@ -6,6 +6,8 @@
       "InputPath": "$.detail",
       "ItemsPath": "$.shipped",
       "MaxConcurrency": 0,
+      "ToleratedFailurePercentage": 5,
+      "ToleratedFailureCount": 20,
       "Parameters": {
         "value": "param"
       },
