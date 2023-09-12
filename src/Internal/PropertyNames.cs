@@ -71,11 +71,14 @@ namespace StatesLanguage.Internal
 
         // MapState property names
         public const string MAX_CONCURENCY = "MaxConcurrency";
+        public const string MAX_CONCURENCY_PATH = "MaxConcurrencyPath";
         [Obsolete("Replaced by ITEM PROCESSOR")]
         public const string ITERATOR = "Iterator";
         public const string ITEMS_PATH = "ItemsPath";
         public const string TOLERATED_FAILURE_PERCENTAGE = "ToleratedFailurePercentage";
         public const string TOLERATED_FAILURE_COUNT = "ToleratedFailureCount";
+        public const string TOLERATED_FAILURE_PERCENTAGE_PATH = "ToleratedFailurePercentagePath";
+        public const string TOLERATED_FAILURE_COUNT_PATH = "ToleratedFailureCountPath";
         public const string ITEM_PROCESSOR = "ItemProcessor";
         public const string ITEM_SELECTOR = "ItemSelector";
         public const string ITEM_READER = "ItemReader";

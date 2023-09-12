@@ -11,6 +11,9 @@ namespace StatesLanguage.States
 
         [JsonProperty(PropertyNames.MAX_CONCURENCY)]
         public int? MaxConcurrency { get; private set; }
+        
+        [JsonProperty(PropertyNames.MAX_CONCURENCY_PATH)]
+        public string MaxConcurrencyPath { get; private set; }
 
         [JsonProperty(PropertyNames.ITEMS_PATH)]
         public string ItemsPath { get; private set; }
@@ -20,6 +23,12 @@ namespace StatesLanguage.States
         
         [JsonProperty(PropertyNames.TOLERATED_FAILURE_COUNT)]
         public int? ToleratedFailureCount { get; private set; }
+        
+        [JsonProperty(PropertyNames.TOLERATED_FAILURE_PERCENTAGE_PATH)]
+        public string ToleratedFailurePercentagePath { get; private set; }
+        
+        [JsonProperty(PropertyNames.TOLERATED_FAILURE_COUNT_PATH)]
+        public string ToleratedFailureCountPath { get; private set; }
 
         [JsonProperty(PropertyNames.ITEM_SELECTOR)]
         public JObject ItemSelector { get; protected set; }
@@ -85,11 +94,20 @@ namespace StatesLanguage.States
             [JsonProperty(PropertyNames.MAX_CONCURENCY)]
             private int? _maxConcurrency;
             
+            [JsonProperty(PropertyNames.MAX_CONCURENCY_PATH)]
+            private string _maxConcurrencyPath;
+            
             [JsonProperty(PropertyNames.TOLERATED_FAILURE_PERCENTAGE)]
             private int? _toleratedFailurePercentage;
             
             [JsonProperty(PropertyNames.TOLERATED_FAILURE_COUNT)]
             private int? _toleratedFailureCount;
+            
+            [JsonProperty(PropertyNames.TOLERATED_FAILURE_PERCENTAGE_PATH)]
+            private string _toleratedFailurePercentagePath;
+            
+            [JsonProperty(PropertyNames.TOLERATED_FAILURE_COUNT_PATH)]
+            private string _toleratedFailureCountPath;
 
             internal Builder()
             {
@@ -189,6 +207,17 @@ namespace StatesLanguage.States
             }
             
             /// <summary>
+            ///     Json path to retrieve <see cref="MaxConcurrency"/> 
+            /// </summary>
+            /// <param name="maxConcurrencyPath"></param>
+            /// <returns></returns>
+            public Builder MaxConcurrencyPath(string maxConcurrencyPath)
+            {
+                _maxConcurrencyPath = maxConcurrencyPath;
+                return this;
+            }
+            
+            /// <summary>
             ///     Provides an upper bound on the percentage of items that may fail. 
             /// </summary>
             /// <param name="toleratedFailurePercentage"></param>
@@ -209,12 +238,43 @@ namespace StatesLanguage.States
                 _toleratedFailureCount = toleratedFailureCount;
                 return this;
             }
+            
+            /// <summary>
+            /// Json Path to retrieve the <see cref="ToleratedFailurePercentage"/>. 
+            /// </summary>
+            /// <param name="toleratedFailurePercentagePath"></param>
+            /// <returns></returns>
+            public Builder ToleratedFailurePercentagePath(string toleratedFailurePercentagePath)
+            {
+                _toleratedFailurePercentagePath = toleratedFailurePercentagePath;
+                return this;
+            }
+            
+            /// <summary>
+            /// Json Path to retrieve the <see cref="ToleratedFailureCount"/>. 
+            /// </summary>
+            /// <param name="toleratedFailureCountPath"></param>
+            /// <returns></returns>
+            public Builder ToleratedFailureCountPath(string toleratedFailureCountPath)
+            {
+                _toleratedFailureCountPath = toleratedFailureCountPath;
+                return this;
+            }
 
             /**
              * @return An immutable {@link ParallelState} object.
              */
             public override MapState Build()
             {
+                if (_maxConcurrency.HasValue && !string.IsNullOrWhiteSpace(_maxConcurrencyPath))
+                    throw new StatesLanguageException("You cannot specify MaxConcurrency and MaxConcurrencyPath at the same time");
+                
+                if (_toleratedFailureCount.HasValue && !string.IsNullOrWhiteSpace(_toleratedFailureCountPath))
+                    throw new StatesLanguageException("You cannot specify ToleratedFailureCount and ToleratedFailureCountPath at the same time");
+                
+                if (_toleratedFailurePercentage.HasValue && !string.IsNullOrWhiteSpace(_toleratedFailurePercentagePath))
+                    throw new StatesLanguageException("You cannot specify ToleratedFailurePercentage and ToleratedFailurePercentagePath at the same time");
+
                 return new MapState
                 {
                     Comment = _comment,
@@ -222,8 +282,11 @@ namespace StatesLanguage.States
                     ItemBatcher = _itemBatcher.Build(),
                     ItemsPath = _itemsPath,
                     MaxConcurrency = _maxConcurrency,
+                    MaxConcurrencyPath = _maxConcurrencyPath,
                     ToleratedFailureCount = _toleratedFailureCount,
+                    ToleratedFailureCountPath = _toleratedFailureCountPath,
                     ToleratedFailurePercentage = _toleratedFailurePercentage,
+                    ToleratedFailurePercentagePath = _toleratedFailurePercentagePath,
                     ItemReader = _itemReader,
                     ResultWriter = _resultWriter,
                     InputPath = _inputPath,

@@ -65,10 +65,10 @@ public class ItemBatcher
                 throw new StatesLanguageException("You must specify at least one MaxItemsPerBatch, MaxInputBytesPerBatch, MaxItemsPerBatchPath or MaxInputBytesPerBatchPath");
             
             if (_maxItemsPerBatch.HasValue && !string.IsNullOrWhiteSpace(_maxItemsPerBatchPath))
-                throw new StatesLanguageException("You cannot specify MaxItemsPerBatch and MaxItemsPerBatchPath");
+                throw new StatesLanguageException("You cannot specify MaxItemsPerBatch and MaxItemsPerBatchPath at the same time");
             
             if (_maxInputBytesPerBatch.HasValue && !string.IsNullOrWhiteSpace(_maxInputBytesPerBatchPath))
-                throw new StatesLanguageException("You cannot specify MaxInputBytesPerBatch and MaxInputBytesPerBatchPath");
+                throw new StatesLanguageException("You cannot specify MaxInputBytesPerBatch and MaxInputBytesPerBatchPath at the same time");
             
             if(_maxItemsPerBatch is <= 0)
                 throw new StatesLanguageException("MaxItemsPerBatch must be > 0");
