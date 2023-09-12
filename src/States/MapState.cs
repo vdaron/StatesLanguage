@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using StatesLanguage.Internal;
 
 namespace StatesLanguage.States
@@ -20,6 +21,13 @@ namespace StatesLanguage.States
         [JsonProperty(PropertyNames.TOLERATED_FAILURE_COUNT)]
         public int? ToleratedFailureCount { get; private set; }
 
+        [JsonProperty(PropertyNames.ITEM_SELECTOR)]
+        public JObject ItemSelector { get; protected set; }
+        
+        [JsonIgnore]
+        [Obsolete("Parameter is now deprecated on Map, use ItemSelector instead")]
+        public override JObject Parameters => ItemSelector;
+        
         [JsonIgnore]
         [Obsolete("Replaced by ItemProcessor")]
         public SubStateMachine Iterator => ItemProcessor;
@@ -52,11 +60,16 @@ namespace StatesLanguage.States
 
             [JsonProperty(PropertyNames.ITEM_PROCESSOR)]
             private SubStateMachine.Builder _itemProcessor;
-
+            
+            [JsonProperty(PropertyNames.ITEM_SELECTOR)]
+            private JObject _itemSelector;
+            
             [JsonProperty(PropertyNames.MAX_CONCURENCY)]
             private int? _maxConcurrency;
+            
             [JsonProperty(PropertyNames.TOLERATED_FAILURE_PERCENTAGE)]
             private int? _toleratedFailurePercentage;
+            
             [JsonProperty(PropertyNames.TOLERATED_FAILURE_COUNT)]
             private int? _toleratedFailureCount;
 
@@ -85,6 +98,19 @@ namespace StatesLanguage.States
             public Builder ItemProcessor(SubStateMachine.Builder itemProcessorBuilder)
             {
                 _itemProcessor = itemProcessorBuilder;
+                return this;
+            }
+
+            [Obsolete("Use ItemSelector instead")]
+            public override Builder Parameters(JObject parameters)
+            {
+                _itemSelector = parameters;
+                return this;
+            }
+            
+            public Builder ItemSelector(JObject itemSelector)
+            {
+                _itemSelector = itemSelector;
                 return this;
             }
 
@@ -148,7 +174,7 @@ namespace StatesLanguage.States
                     InputPath = _inputPath,
                     ResultPath = _resultPath,
                     OutputPath = _outputPath,
-                    Parameters = _parameters,
+                    ItemSelector = _itemSelector ?? _parameters, // Take parameter if they where set and convert it into ItemSelector
                     ResultSelector = _resultSelector,
                     Transition = _transition.Build(),
                     Retriers = BuildableUtils.Build(_retriers),

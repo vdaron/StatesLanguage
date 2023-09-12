@@ -37,8 +37,10 @@ namespace StatesLanguage.Serialization
                 Converters = {new CatcherDeserializer()}
             });
 
-            state.Add(PropertyNames.ITEM_PROCESSOR, JToken.FromObject(((MapState) value).ItemProcessor, serializer));
-
+            var mapState = (MapState) value;
+            
+            state.Add(PropertyNames.ITEM_PROCESSOR, JToken.FromObject(mapState.ItemProcessor, serializer));
+            
             var transition = ((TransitionState) value).Transition;
 
             var json = JObject.FromObject(transition);

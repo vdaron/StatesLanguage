@@ -8,7 +8,7 @@
       "MaxConcurrency": 0,
       "ToleratedFailurePercentage": 5,
       "ToleratedFailureCount": 20,
-      "Parameters": {
+      "ItemSelector": {
         "value": "param"
       },
       "ResultSelector": {

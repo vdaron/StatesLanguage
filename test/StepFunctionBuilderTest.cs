@@ -632,7 +632,7 @@ namespace StatesLanguage.Tests
                     .MaxConcurrency(0)
                     .ToleratedFailureCount(20)
                     .ToleratedFailurePercentage(5)
-                    .Parameters(JObject.FromObject(new {value = "param"}))
+                    .ItemSelector(JObject.FromObject(new {value = "param"}))
                     .ResultSelector(JObject.FromObject(new {value = "param"}))
                     .Transition(StateMachineBuilder.End())
                     .ItemProcessor(StateMachineBuilder.SubStateMachine()
