@@ -78,6 +78,8 @@ namespace StatesLanguage.Internal
         public const string TOLERATED_FAILURE_COUNT = "ToleratedFailureCount";
         public const string ITEM_PROCESSOR = "ItemProcessor";
         public const string ITEM_SELECTOR = "ItemSelector";
+        public const string ITEM_READER = "ItemReader";
+        public const string RESULT_WRITER = "ResultWriter";
         
         // Binary condition property names
         public const string VARIABLE = "Variable";

@@ -14,6 +14,20 @@
       "ResultSelector": {
         "value": "param"
       },
+      "ItemReader": {
+        "Resource": "arn:aws:states:::s3:listObjectsV2",
+        "Parameters": {
+          "Bucket": "myBucket",
+          "Prefix": "processData"
+        }
+      },
+      "ResultWriter": {
+        "Resource": "arn:aws:states:::s3:putObject",
+        "Parameters": {
+          "Bucket": "myOutputBucket",
+          "Prefix": "csvProcessJobs"
+        }
+      },
       "Iterator": {
         "StartAt": "Validate",
         "States": {

@@ -24,6 +24,12 @@ namespace StatesLanguage.States
         [JsonProperty(PropertyNames.ITEM_SELECTOR)]
         public JObject ItemSelector { get; protected set; }
         
+        [JsonProperty(PropertyNames.ITEM_READER)]
+        public JObject ItemReader { get; protected set; }
+        
+        [JsonProperty(PropertyNames.RESULT_WRITER)]
+        public JObject ResultWriter { get; protected set; }
+        
         [JsonIgnore]
         [Obsolete("Parameter is now deprecated on Map, use ItemSelector instead")]
         public override JObject Parameters => ItemSelector;
@@ -64,6 +70,12 @@ namespace StatesLanguage.States
             [JsonProperty(PropertyNames.ITEM_SELECTOR)]
             private JObject _itemSelector;
             
+            [JsonProperty(PropertyNames.ITEM_READER)]
+            private JObject _itemReader;
+            
+            [JsonProperty(PropertyNames.RESULT_WRITER)]
+            private JObject _resultWriter;
+            
             [JsonProperty(PropertyNames.MAX_CONCURENCY)]
             private int? _maxConcurrency;
             
@@ -89,7 +101,7 @@ namespace StatesLanguage.States
             /// <summary>
             ///     REQUIRED. Set the ItemProcessor for this MapState.
             /// </summary>
-            /// <param name="iteratorBuilder">
+            /// <param name="itemProcessorBuilder">
             ///     Instance of <see cref="SubStateMachine" />. Note that the <see cref="SubStateMachine" /> object is
             ///     not built until the <see cref="MapState"/> is built so any modifications on the state model will be reflected in
             ///     this object.
@@ -101,16 +113,44 @@ namespace StatesLanguage.States
                 return this;
             }
 
-            [Obsolete("Use ItemSelector instead")]
+            [Obsolete("Use ItemSelector instead on Map States")]
             public override Builder Parameters(JObject parameters)
             {
                 _itemSelector = parameters;
                 return this;
             }
             
+            /// <summary>
+            /// Overrides the values of the input array items before they're passed on to each Map state iteration.
+            /// </summary>
+            /// <param name="itemSelector"></param>
+            /// <returns></returns>
             public Builder ItemSelector(JObject itemSelector)
             {
                 _itemSelector = itemSelector;
+                return this;
+            }
+            
+            
+            /// <summary>
+            ///  JSON object, which specifies a dataset and its location.
+            /// </summary>
+            /// <param name="itemReader"></param>
+            /// <returns></returns>
+            public Builder ItemReader(JObject itemReader)
+            {
+                _itemReader = itemReader;
+                return this;
+            }
+            
+            /// <summary>
+            /// JSON object that specifies the Amazon S3 location where Step Functions writes the results of the child workflow executions started by a Distributed Map state.
+            /// </summary>
+            /// <param name="resultWriter"></param>
+            /// <returns></returns>
+            public Builder ResultWriter(JObject resultWriter)
+            {
+                _resultWriter = resultWriter;
                 return this;
             }
 
@@ -171,6 +211,8 @@ namespace StatesLanguage.States
                     MaxConcurrency = _maxConcurrency,
                     ToleratedFailureCount = _toleratedFailureCount,
                     ToleratedFailurePercentage = _toleratedFailurePercentage,
+                    ItemReader = _itemReader,
+                    ResultWriter = _resultWriter,
                     InputPath = _inputPath,
                     ResultPath = _resultPath,
                     OutputPath = _outputPath,

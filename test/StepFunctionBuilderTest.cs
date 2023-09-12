@@ -629,6 +629,8 @@ namespace StatesLanguage.Tests
                     .InputPath("$.detail")
                     .ItemPath("$.shipped")
                     .ResultPath("$.detail.shipped")
+                    .ItemReader(JObject.Parse("{\"Resource\": \"arn:aws:states:::s3:listObjectsV2\",\"Parameters\": {\"Bucket\": \"myBucket\",\"Prefix\": \"processData\"}}"))
+                    .ResultWriter(JObject.Parse("{\"Resource\": \"arn:aws:states:::s3:putObject\",\"Parameters\": {\"Bucket\": \"myOutputBucket\",\"Prefix\": \"csvProcessJobs\"}}"))
                     .MaxConcurrency(0)
                     .ToleratedFailureCount(20)
                     .ToleratedFailurePercentage(5)
