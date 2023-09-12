@@ -8,6 +8,13 @@
       "MaxConcurrency": 0,
       "ToleratedFailurePercentage": 5,
       "ToleratedFailureCount": 20,
+      "ItemBatcher": {
+        "MaxItemsPerBatch": 100,
+        "MaxInputBytesPerBatch" : 250,
+        "BatchInput": {
+          "factCheck": "December 2022"
+        }
+      },
       "ItemSelector": {
         "value": "param"
       },

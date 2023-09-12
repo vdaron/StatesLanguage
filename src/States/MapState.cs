@@ -40,6 +40,9 @@ namespace StatesLanguage.States
         
         [JsonIgnore]
         public SubStateMachine ItemProcessor { get; private set; }
+        
+        [JsonIgnore]
+        public ItemBatcher ItemBatcher { get; private set; }
 
         public override bool IsTerminalState => Transition.IsTerminal;
 
@@ -66,6 +69,9 @@ namespace StatesLanguage.States
 
             [JsonProperty(PropertyNames.ITEM_PROCESSOR)]
             private SubStateMachine.Builder _itemProcessor;
+            
+            [JsonProperty(PropertyNames.ITEM_BATCHER)]
+            private ItemBatcher.Builder _itemBatcher;
             
             [JsonProperty(PropertyNames.ITEM_SELECTOR)]
             private JObject _itemSelector;
@@ -95,6 +101,12 @@ namespace StatesLanguage.States
             public Builder Iterator(SubStateMachine.Builder iteratorBuilder)
             {
                 _itemProcessor = iteratorBuilder;
+                return this;
+            }
+            
+            public Builder ItemBatcher(ItemBatcher.Builder itemBatcherBuilder)
+            {
+                _itemBatcher = itemBatcherBuilder;
                 return this;
             }
 
@@ -207,6 +219,7 @@ namespace StatesLanguage.States
                 {
                     Comment = _comment,
                     ItemProcessor = _itemProcessor.Build(),
+                    ItemBatcher = _itemBatcher.Build(),
                     ItemsPath = _itemsPath,
                     MaxConcurrency = _maxConcurrency,
                     ToleratedFailureCount = _toleratedFailureCount,

@@ -14,6 +14,13 @@
       "ResultSelector": {
         "value": "param"
       },
+      "ItemBatcher": {
+        "MaxItemsPerBatch": 100,
+        "MaxInputBytesPerBatch" : 250,
+        "BatchInput": {
+          "factCheck": "December 2022"
+        }
+      },
       "ItemReader": {
         "Resource": "arn:aws:states:::s3:listObjectsV2",
         "Parameters": {

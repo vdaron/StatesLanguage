@@ -80,6 +80,14 @@ namespace StatesLanguage.Internal
         public const string ITEM_SELECTOR = "ItemSelector";
         public const string ITEM_READER = "ItemReader";
         public const string RESULT_WRITER = "ResultWriter";
+        public const string ITEM_BATCHER = "ItemBatcher";
+        
+        // Batcher property names
+        public const string BATCH_INPUT = "BatchInput";
+        public const string MAX_ITEMS_PER_BATCH = "MaxItemsPerBatch";
+        public const string MAX_INPUT_BYTES_PER_BATCH = "MaxInputBytesPerBatch";
+        public const string MAX_ITEMS_PER_BATCH_PATH = "MaxItemsPerBatchPath";
+        public const string MAX_INPUT_BYTES_PER_BATCH_PATH = "MaxInputBytesPerBatchPath";
         
         // Binary condition property names
         public const string VARIABLE = "Variable";
