@@ -59,6 +59,7 @@
     <EmbeddedResource Include="Resources\StateMachines\ParallelStateWithRetriers.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleChoiceState.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleMapState.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SimpleMapStateDeprecated.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleParallelState.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleParallelStateWithTasks.json">
       <Generator>MSDataSetGenerator</Generator>
@@ -67,6 +68,7 @@
     <EmbeddedResource Include="Resources\StateMachines\SimpleTaskStateWithCatchers.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleTaskStateWithRetries.json" />
     <EmbeddedResource Include="Resources\StateMachines\SingleFailState.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SingleFailStateWithPath.json" />
     <EmbeddedResource Include="Resources\StateMachines\SinglePassStateWithJsonResult.json" />
     <EmbeddedResource Include="Resources\StateMachines\SinglePassStateWithObjectResult.json" />
     <EmbeddedResource Include="Resources\StateMachines\SingleSucceedState.json" />

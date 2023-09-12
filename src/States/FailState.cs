@@ -37,6 +37,18 @@ namespace StatesLanguage.States
         /// </summary>
         [JsonProperty(PropertyNames.CAUSE)]
         public string Cause { get; protected set; }
+        
+        /// <summary>
+        ///  Json Path to the <see cref="Error"/>
+        /// </summary>
+        [JsonProperty(PropertyNames.ERROR_PATH)]
+        public string ErrorPath { get; protected set; }
+
+        /// <summary>
+        ///  json path to the <see cref="Cause"/>
+        /// </summary>
+        [JsonProperty(PropertyNames.CAUSE_PATH)]
+        public string CausePath { get; protected set; }
 
         public override StateType Type => StateType.Fail;
         public override bool IsTerminalState => true;
@@ -59,9 +71,17 @@ namespace StatesLanguage.States
          */
         public sealed class Builder : StateBuilder<FailState, Builder>
         {
-            [JsonProperty(PropertyNames.CAUSE)] private string _cause;
+            [JsonProperty(PropertyNames.CAUSE)]
+            private string _cause;
 
-            [JsonProperty(PropertyNames.ERROR)] private string _error;
+            [JsonProperty(PropertyNames.ERROR)] 
+            private string _error;
+            
+            [JsonProperty(PropertyNames.CAUSE_PATH)] 
+            private string _causePath;
+            
+            [JsonProperty(PropertyNames.ERROR_PATH)] 
+            private string _errorPath;
 
             internal Builder()
             {
@@ -69,11 +89,25 @@ namespace StatesLanguage.States
 
             public override FailState Build()
             {
+                if (!string.IsNullOrWhiteSpace(_error) && !string.IsNullOrWhiteSpace(_errorPath))
+                    throw new StatesLanguageException("You cannot specify Error and ErrorPath at the same time");
+                
+                if (!string.IsNullOrWhiteSpace(_cause) && !string.IsNullOrWhiteSpace(_causePath))
+                    throw new StatesLanguageException("You cannot specify Cause and CausePath at the same time");
+
+                if (string.IsNullOrWhiteSpace(_error) && string.IsNullOrWhiteSpace(_errorPath))
+                    throw new StatesLanguageException("You have to specify at least Error or ErrorPath");
+                
+                if (string.IsNullOrWhiteSpace(_cause) && string.IsNullOrWhiteSpace(_causePath))
+                    throw new StatesLanguageException("You have to specify at least Cause and CausePath");
+                
                 return new FailState
                 {
                     Comment = _comment,
                     Error = _error,
-                    Cause = _cause
+                    ErrorPath = _errorPath,
+                    Cause = _cause,
+                    CausePath = _causePath
                 };
             }
 
@@ -98,6 +132,29 @@ namespace StatesLanguage.States
             public Builder Cause(string cause)
             {
                 _cause = cause;
+                return this;
+            }
+            
+            
+            /// <summary>
+            /// Json Path to the <see cref="Error"/>
+            /// </summary>
+            /// <param name="errorPath">Error code value</param>
+            /// <returns>This object for method chaining.</returns>
+            public Builder ErrorPath(string errorPath)
+            {
+                _errorPath = errorPath;
+                return this;
+            }
+
+            /// <summary>
+            /// Json Path to the <see cref="Cause"/>
+            /// </summary>
+            /// <param name="causePath">Cause description.</param>
+            /// <returns>This object for method chaining.</returns>
+            public Builder CausePath(string causePath)
+            {
+                _causePath = causePath;
                 return this;
             }
         }

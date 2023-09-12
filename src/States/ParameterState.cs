@@ -20,6 +20,6 @@ namespace StatesLanguage.States
         ///     input.
         /// </summary>
         [JsonProperty(PropertyNames.PARAMETERS)]
-        public JObject Parameters { get; protected set; }
+        public virtual JObject Parameters { get; protected set; }
     }
 }

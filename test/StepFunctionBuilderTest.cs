@@ -15,6 +15,7 @@
  */
 
 using System;
+using System.Globalization;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -104,7 +105,8 @@ namespace StatesLanguage.Tests
                     .ResultPath("$.result")
                     .OutputPath("$.output")
                     .Parameters(JObject.FromObject(new {value = "param"}))
-                    .ResultSelector(JObject.FromObject(new {value = "param"})))
+                    .ResultSelector(JObject.FromObject(new {value = "param"}))
+                    .Credentials(JObject.Parse("{\"user\": \"vda\"}")))
                 .State("NextState", StateMachineBuilder.SucceedState())
                 .Build();
 
@@ -146,11 +148,14 @@ namespace StatesLanguage.Tests
                 .State("InitialState", StateMachineBuilder.TaskState()
                     .Transition(StateMachineBuilder.Next("NextState"))
                     .Resource("resource-arn")
-                    .Retriers(StateMachineBuilder.Retrier()
+                    .Retriers(
+                        StateMachineBuilder.Retrier()
                             .ErrorEquals("Foo", "Bar")
                             .IntervalSeconds(20)
                             .MaxAttempts(3)
-                            .BackoffRate(2.0),
+                            .BackoffRate(2.0)
+                            .MaxDelaySeconds(5)
+                            .FullJitterStrategy(),
                         StateMachineBuilder.Retrier()
                             .RetryOnAllErrors()
                             .IntervalSeconds(30)
@@ -253,7 +258,7 @@ namespace StatesLanguage.Tests
             var stateMachine = StateMachineBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StateMachineBuilder.WaitState()
-                    .WaitFor(StateMachineBuilder.Timestamp(DateTime.Parse("2016-03-14T01:59:00Z").ToUniversalTime()))
+                    .WaitFor(StateMachineBuilder.Timestamp(DateTime.Parse("2016-03-14T01:59:00Z",CultureInfo.InvariantCulture).ToUniversalTime()))
                     .Transition(StateMachineBuilder.End()))
                 .Build();
 
@@ -263,7 +268,7 @@ namespace StatesLanguage.Tests
         [Fact]
         public void SingleWaitState_WaitUntilTimestampWithMillisecond()
         {
-            var millis = DateTime.Parse("2016-03-14T01:59:00.123Z").ToUniversalTime();
+            var millis = DateTime.Parse("2016-03-14T01:59:00.123Z",CultureInfo.InvariantCulture).ToUniversalTime();
             var stateMachine = StateMachineBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StateMachineBuilder.WaitState()
@@ -277,7 +282,7 @@ namespace StatesLanguage.Tests
         [Fact]
         public void SingleWaitState_WaitUntilTimestampWithTimezone()
         {
-            var epochMilli = DateTime.Parse("2016-03-14T01:59:00.123-08:00").ToUniversalTime();
+            var epochMilli = DateTime.Parse("2016-03-14T01:59:00.123-08:00",CultureInfo.InvariantCulture).ToUniversalTime();
             var stateMachine = StateMachineBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StateMachineBuilder.WaitState()
@@ -313,6 +318,20 @@ namespace StatesLanguage.Tests
                 .Build();
 
             AssertStateMachine(stateMachine, "SingleFailState.json");
+        }
+        
+        [Fact]
+        public void SingleFailStateWithPath()
+        {
+            var stateMachine = StateMachineBuilder.StateMachine()
+                                                  .StartAt("InitialState")
+                                                  .State("InitialState", StateMachineBuilder.FailState()
+                                                                                            .Comment("My fail state")
+                                                                                            .CausePath("$.cause")
+                                                                                            .ErrorPath("$.error"))
+                                                  .Build();
+
+            AssertStateMachine(stateMachine, "SingleFailStateWithPath.json");
         }
 
         [Fact]
@@ -453,7 +472,7 @@ namespace StatesLanguage.Tests
         [Fact]
         public void ChoiceStateWithAllPrimitiveConditions()
         {
-            var date = DateTime.Parse("2016-03-14T01:59:00.000Z").ToUniversalTime();
+            var date = DateTime.Parse("2016-03-14T01:59:00.000Z",CultureInfo.InvariantCulture).ToUniversalTime();
             var stateMachine = StateMachineBuilder.StateMachine()
                 .StartAt("InitialState")
                 .State("InitialState", StateMachineBuilder.ChoiceState()
@@ -628,16 +647,35 @@ namespace StatesLanguage.Tests
                     .InputPath("$.detail")
                     .ItemPath("$.shipped")
                     .ResultPath("$.detail.shipped")
+                    .ItemReader(JObject.Parse("{\"Resource\": \"arn:aws:states:::s3:listObjectsV2\",\"Parameters\": {\"Bucket\": \"myBucket\",\"Prefix\": \"processData\"}}"))
+                    .ResultWriter(JObject.Parse("{\"Resource\": \"arn:aws:states:::s3:putObject\",\"Parameters\": {\"Bucket\": \"myOutputBucket\",\"Prefix\": \"csvProcessJobs\"}}"))
+                    .ItemBatcher(ItemBatcher.GetBuilder()
+                                            .MaxItemsPerBatch(100)
+                                            .MaxInputBytesPerBatch(250)
+                                            .BatchInput(JObject.Parse("{\"factCheck\": \"December 2022\"}")))
                     .MaxConcurrency(0)
-                    .Parameters(JObject.FromObject(new {value = "param"}))
+                    .ToleratedFailureCount(20)
+                    .ToleratedFailurePercentage(5)
+                    .ItemSelector(JObject.FromObject(new {value = "param"}))
                     .ResultSelector(JObject.FromObject(new {value = "param"}))
                     .Transition(StateMachineBuilder.End())
-                    .Iterator(StateMachineBuilder.SubStateMachine()
+                    .ItemProcessor(StateMachineBuilder.SubStateMachine()
                         .StartAt("Validate")
                         .State("Validate", StateMachineBuilder.TaskState()
                             .Resource("arn:aws:lambda:us-east-1:123456789012:function:ship-val")
                             .Transition(StateMachineBuilder.End()))))
                 .Build();
+
+            AssertStateMachine(stateMachine, "SimpleMapState.json");
+        }
+        
+        
+        [Fact]
+        public void SimpleMapStateDeprecated()
+        {
+            //Ensure We are converting deprecated values automatically
+            var expected = LoadExpected("SimpleMapStateDeprecated.json");
+            var stateMachine = StateMachine.FromJObject(expected).Build();
 
             AssertStateMachine(stateMachine, "SimpleMapState.json");
         }

@@ -32,7 +32,7 @@ namespace StatesLanguage.States
         /// </summary>
         /// <param name="parameters">Payload</param>
         /// <returns>This object for method chaining.</returns>
-        public B Parameters(JObject parameters)
+        public virtual B Parameters(JObject parameters)
         {
             _parameters = parameters;
             return (B) this;

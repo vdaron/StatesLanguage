@@ -14,6 +14,8 @@
  * permissions and limitations under the License.
  */
 
+using System;
+
 namespace StatesLanguage.Internal
 {
     public static class PropertyNames
@@ -40,14 +42,16 @@ namespace StatesLanguage.Internal
 
         public const string HEARTBEAT_SECONDS = "HeartbeatSeconds";
         public const string HEARTBEAT_SECONDS_PATH = "HeartbeatSecondsPath";
+        public const string CREDENTIALS = "Credentials";
 
         // ParallelState property names
         public const string BRANCHES = "Branches";
 
         // FailState property names
         public const string ERROR = "Error";
-
         public const string CAUSE = "Cause";
+        public const string ERROR_PATH = "ErrorPath";
+        public const string CAUSE_PATH = "CausePath";
 
         // ChoiceState property names
         public const string DEFAULT_STATE = "Default";
@@ -60,6 +64,8 @@ namespace StatesLanguage.Internal
         public const string INTERVAL_SECONDS = "IntervalSeconds";
         public const string MAX_ATTEMPTS = "MaxAttempts";
         public const string BACKOFF_RATE = "BackoffRate";
+        public const string MAX_DELAY_SECONDS = "MaxDelaySeconds";
+        public const string JITTER_STRATEGY = "JitterStrategy";
 
         // WaitState property names
         public const string SECONDS = "Seconds";
@@ -69,9 +75,27 @@ namespace StatesLanguage.Internal
 
         // MapState property names
         public const string MAX_CONCURENCY = "MaxConcurrency";
+        public const string MAX_CONCURENCY_PATH = "MaxConcurrencyPath";
+        [Obsolete("Replaced by ITEM PROCESSOR")]
         public const string ITERATOR = "Iterator";
         public const string ITEMS_PATH = "ItemsPath";
-
+        public const string TOLERATED_FAILURE_PERCENTAGE = "ToleratedFailurePercentage";
+        public const string TOLERATED_FAILURE_COUNT = "ToleratedFailureCount";
+        public const string TOLERATED_FAILURE_PERCENTAGE_PATH = "ToleratedFailurePercentagePath";
+        public const string TOLERATED_FAILURE_COUNT_PATH = "ToleratedFailureCountPath";
+        public const string ITEM_PROCESSOR = "ItemProcessor";
+        public const string ITEM_SELECTOR = "ItemSelector";
+        public const string ITEM_READER = "ItemReader";
+        public const string RESULT_WRITER = "ResultWriter";
+        public const string ITEM_BATCHER = "ItemBatcher";
+        
+        // Batcher property names
+        public const string BATCH_INPUT = "BatchInput";
+        public const string MAX_ITEMS_PER_BATCH = "MaxItemsPerBatch";
+        public const string MAX_INPUT_BYTES_PER_BATCH = "MaxInputBytesPerBatch";
+        public const string MAX_ITEMS_PER_BATCH_PATH = "MaxItemsPerBatchPath";
+        public const string MAX_INPUT_BYTES_PER_BATCH_PATH = "MaxInputBytesPerBatchPath";
+        
         // Binary condition property names
         public const string VARIABLE = "Variable";
 

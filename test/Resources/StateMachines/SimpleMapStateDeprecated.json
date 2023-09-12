@@ -8,15 +8,18 @@
       "MaxConcurrency": 0,
       "ToleratedFailurePercentage": 5,
       "ToleratedFailureCount": 20,
+      "Parameters": {
+        "value": "param"
+      },
+      "ResultSelector": {
+        "value": "param"
+      },
       "ItemBatcher": {
         "MaxItemsPerBatch": 100,
         "MaxInputBytesPerBatch" : 250,
         "BatchInput": {
           "factCheck": "December 2022"
         }
-      },
-      "ItemSelector": {
-        "value": "param"
       },
       "ItemReader": {
         "Resource": "arn:aws:states:::s3:listObjectsV2",
@@ -32,10 +35,7 @@
           "Prefix": "csvProcessJobs"
         }
       },
-      "ResultSelector": {
-        "value": "param"
-      },
-      "ItemProcessor": {
+      "Iterator": {
         "StartAt": "Validate",
         "States": {
           "Validate": {

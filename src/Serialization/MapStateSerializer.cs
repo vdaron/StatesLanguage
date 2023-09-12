@@ -37,7 +37,10 @@ namespace StatesLanguage.Serialization
                 Converters = {new CatcherDeserializer()}
             });
 
-            state.Add(PropertyNames.ITERATOR, JToken.FromObject(((MapState) value).Iterator, serializer));
+            var mapState = (MapState) value;
+            
+            state.Add(PropertyNames.ITEM_PROCESSOR, JToken.FromObject(mapState.ItemProcessor, serializer));
+            state.Add(PropertyNames.ITEM_BATCHER, JToken.FromObject(mapState.ItemBatcher, serializer));
 
             var transition = ((TransitionState) value).Transition;
 

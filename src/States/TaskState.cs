@@ -15,6 +15,7 @@
  */
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using StatesLanguage.Internal;
 using StatesLanguage.ReferencePaths;
 
@@ -55,6 +56,14 @@ namespace StatesLanguage.States
         /// </summary>
         [JsonProperty(PropertyNames.HEARTBEAT_SECONDS_PATH)]
         public string HeartbeatSecondsPath { get; private set; }
+        
+        /// <summary>
+        /// JSON object whose value is defined by the interpreter.
+        /// The States language does not constrain the value of the "Credentials" field.
+        /// The interpreter will use the specified credentials to execute the work identified by the state's "Resource" field.
+        /// </summary>
+        [JsonProperty(PropertyNames.CREDENTIALS)]
+        public JObject Credentials { get; private set; }
 
         [JsonProperty(PropertyNames.TYPE)]
         public override StateType Type => StateType.Task;
@@ -80,13 +89,17 @@ namespace StatesLanguage.States
             [JsonProperty(PropertyNames.HEARTBEAT_SECONDS_PATH)]
             private string _heartbeatSecondsPath;
 
-            [JsonProperty(PropertyNames.RESOURCE)] private string _resource;
+            [JsonProperty(PropertyNames.RESOURCE)] 
+            private string _resource;
 
             [JsonProperty(PropertyNames.TIMEOUT_SECONDS)]
             private int? _timeoutSeconds;
 
             [JsonProperty(PropertyNames.TIMEOUT_SECONDS_PATH)]
             private string _timeoutSecondsPath;
+
+            [JsonProperty(PropertyNames.CREDENTIALS)] 
+            private JObject _credentials;
 
             internal Builder()
             {
@@ -161,6 +174,19 @@ namespace StatesLanguage.States
                 _heartbeatSecondsPath = heartbeatSecondsPath;
                 return this;
             }
+            
+            /// <summary>
+            /// OPTIONAL.JSON object whose value is defined by the interpreter. The States language does not constrain the value
+            /// of the "Credentials" field. The interpreter will use the specified credentials to execute the work identified
+            /// by the state's "Resource" field.
+            /// </summary>
+            /// <param name="credentials">Credentials.</param>
+            /// <returns>This object for method chaining.</returns>
+            public Builder Credentials(JObject credentials)
+            {
+                _credentials = credentials;
+                return this;
+            }
 
             /**
              * @return An immutable {@link TaskState} object.
@@ -174,6 +200,7 @@ namespace StatesLanguage.States
                     ResultPath = _resultPath,
                     OutputPath = _outputPath,
                     Parameters = _parameters,
+                    Credentials = _credentials,
                     ResultSelector = _resultSelector,
                     Comment = _comment,
                     TimeoutSeconds = _timeoutSeconds,
