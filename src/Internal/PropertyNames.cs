@@ -42,6 +42,7 @@ namespace StatesLanguage.Internal
 
         public const string HEARTBEAT_SECONDS = "HeartbeatSeconds";
         public const string HEARTBEAT_SECONDS_PATH = "HeartbeatSecondsPath";
+        public const string CREDENTIALS = "Credentials";
 
         // ParallelState property names
         public const string BRANCHES = "Branches";

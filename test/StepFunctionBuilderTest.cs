@@ -105,7 +105,8 @@ namespace StatesLanguage.Tests
                     .ResultPath("$.result")
                     .OutputPath("$.output")
                     .Parameters(JObject.FromObject(new {value = "param"}))
-                    .ResultSelector(JObject.FromObject(new {value = "param"})))
+                    .ResultSelector(JObject.FromObject(new {value = "param"}))
+                    .Credentials(JObject.Parse("{\"user\": \"vda\"}")))
                 .State("NextState", StateMachineBuilder.SucceedState())
                 .Build();
 

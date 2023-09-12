@@ -16,6 +16,9 @@
       },
       "ResultSelector": {
         "value": "param"
+      },
+      "Credentials": {
+        "user": "vda"
       }
     },
     "NextState": {
