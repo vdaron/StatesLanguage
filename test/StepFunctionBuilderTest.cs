@@ -307,6 +307,16 @@ namespace StatesLanguage.Tests
         }
 
         [Fact]
+        public void SingleFailStateMinimal()
+        {
+            var stateMachine = StateMachineBuilder.StateMachine()
+                                                  .StartAt("InitialState")
+                                                  .State("InitialState", StateMachineBuilder.FailState()).Build();
+
+            AssertStateMachine(stateMachine, "SingleFailStateMinimal.json");
+        }
+        
+        [Fact]
         public void SingleFailState()
         {
             var stateMachine = StateMachineBuilder.StateMachine()

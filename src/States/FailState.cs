@@ -94,12 +94,6 @@ namespace StatesLanguage.States
                 
                 if (!string.IsNullOrWhiteSpace(_cause) && !string.IsNullOrWhiteSpace(_causePath))
                     throw new StatesLanguageException("You cannot specify Cause and CausePath at the same time");
-
-                if (string.IsNullOrWhiteSpace(_error) && string.IsNullOrWhiteSpace(_errorPath))
-                    throw new StatesLanguageException("You have to specify at least Error or ErrorPath");
-                
-                if (string.IsNullOrWhiteSpace(_cause) && string.IsNullOrWhiteSpace(_causePath))
-                    throw new StatesLanguageException("You have to specify at least Cause and CausePath");
                 
                 return new FailState
                 {

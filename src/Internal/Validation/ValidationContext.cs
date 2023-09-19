@@ -96,6 +96,20 @@ namespace StatesLanguage.Internal.Validation
                 ProblemReporter.Report(new Problem(this, $"{propertyName} is a required property."));
             }
         }
+        /**
+ * Asserts the string is null or empty, reporting to {@link ProblemReporter} with this context if it is.
+ *
+ * @param propertyValue Value to Assert on.
+ * @param propertyName  Name of property.
+ */
+        public void AssertStringEmpty(string propertyValue, string propertyName, string message)
+        {
+            if (!string.IsNullOrEmpty(propertyValue))
+            {
+                ProblemReporter.Report(new Problem(this, message));
+            }
+        }
+        
 
         /**
          * Asserts the collection is not null and not empty, reporting to {@link ProblemReporter} with this context if it is.

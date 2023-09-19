@@ -69,6 +69,7 @@
     <EmbeddedResource Include="Resources\StateMachines\SimpleTaskStateWithCatchers.json" />
     <EmbeddedResource Include="Resources\StateMachines\SimpleTaskStateWithRetries.json" />
     <EmbeddedResource Include="Resources\StateMachines\SingleFailState.json" />
+    <EmbeddedResource Include="Resources\StateMachines\SingleFailStateMinimal.json" />
     <EmbeddedResource Include="Resources\StateMachines\SingleFailStateWithPath.json" />
     <EmbeddedResource Include="Resources\StateMachines\SinglePassStateWithJsonResult.json" />
     <EmbeddedResource Include="Resources\StateMachines\SinglePassStateWithObjectResult.json" />

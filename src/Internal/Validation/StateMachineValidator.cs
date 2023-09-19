@@ -250,21 +250,15 @@ namespace StatesLanguage.Internal.Validation
 
             public override int Visit(FailState failState)
             {
-                if (string.IsNullOrWhiteSpace(failState.CausePath))
+                if (!string.IsNullOrWhiteSpace(failState.CausePath))
                 {
-                    _currentContext.AssertStringNotEmpty(failState.Cause, PropertyNames.CAUSE);
-                }
-                else
-                {
+                    _currentContext.AssertStringEmpty(failState.Cause, PropertyNames.CAUSE,"Cause and CausePath cannot be specified at the same time");
                     _currentContext.AssertIsValidReferencePath(failState.CausePath, PropertyNames.CAUSE_PATH);
                 }
                 
-                if (string.IsNullOrWhiteSpace(failState.ErrorPath))
+                if (!string.IsNullOrWhiteSpace(failState.ErrorPath))
                 {
-                    _currentContext.AssertStringNotEmpty(failState.Error, PropertyNames.ERROR);
-                }
-                else
-                {
+                    _currentContext.AssertStringEmpty(failState.Error, PropertyNames.ERROR, "Error and ErrorPath cannot be specified at the same time");
                     _currentContext.AssertIsValidReferencePath(failState.ErrorPath, PropertyNames.ERROR_PATH);
                 }
                 
