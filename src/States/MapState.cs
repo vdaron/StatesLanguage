@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StatesLanguage.Internal;
@@ -275,11 +276,14 @@ namespace StatesLanguage.States
                 if (_toleratedFailurePercentage.HasValue && !string.IsNullOrWhiteSpace(_toleratedFailurePercentagePath))
                     throw new StatesLanguageException("You cannot specify ToleratedFailurePercentage and ToleratedFailurePercentagePath at the same time");
 
+                if(_itemProcessor == null)
+                    throw new StatesLanguageException("ItemProcessor is mandatory for MapStates");
+                
                 return new MapState
                 {
                     Comment = _comment,
                     ItemProcessor = _itemProcessor.Build(),
-                    ItemBatcher = _itemBatcher.Build(),
+                    ItemBatcher = _itemBatcher?.Build(),
                     ItemsPath = _itemsPath,
                     MaxConcurrency = _maxConcurrency,
                     MaxConcurrencyPath = _maxConcurrencyPath,

@@ -40,7 +40,11 @@ namespace StatesLanguage.Serialization
             var mapState = (MapState) value;
             
             state.Add(PropertyNames.ITEM_PROCESSOR, JToken.FromObject(mapState.ItemProcessor, serializer));
-            state.Add(PropertyNames.ITEM_BATCHER, JToken.FromObject(mapState.ItemBatcher, serializer));
+            
+            if (mapState.ItemBatcher != null)
+            {
+                state.Add(PropertyNames.ITEM_BATCHER, JToken.FromObject(mapState.ItemBatcher, serializer));
+            }
 
             var transition = ((TransitionState) value).Transition;
 

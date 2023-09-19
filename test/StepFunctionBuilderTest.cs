@@ -669,6 +669,22 @@ namespace StatesLanguage.Tests
             AssertStateMachine(stateMachine, "SimpleMapState.json");
         }
         
+                [Fact]
+        public void SimpleMapStateMinimal()
+        {
+            var stateMachine = StateMachineBuilder.StateMachine()
+                .StartAt("Validate-All")
+                .State("Validate-All", StateMachineBuilder.MapState()
+                    .Transition(StateMachineBuilder.End())
+                    .ItemProcessor(StateMachineBuilder.SubStateMachine()
+                        .StartAt("Validate")
+                        .State("Validate", StateMachineBuilder.TaskState()
+                            .Resource("arn:aws:lambda:us-east-1:123456789012:function:ship-val")
+                            .Transition(StateMachineBuilder.End()))))
+                .Build();
+
+            AssertStateMachine(stateMachine, "SimpleMapStateMinimal.json");
+        }
         
         [Fact]
         public void SimpleMapStateDeprecated()
