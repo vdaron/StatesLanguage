@@ -787,5 +787,29 @@ namespace StatesLanguage.Tests.Model.Validation
                         .Transition(StateMachineBuilder.End()))
                     .Build());
         }
+
+        [Fact]
+        public void FailState_ErrorPathAndCausePath()
+        {
+            StateMachineBuilder.StateMachine()
+                .Comment("A Hello World example of the Amazon States Language using a Pass state")
+                .StartAt("0001")
+                .State("0001", StateMachineBuilder.FailState()
+                    .ErrorPath("$.Error")
+                    .CausePath("$.Cause"))
+                .Build();
+        }
+
+        [Fact]
+        public void FailState_ErrorPathAndCausePathWithIntrinsicFunction()
+        {
+            StateMachineBuilder.StateMachine()
+                .Comment("A Hello World example of the Amazon States Language using a Pass state")
+                .StartAt("0001")
+                .State("0001", StateMachineBuilder.FailState()
+                    .ErrorPath("States.Format('{}', $.Error)")
+                    .CausePath("States.Format('This is a custom error message for {}, caused by {}.', $.Error, $.Cause)"))
+                .Build();
+        }
     }
 }

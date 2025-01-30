@@ -1,0 +1,11 @@
+{
+  "Comment": "A Hello World example of the Amazon States Language using a Pass state",
+  "StartAt": "0001",
+  "States": {
+    "0001": {
+      "ErrorPath": "States.Format('{}', $.Error)",
+      "CausePath": "States.Format('This is a custom error message for {}, caused by {}.', $.Error, $.Cause)",
+      "Type": "Fail"
+    }
+  }
+}

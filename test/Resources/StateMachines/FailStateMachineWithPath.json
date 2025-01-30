@@ -1,0 +1,10 @@
+{
+  "Comment": "Pass state with path",
+  "StartAt": "0001",
+  "States": {
+    "0001": {
+      "ErrorPath": "$.fakepath",
+      "Type": "Fail"
+    }
+  }
+}

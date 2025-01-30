@@ -83,6 +83,9 @@
     <EmbeddedResource Include="Resources\StateMachines\TaskStateWithParametersAndEnd.json" />
     <EmbeddedResource Include="Resources\StateMachines\TaskStateWithEnd.json" />
     <EmbeddedResource Include="Resources\StateMachines\PassStateNullOutputPath.json" />
+    <EmbeddedResource Include="Resources\StateMachines\FailStateMachineWithIntrinsicFunc.json" />
+    <EmbeddedResource Include="Resources\StateMachines\FailStateMachineWithPaths.json" />
+    <EmbeddedResource Include="Resources\StateMachines\FailStateMachineWithPath.json" />
     <None Remove="Resources\StateMachines\test.json" />
   </ItemGroup>
 
