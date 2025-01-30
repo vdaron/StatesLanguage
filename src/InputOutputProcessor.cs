@@ -53,7 +53,30 @@ namespace StatesLanguage
             }
             return ExtractTokenFromJsonPath(HandleResultPath(input, result, resultPath.Value),outputPath.Value);
         }
-        
+
+        public JToken GetFailPathInput(JToken input, OptionalString failPath, JObject payload, JObject context)
+        {
+            if (!failPath.IsSet)
+                failPath.Value = ROOT_MEMBER_OBJECT;
+
+            if (IntrinsicFunction.TryParse(failPath, out var intrinsicFunction))
+            {
+                return _registry.CallFunction(intrinsicFunction, input, context);
+            }
+
+            var extractedToken = ExtractTokenFromJsonPath(input, failPath);
+
+            if (extractedToken != null &&
+                IntrinsicFunction.TryParse(extractedToken.Value<string>(), out var extractedTokenFunction))
+            {
+                var result = _registry.CallFunction(extractedTokenFunction, input, context);
+
+                return TransformPayloadTemplate(result, payload, context);
+            }
+
+            return TransformPayloadTemplate(extractedToken, payload, context);
+        }
+
         private static JToken ExtractTokenFromJsonPath(JToken input, string path)
         {
             if (input == null)

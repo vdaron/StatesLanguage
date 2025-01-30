@@ -252,16 +252,32 @@ namespace StatesLanguage.Internal.Validation
             {
                 if (!string.IsNullOrWhiteSpace(failState.CausePath))
                 {
-                    _currentContext.AssertStringEmpty(failState.Cause, PropertyNames.CAUSE,"Cause and CausePath cannot be specified at the same time");
-                    _currentContext.AssertIsValidReferencePath(failState.CausePath, PropertyNames.CAUSE_PATH);
+                    _currentContext.AssertStringEmpty(failState.Cause, PropertyNames.CAUSE,
+                        "Cause and CausePath cannot be specified at the same time");
+                    var validPath = ReferencePaths.ReferencePath.TryParse(failState.CausePath, out _);
+                    var validFunc = IntrinsicFunctions.IntrinsicFunction.TryParse(failState.CausePath, out _);
+
+                    if (validPath == false && validFunc == false)
+                    {
+                        _currentContext.AssertIsValidReferencePath(failState.CausePath, PropertyNames.CAUSE_PATH);
+                        _currentContext.AssertIsValidIntrinsicFunction(failState.CausePath, PropertyNames.CAUSE_PATH);
+                    }
                 }
-                
+
                 if (!string.IsNullOrWhiteSpace(failState.ErrorPath))
                 {
-                    _currentContext.AssertStringEmpty(failState.Error, PropertyNames.ERROR, "Error and ErrorPath cannot be specified at the same time");
-                    _currentContext.AssertIsValidReferencePath(failState.ErrorPath, PropertyNames.ERROR_PATH);
+                    _currentContext.AssertStringEmpty(failState.Error, PropertyNames.ERROR,
+                        "Error and ErrorPath cannot be specified at the same time");
+                    var validPath = ReferencePaths.ReferencePath.TryParse(failState.ErrorPath, out _);
+                    var validFunc = IntrinsicFunctions.IntrinsicFunction.TryParse(failState.CausePath, out _);
+
+                    if (validPath == false && validFunc == false)
+                    {
+                        _currentContext.AssertIsValidReferencePath(failState.ErrorPath, PropertyNames.ERROR_PATH);
+                        _currentContext.AssertIsValidIntrinsicFunction(failState.ErrorPath, PropertyNames.ERROR_PATH);
+                    }
                 }
-                
+
                 return 0;
             }
 

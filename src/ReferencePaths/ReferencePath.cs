@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using StatesLanguage.Internal.Validation;
@@ -22,6 +23,20 @@ namespace StatesLanguage.ReferencePaths
         public static ReferencePath Parse(string expression)
         {
             return new ReferencePath(expression);
+        }
+
+        public static bool TryParse(string expression, out ReferencePath referencePath)
+        {
+            try
+            {
+                referencePath = new ReferencePath(expression);
+                return true;
+            }
+            catch (Exception)
+            {
+                referencePath = null;
+                return false;
+            }
         }
 
         public static implicit operator string(ReferencePath referencePath)

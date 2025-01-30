@@ -17,6 +17,7 @@
 using System;
 using System.Collections;
 using Newtonsoft.Json.Linq;
+using StatesLanguage.IntrinsicFunctions;
 using StatesLanguage.ReferencePaths;
 
 namespace StatesLanguage.Internal.Validation
@@ -266,6 +267,35 @@ namespace StatesLanguage.Internal.Validation
             {
                 ProblemReporter.Report(new Problem(this,
                     $"{propertyName} with value '{path}' is not a valid ReferencePath. {e.Message}"));
+            }
+        }
+
+        /**
+         * Asserts that the string represents a valid intrinsic function.
+         *
+         * @param path         Intrinsic Function to validate.
+         * @param propertyName Name of property.
+         */
+        public void AssertIsValidIntrinsicFunction(string path, string propertyName)
+        {
+            if (path == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(path))
+            {
+                ProblemReporter.Report(new Problem(this, $"{propertyName} cannot be empty"));
+            }
+
+            try
+            {
+                var r = IntrinsicFunction.Parse(path);
+            }
+            catch (InvalidIntrinsicFunctionException e)
+            {
+                ProblemReporter.Report(new Problem(this,
+                    $"{propertyName} with value '{path}' is not a valid IntrinsicFunction. {e.Message}"));
             }
         }
 
