@@ -547,14 +547,13 @@ namespace StatesLanguage.Tests.Model.Validation
         }
 
         [Fact]
-        public void MissingCauseInFailState_IsNotValid()
+        public void MissingCauseInFailState_IsValid()
         {
-            Assert.Throws<ValidationException>(() =>
-                StateMachineBuilder.StateMachine()
-                    .StartAt("Initial")
-                    .State("Initial", StateMachineBuilder.FailState()
-                        .Error("Error"))
-                    .Build());
+            StateMachineBuilder.StateMachine()
+                .StartAt("Initial")
+                .State("Initial", StateMachineBuilder.FailState()
+                    .Error("Error"))
+                .Build();
         }
 
         [Fact] //
@@ -728,7 +727,7 @@ namespace StatesLanguage.Tests.Model.Validation
                     .State("Initial", StateMachineBuilder.ParallelState()
                         .Branch(StateMachineBuilder.SubStateMachine()
                             .StartAt("InitialBranchState")
-                            .State("InitialBranchState", StateMachineBuilder.FailState()))
+                            .State("InitialBranchState", StateMachineBuilder.FailState().Error("error").ErrorPath("$.notAllowed")))
                         .Transition(StateMachineBuilder.End()))
                     .Build());
         }
