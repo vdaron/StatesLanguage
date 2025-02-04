@@ -54,27 +54,37 @@ namespace StatesLanguage
             return ExtractTokenFromJsonPath(HandleResultPath(input, result, resultPath.Value),outputPath.Value);
         }
 
-        public JToken GetFailPathInput(JToken input, OptionalString failPath, JObject payload, JObject context)
+        public JToken GetFailPathValue(JToken input, OptionalString failPath, JObject payload, JObject context)
         {
+            // A JSONPath Fail state MAY have "ErrorPath" and "CausePath" fields whose values
+            // MUST be Reference Paths or Intrinsic Functions which,
+            // when resolved, MUST be string values
+
             if (!failPath.IsSet)
                 failPath.Value = ROOT_MEMBER_OBJECT;
 
+            JToken result;
+
             if (IntrinsicFunction.TryParse(failPath, out var intrinsicFunction))
             {
-                return _registry.CallFunction(intrinsicFunction, input, context);
+                result =  _registry.CallFunction(intrinsicFunction, input, context);
             }
-
-            var extractedToken = ExtractTokenFromJsonPath(input, failPath);
-
-            if (extractedToken != null &&
-                IntrinsicFunction.TryParse(extractedToken.Value<string>(), out var extractedTokenFunction))
+            else
             {
-                var result = _registry.CallFunction(extractedTokenFunction, input, context);
+                result = ExtractTokenFromJsonPath(input, failPath);
 
-                return TransformPayloadTemplate(result, payload, context);
+                // if (extractedToken != null && IntrinsicFunction.TryParse(extractedToken.Value<string>(), out var extractedTokenFunction))
+                // {
+                //     result = _registry.CallFunction(extractedTokenFunction, input, context);
+                // }
             }
 
-            return TransformPayloadTemplate(extractedToken, payload, context);
+            if (result.Type != JTokenType.String)
+            {
+                throw new PathMatchFailureException($"Failed to extract value from Fail Path: '{failPath}' value must resolve as a string");
+            }
+
+            return result;
         }
 
         private static JToken ExtractTokenFromJsonPath(JToken input, string path)
@@ -161,7 +171,7 @@ namespace StatesLanguage
                         Ensure.IsNotNull(contextToken, new ParameterPathFailureException($"Input Path '{elementValue}' does not exists in Context received: '{context}'"));
                         changes.Add(element.Key, new JProperty(newPropertyName, contextToken));
                     }
-                    else if (elementValue.StartsWith("$"))
+                    else if (elementValue.StartsWith('$'))
                     {
                         var token = input.SelectToken(elementValue);
                         Ensure.IsNotNull(token, new ParameterPathFailureException($"Input Path '{elementValue}' does not exists in Input received: '{input}'"));
@@ -225,7 +235,7 @@ namespace StatesLanguage
             if (filters.Count == 0)
                 return result;
             
-            var token = filters.First();
+            var token = filters[0];
             filters.RemoveAt(0);
             var r = CreateJTokenFromResult(result, filters);
 

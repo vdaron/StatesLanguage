@@ -8,6 +8,6 @@ namespace StatesLanguage.Interfaces
         JToken GetEffectiveInput(JToken input, OptionalString inputPath, JObject payload, JObject context);
         JToken GetEffectiveResult(JToken output, JObject payload, JObject context);
         JToken GetEffectiveOutput(JToken input, JToken result, OptionalString outputPath, OptionalString resultPath);
-        JToken GetFailPathInput(JToken input, OptionalString failPath, JObject payload, JObject context);
+        JToken GetFailPathValue(JToken input, OptionalString failPath, JObject payload, JObject context);
     }
 }
