@@ -100,7 +100,7 @@ namespace StatesLanguage
             }
             
             if(!path.StartsWith(ROOT_MEMBER_OBJECT))
-                throw new ArgumentException($"Invalid JsonPath '{path}', must start with '{ROOT_MEMBER_OBJECT}'");
+                throw new PathMatchFailureException($"Invalid JsonPath '{path}', must start with '{ROOT_MEMBER_OBJECT}'");
             
             if (path.Equals(ROOT_MEMBER_OBJECT))
             {
