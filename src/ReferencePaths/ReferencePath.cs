@@ -32,7 +32,7 @@ namespace StatesLanguage.ReferencePaths
                 referencePath = new ReferencePath(expression);
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 referencePath = null;
                 return false;

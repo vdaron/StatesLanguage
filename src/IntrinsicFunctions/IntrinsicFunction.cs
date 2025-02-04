@@ -19,7 +19,7 @@ namespace StatesLanguage.IntrinsicFunctions
                 intrinsicFunction = IntrinsicFunctionParser.Parse(expression);
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 intrinsicFunction = null;
                 return false;
