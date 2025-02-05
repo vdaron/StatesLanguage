@@ -64,7 +64,7 @@ namespace StatesLanguage.Internal.Validation
             return _stateMachine;
         }
 
-        private void ValidateStates(ValidationContext parentContext, Dictionary<string, State> states)
+        private static void ValidateStates(ValidationContext parentContext, Dictionary<string, State> states)
         {
             foreach (var entry in states)
             {
@@ -154,7 +154,7 @@ namespace StatesLanguage.Internal.Validation
                 throw new ValidationException("Unexpected state type: " + state.GetType().Name);
             }
 
-            private void ValidateParallelState(ValidationContext stateContext, ParallelState state)
+            private static void ValidateParallelState(ValidationContext stateContext, ParallelState state)
             {
                 var index = 0;
                 foreach (var branch in state.Branches)
@@ -211,7 +211,7 @@ namespace StatesLanguage.Internal.Validation
         /**
          * Validates all the supported states and their nested properties.
          */
-        internal class StateValidationVisitor : StateVisitor<int>
+        private sealed class StateValidationVisitor : StateVisitor<int>
         {
             private readonly ValidationContext _currentContext;
 
@@ -252,16 +252,20 @@ namespace StatesLanguage.Internal.Validation
             {
                 if (!string.IsNullOrWhiteSpace(failState.CausePath))
                 {
-                    _currentContext.AssertStringEmpty(failState.Cause, PropertyNames.CAUSE,"Cause and CausePath cannot be specified at the same time");
-                    _currentContext.AssertIsValidReferencePath(failState.CausePath, PropertyNames.CAUSE_PATH);
+                    _currentContext.AssertStringEmpty(failState.Cause, PropertyNames.CAUSE,
+                        "Cause and CausePath cannot be specified at the same time");
+
+                    _currentContext.AssertIsValidReferencePathOrIntrinsicFunction(failState.CausePath, PropertyNames.CAUSE_PATH);
                 }
-                
+
                 if (!string.IsNullOrWhiteSpace(failState.ErrorPath))
                 {
-                    _currentContext.AssertStringEmpty(failState.Error, PropertyNames.ERROR, "Error and ErrorPath cannot be specified at the same time");
-                    _currentContext.AssertIsValidReferencePath(failState.ErrorPath, PropertyNames.ERROR_PATH);
+                    _currentContext.AssertStringEmpty(failState.Error, PropertyNames.ERROR,
+                        "Error and ErrorPath cannot be specified at the same time");
+
+                    _currentContext.AssertIsValidReferencePathOrIntrinsicFunction(failState.ErrorPath, PropertyNames.ERROR_PATH);
                 }
-                
+
                 return 0;
             }
 
@@ -374,7 +378,7 @@ namespace StatesLanguage.Internal.Validation
                 }
             }
 
-            private void ValidateStates(ValidationContext parentContext, Dictionary<string, State> states)
+            private static void ValidateStates(ValidationContext parentContext, Dictionary<string, State> states)
             {
                 foreach (var entry in states)
                 {
@@ -392,13 +396,13 @@ namespace StatesLanguage.Internal.Validation
                 }
             }
 
-            private void ValidateBinaryCondition(ValidationContext context, IBinaryCondition condition)
+            private static void ValidateBinaryCondition(ValidationContext context, IBinaryCondition condition)
             {
                 context.AssertStringNotEmpty(condition.Variable, PropertyNames.VARIABLE);
                 context.AssertIsValidJsonPath(condition.Variable, PropertyNames.VARIABLE);
             }
 
-            private void ValidateBinaryCondition<T>(ValidationContext context, BinaryCondition<T> condition)
+            private static void ValidateBinaryCondition<T>(ValidationContext context, BinaryCondition<T> condition)
                 where T : IComparable<T>
             {
                 context.AssertStringNotEmpty(condition.Variable, PropertyNames.VARIABLE);

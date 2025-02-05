@@ -1,0 +1,16 @@
+{
+  "Comment": "Pass state with paths",
+  "StartAt": "WaitState",
+  "States": {
+    "WaitState": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "Fail1"
+    },
+    "Fail1": {
+      "ErrorPath": "$.Error",
+      "CausePath": "$.Cause",
+      "Type": "Fail"
+    }
+  }
+}

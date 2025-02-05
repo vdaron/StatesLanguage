@@ -89,12 +89,6 @@ namespace StatesLanguage.States
 
             public override FailState Build()
             {
-                if (!string.IsNullOrWhiteSpace(_error) && !string.IsNullOrWhiteSpace(_errorPath))
-                    throw new StatesLanguageException("You cannot specify Error and ErrorPath at the same time");
-                
-                if (!string.IsNullOrWhiteSpace(_cause) && !string.IsNullOrWhiteSpace(_causePath))
-                    throw new StatesLanguageException("You cannot specify Cause and CausePath at the same time");
-                
                 return new FailState
                 {
                     Comment = _comment,

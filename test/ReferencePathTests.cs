@@ -143,5 +143,25 @@ namespace StatesLanguage.Tests
         {
             Assert.Throws<InvalidReferencePathException>(() => ReferencePath.Parse(failed));
         }
+
+        [Theory]
+        [InlineData("$.test")]
+        [InlineData("$['test']")]
+        public void TestSimplePropertyReferencePathTryParse(string test)
+        {
+            var check = ReferencePath.TryParse(test, out var path);
+            Assert.Single(path.Parts);
+            Assert.True(path.Parts[0] is FieldToken);
+            Assert.Equal("test", (path.Parts[0] as FieldToken)?.Name);
+        }
+
+        [Fact]
+        public void TestSimpleArrayIndexReferencePathTryParse()
+        {
+            var check = ReferencePath.TryParse("$[12]", out var path);
+            Assert.True(check);
+            Assert.True(path.Parts[0] is ArrayIndexToken);
+            Assert.Equal(12, (path.Parts[0] as ArrayIndexToken)?.Index);
+        }
     }
 }

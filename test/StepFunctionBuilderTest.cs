@@ -725,5 +725,49 @@ namespace StatesLanguage.Tests
             
             AssertStateMachine(stateMachine, "PassStateNullOutputPath.json");
         }
+
+        [Fact]
+        public void FailStateWithPath()
+        {
+            var stateMachine = StateMachineBuilder.StateMachine()
+                .Comment("Pass state with path")
+                .StartAt("0001")
+                .State("0001", StateMachineBuilder.FailState()
+                    .ErrorPath("$.fakepath"))
+                .Build();
+
+            AssertStateMachine(stateMachine, "FailStateMachineWithPath.json");
+        }
+
+        [Fact]
+        public void FailStateWithPaths()
+        {
+            var stateMachine = StateMachineBuilder.StateMachine()
+                .Comment("Pass state with paths")
+                .StartAt("WaitState")
+                .State("WaitState", StateMachineBuilder.WaitState()
+                    .WaitFor(StateMachineBuilder.Seconds(5))
+                    .Transition(StateMachineBuilder.Next("Fail1")))
+                .State("Fail1", StateMachineBuilder.FailState()
+                    .ErrorPath("$.Error")
+                    .CausePath("$.Cause"))
+                .Build();
+
+            AssertStateMachine(stateMachine, "FailStateMachineWithPaths.json");
+        }
+
+        [Fact]
+        public void FailStateWithPathsAndIntrinsicFunctions()
+        {
+            var stateMachine = StateMachineBuilder.StateMachine()
+                .Comment("A Hello World example of the Amazon States Language using a Pass state")
+                .StartAt("0001")
+                .State("0001", StateMachineBuilder.FailState()
+                    .ErrorPath("States.Format('{}', $.Error)")
+                    .CausePath("States.Format('This is a custom error message for {}, caused by {}.', $.Error, $.Cause)"))
+                .Build();
+
+            AssertStateMachine(stateMachine, "FailStateMachineWithIntrinsicFunc.json");
+        }
     }
 }

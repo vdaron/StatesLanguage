@@ -196,5 +196,34 @@ namespace StatesLanguage.Tests.IntrinsicFunctions
                 }
             }
         }
+
+        [Fact]
+        public void FourParametersIntrinsicFunctionTryParse()
+        {
+            var check = IntrinsicFunction.TryParse("Test('hello',33,null,$.test)", out var f);
+            Assert.True(check);
+            Assert.Equal("Test", f.Name);
+            Assert.Equal(4, f.Parameters.Length);
+            Assert.IsType<StringIntrinsicParam>(f.Parameters[0]);
+            Assert.Equal("hello", ((StringIntrinsicParam) f.Parameters[0]).Value);
+            Assert.IsType<IntegerIntrinsicParam>(f.Parameters[1]);
+            Assert.Equal(33, ((IntegerIntrinsicParam) f.Parameters[1]).Number);
+            Assert.IsType<NullIntrinsicParam>(f.Parameters[2]);
+            Assert.IsType<PathIntrinsicParam>(f.Parameters[3]);
+            Assert.Equal("$.test", ((PathIntrinsicParam) f.Parameters[3]).Path);
+        }
+
+        [Fact]
+        public void SubIntrinsicFunctionTestTryParse()
+        {
+            var check = IntrinsicFunction.TryParse("Test(Test($.test))", out var f);
+            Assert.True(check);
+            Assert.Equal("Test", f.Name);
+            Assert.Single(f.Parameters);
+            Assert.IsType<IntrinsicFunction>(f.Parameters[0]);
+            Assert.Equal("Test", ((IntrinsicFunction) f.Parameters[0]).Name);
+            Assert.IsType<PathIntrinsicParam>(((IntrinsicFunction) f.Parameters[0]).Parameters[0]);
+            Assert.Equal("$.test", ((PathIntrinsicParam) ((IntrinsicFunction) f.Parameters[0]).Parameters[0]).Path);
+        }
     }
 }

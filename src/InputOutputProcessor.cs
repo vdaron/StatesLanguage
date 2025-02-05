@@ -53,7 +53,35 @@ namespace StatesLanguage
             }
             return ExtractTokenFromJsonPath(HandleResultPath(input, result, resultPath.Value),outputPath.Value);
         }
-        
+
+        public JToken GetFailPathValue(JToken input, OptionalString failPath, JObject payload, JObject context)
+        {
+            // A JSONPath Fail state MAY have "ErrorPath" and "CausePath" fields whose values
+            // MUST be Reference Paths or Intrinsic Functions which,
+            // when resolved, MUST be string values
+
+            if (!failPath.IsSet)
+                failPath.Value = ROOT_MEMBER_OBJECT;
+
+            JToken result;
+
+            if (IntrinsicFunction.TryParse(failPath, out var intrinsicFunction))
+            {
+                result =  _registry.CallFunction(intrinsicFunction, input, context);
+            }
+            else
+            {
+                result = ExtractTokenFromJsonPath(input, failPath);
+            }
+
+            if (result.Type != JTokenType.String)
+            {
+                throw new PathMatchFailureException($"Failed to extract value from Fail Path: '{failPath}' value must resolve as a string");
+            }
+
+            return result;
+        }
+
         private static JToken ExtractTokenFromJsonPath(JToken input, string path)
         {
             if (input == null)
@@ -67,7 +95,7 @@ namespace StatesLanguage
             }
             
             if(!path.StartsWith(ROOT_MEMBER_OBJECT))
-                throw new ArgumentException($"Invalid JsonPath '{path}', must start with '{ROOT_MEMBER_OBJECT}'");
+                throw new PathMatchFailureException($"Invalid JsonPath '{path}', must start with '{ROOT_MEMBER_OBJECT}'");
             
             if (path.Equals(ROOT_MEMBER_OBJECT))
             {
@@ -138,7 +166,7 @@ namespace StatesLanguage
                         Ensure.IsNotNull(contextToken, new ParameterPathFailureException($"Input Path '{elementValue}' does not exists in Context received: '{context}'"));
                         changes.Add(element.Key, new JProperty(newPropertyName, contextToken));
                     }
-                    else if (elementValue.StartsWith("$"))
+                    else if (elementValue.StartsWith('$'))
                     {
                         var token = input.SelectToken(elementValue);
                         Ensure.IsNotNull(token, new ParameterPathFailureException($"Input Path '{elementValue}' does not exists in Input received: '{input}'"));
@@ -202,7 +230,7 @@ namespace StatesLanguage
             if (filters.Count == 0)
                 return result;
             
-            var token = filters.First();
+            var token = filters[0];
             filters.RemoveAt(0);
             var r = CreateJTokenFromResult(result, filters);
 

@@ -538,44 +538,83 @@ namespace StatesLanguage.Tests.Model.Validation
         [Fact] //
         public void ValidTransitionInPassState_IsValid()
         {
-            StateMachineBuilder.StateMachine()
+            Assert.NotNull(StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
                 .State("Initial", StateMachineBuilder.PassState()
                     .Transition(StateMachineBuilder.Next("Terminal")))
                 .State("Terminal", StateMachineBuilder.SucceedState())
-                .Build();
+                .Build());
         }
 
         [Fact]
-        public void MissingCauseInFailState_IsNotValid()
+        public void MissingCauseInFailState_IsValid()
         {
-            Assert.Throws<ValidationException>(() =>
-                StateMachineBuilder.StateMachine()
-                    .StartAt("Initial")
-                    .State("Initial", StateMachineBuilder.FailState()
-                        .Error("Error"))
-                    .Build());
+            Assert.NotNull(StateMachineBuilder.StateMachine()
+                .StartAt("Initial")
+                .State("Initial", StateMachineBuilder.FailState()
+                    .Error("Error"))
+                .Build());
         }
 
-        [Fact] //
+        [Fact]
         public void MissingErrorInFailState_IsValid()
         {
-            StateMachineBuilder.StateMachine()
+            Assert.NotNull(StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
                 .State("Initial", StateMachineBuilder.FailState()
                     .Cause("Cause"))
-                .Build();
+                .Build());
+        }
+
+        [Fact]
+        public void FailStateErrorPath_CanBeAPathOrIntrinsicFunction()
+        {
+            Assert.NotNull(StateMachineBuilder.StateMachine()
+                .StartAt("Err")
+                .State("Err", StateMachineBuilder.FailState().ErrorPath("$.Cause"))
+                .State("Err2", StateMachineBuilder.FailState().ErrorPath("String.Concat('a','e')"))
+                .Build());
+        }
+
+        [Fact]
+        public void FailStateCausePath_CanBeAPathOrIntrinsicFunction()
+        {
+            Assert.NotNull(StateMachineBuilder.StateMachine()
+                .StartAt("Cause")
+                .State("Cause", StateMachineBuilder.FailState().CausePath("$.Cause"))
+                .State("Cause2", StateMachineBuilder.FailState().CausePath("String.Concat('a','e')"))
+                .Build());
+        }
+
+        [Fact]
+        public void FailStateErrorPath_CannotBeAContant()
+        {
+            Assert.Throws<ValidationException>(() =>
+                StateMachineBuilder.StateMachine()
+                   .StartAt("Cause")
+                   .State("Cause", StateMachineBuilder.FailState().ErrorPath("InvalidFailPath"))
+                   .Build());
+        }
+
+        [Fact]
+        public void FailStateCausePath_CannotBeAContant()
+        {
+            Assert.Throws<ValidationException>(() =>
+                StateMachineBuilder.StateMachine()
+                    .StartAt("Cause")
+                    .State("Cause", StateMachineBuilder.FailState().CausePath("InvalidFailPath"))
+                    .Build());
         }
 
         [Fact] //
         public void FailStateWithErrorAndCause_IsValid()
         {
-            StateMachineBuilder.StateMachine()
+            Assert.NotNull(StateMachineBuilder.StateMachine()
                 .StartAt("Initial")
                 .State("Initial", StateMachineBuilder.FailState()
                     .Error("Error")
                     .Cause("Cause"))
-                .Build();
+                .Build());
         }
 
         [Fact]
@@ -728,7 +767,7 @@ namespace StatesLanguage.Tests.Model.Validation
                     .State("Initial", StateMachineBuilder.ParallelState()
                         .Branch(StateMachineBuilder.SubStateMachine()
                             .StartAt("InitialBranchState")
-                            .State("InitialBranchState", StateMachineBuilder.FailState()))
+                            .State("InitialBranchState", StateMachineBuilder.FailState().Error("error").ErrorPath("$.notAllowed")))
                         .Transition(StateMachineBuilder.End()))
                     .Build());
         }
@@ -786,6 +825,30 @@ namespace StatesLanguage.Tests.Model.Validation
                         .InputPath("['invalidPath")
                         .Transition(StateMachineBuilder.End()))
                     .Build());
+        }
+
+        [Fact]
+        public void FailState_ErrorPathAndCausePath()
+        {
+            StateMachineBuilder.StateMachine()
+                .Comment("A Hello World example of the Amazon States Language using a Pass state")
+                .StartAt("0001")
+                .State("0001", StateMachineBuilder.FailState()
+                    .ErrorPath("$.Error")
+                    .CausePath("$.Cause"))
+                .Build();
+        }
+
+        [Fact]
+        public void FailState_ErrorPathAndCausePathWithIntrinsicFunction()
+        {
+            StateMachineBuilder.StateMachine()
+                .Comment("A Hello World example of the Amazon States Language using a Pass state")
+                .StartAt("0001")
+                .State("0001", StateMachineBuilder.FailState()
+                    .ErrorPath("States.Format('{}', $.Error)")
+                    .CausePath("States.Format('This is a custom error message for {}, caused by {}.', $.Error, $.Cause)"))
+                .Build();
         }
     }
 }
