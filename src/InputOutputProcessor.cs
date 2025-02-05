@@ -72,11 +72,6 @@ namespace StatesLanguage
             else
             {
                 result = ExtractTokenFromJsonPath(input, failPath);
-
-                // if (extractedToken != null && IntrinsicFunction.TryParse(extractedToken.Value<string>(), out var extractedTokenFunction))
-                // {
-                //     result = _registry.CallFunction(extractedTokenFunction, input, context);
-                // }
             }
 
             if (result.Type != JTokenType.String)
